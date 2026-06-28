@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main", "dev"]
+
+jobs:
+  app-checks:
+    name: App Checks
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: mycarpal
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci-build-pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://ci:ci-build-pass@localhost:5432/mycarpal?schema=public
+      DIRECT_URL: postgresql://ci:ci-build-pass@localhost:5432/mycarpal?schema=public
+      BETTER_AUTH_SECRET: ci-build-secret-0123456789abcdef
+      BETTER_AUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_BETTER_AUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_ENABLE_SOCIAL_AUTH: "0"
+      FILE_STORAGE_DRIVER: local
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prisma client generate
+        run: npm run db:generate
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Design-system verification
+        run: npm run verify:design-system

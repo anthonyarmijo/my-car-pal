@@ -1,0 +1,302 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Vehicle {
+  id                        String                    @id @default(cuid())
+  userId                    String?
+  kind                      VehicleKind               @default(CAR)
+  year                      Int
+  make                      String
+  model                     String
+  trim                      String?
+  drivetrain                String?
+  imageUrl                  String?
+  vin                       String?
+  licensePlate              String?
+  currentOdometer           Int?
+  registrationExpiresAt     DateTime?
+  registrationDocUrl        String?
+  registrationDocUploadedAt DateTime?
+  insuranceExpiresAt        DateTime?
+  insuranceDocUrl           String?
+  maintenances              Maintenance[]
+  reminders                 Reminder[]
+  gloveboxDocuments         GloveboxDocument[]
+  insurancePolicyLinks      InsurancePolicyVehicle[]
+  serviceScheduleImport     ServiceScheduleImport?
+  serviceScheduleOverrides  ServiceScheduleOverride[]
+  owner                     User?                     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt                 DateTime                  @default(now())
+  updatedAt                 DateTime                  @updatedAt
+
+  @@index([userId, createdAt])
+}
+
+model DefaultVehicleImage {
+  id                   String      @id @default(cuid())
+  kind                 VehicleKind
+  make                 String?
+  model                String?
+  trim                 String?
+  generation           String?
+  bodyClass            String?
+  normalizedMake       String?
+  normalizedModel      String?
+  normalizedTrim       String?
+  yearStart            Int?
+  yearEnd              Int?
+  assetUrl             String?
+  storageKey           String?
+  sourceProvider       String
+  sourceUrl            String?
+  license              String
+  licenseUrl           String?
+  attribution          String?
+  commercialUseAllowed Boolean     @default(false)
+  confidence           Int         @default(50)
+  status               String      @default("ACTIVE")
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+
+  @@index([kind, status])
+  @@index([kind, normalizedMake, normalizedModel, status])
+  @@index([kind, normalizedMake, normalizedModel, normalizedTrim, status])
+  @@index([yearStart, yearEnd])
+}
+
+model User {
+  id                String             @id @default(cuid())
+  email             String             @unique
+  emailVerified     Boolean            @default(false)
+  name              String?
+  image             String?
+  // Legacy / app-specific fields (kept for backward compat)
+  passwordHash      String?
+  displayName       String?
+  bio               String?
+  avatarUrl         String?
+  vehicles          Vehicle[]
+  gloveboxDocuments GloveboxDocument[]
+  insurancePolicies InsurancePolicy[]
+  alertStates       UserAlertState[]
+  contactMessages   ContactMessage[]
+  sessions          Session[]
+  accounts          Account[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, expiresAt])
+}
+
+// Better Auth: OAuth + credential accounts
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+}
+
+// Better Auth: email verification tokens
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+}
+
+model ServiceScheduleImport {
+  id        String   @id @default(cuid())
+  vehicleId String   @unique
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ServiceScheduleOverride {
+  id         String   @id @default(cuid())
+  vehicleId  String
+  serviceKey String
+  dueDate    DateTime
+  vehicle    Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([vehicleId, serviceKey])
+  @@index([vehicleId, dueDate])
+}
+
+model InsurancePolicy {
+  id           String                   @id @default(cuid())
+  userId       String?
+  providerName String?
+  policyId     String
+  expiresAt    DateTime?
+  appliesToAll Boolean                  @default(false)
+  documentUrl  String?
+  owner        User?                    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  vehicles     InsurancePolicyVehicle[]
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+
+  @@index([userId, createdAt])
+}
+
+model InsurancePolicyVehicle {
+  id        String          @id @default(cuid())
+  policyId  String
+  vehicleId String
+  policy    InsurancePolicy @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  vehicle   Vehicle         @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@unique([policyId, vehicleId])
+  @@index([vehicleId])
+}
+
+model Maintenance {
+  id          String   @id @default(cuid())
+  vehicleId   String
+  title       String
+  odometer    Int
+  cost        Float?
+  provider    String
+  serviceDate DateTime
+  notes       String?
+  receiptUrl  String?
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([vehicleId, serviceDate])
+}
+
+model Reminder {
+  id                    String    @id @default(cuid())
+  vehicleId             String
+  title                 String
+  dueDate               DateTime
+  frequencyMiles        Int?
+  frequencyYears        Int?
+  frequencyBaseOdometer Int?
+  frequencyBaseDate     DateTime?
+  notes                 String?
+  completedAt           DateTime?
+  vehicle               Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([vehicleId, dueDate])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  email     String
+  message   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+}
+
+model AuthRateLimitBucket {
+  id          String              @id @default(cuid())
+  action      AuthRateLimitAction
+  subjectHash String
+  windowStart DateTime
+  attemptCount Int               @default(0)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  @@unique([action, subjectHash, windowStart])
+  @@index([windowStart])
+}
+
+model GloveboxDocument {
+  id        String           @id @default(cuid())
+  userId    String?
+  vehicleId String?
+  category  DocumentCategory
+  title     String
+  fileUrl   String
+  owner     User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  vehicle   Vehicle?         @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([vehicleId, category])
+  @@index([userId, createdAt])
+}
+
+model UserAlertState {
+  id          String    @id @default(cuid())
+  userId      String
+  alertKey    String
+  readAt      DateTime  @default(now())
+  snoozeUntil DateTime?
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([userId, alertKey])
+  @@index([userId, readAt])
+}
+
+enum DocumentCategory {
+  SERVICE_MANUAL
+  WARRANTY
+  INSPECTION_REPORT
+  PURCHASE_FINANCE
+  MISC
+  REGISTRATION_ARCHIVE
+}
+
+enum VehicleKind {
+  CAR
+  MOTORCYCLE
+}
+
+enum AuthRateLimitAction {
+  LOGIN
+  SIGNUP
+  VIN_DECODE
+  MECHANIC_SEARCH
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 210" role="img" aria-labelledby="title desc">
+  <title id="title">Generic motorcycle silhouette</title>
+  <desc id="desc">A neutral motorcycle and scooter placeholder illustration for vehicles without a photo.</desc>
+  <rect width="360" height="210" rx="24" fill="#f8f4ec"/>
+  <path d="M70 154h220" stroke="#dfd2be" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="103" cy="151" r="34" fill="none" stroke="#34413d" stroke-width="8"/>
+  <circle cx="257" cy="151" r="34" fill="none" stroke="#34413d" stroke-width="8"/>
+  <path d="M103 151h52l34-43h30l38 43" fill="none" stroke="#34413d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M151 151l-18-48h45l11 5" fill="none" stroke="#34413d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M193 108l27-22h28" fill="none" stroke="#34413d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M211 88l-11-22h35" fill="none" stroke="#34413d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M129 103h47" stroke="#b35b36" stroke-width="9" stroke-linecap="round"/>
+  <path d="M224 85h42" stroke="#b35b36" stroke-width="7" stroke-linecap="round"/>
+</svg>

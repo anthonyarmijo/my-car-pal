@@ -1,0 +1,33 @@
+node_modules
+.next
+out
+dist
+.env
+.env.bak.codex
+.env.local
+.env.*.local
+*.log
+.DS_Store
+coverage
+prisma/dev.db
+prisma/dev.db-journal
+prisma/**/dev.db
+prisma/**/dev.db-journal
+public/uploads
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+infra/terraform/envs/*/terraform.tfvars
+.vercel
+.env*.local
+
+# Codex CLI
+.codex/

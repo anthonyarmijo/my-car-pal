@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest a focused public-core improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What owner, DIY, household, privacy, or maintenance workflow would this improve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the smallest useful version of the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Are there simpler workflows or existing features that partly solve this?
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: Boundary check
+      options:
+        - label: This request can work in the self-hosted public core without requiring Stripe, Vercel, Neon, Vercel Blob, private domains, or managed-cloud business logic.
+          required: true

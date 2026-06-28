@@ -1,0 +1,68 @@
+:root,
+.mcp-theme-desert-graphite {
+  --mcp-font-sans: var(--font-sans, var(--font-geist-sans), "Geist", "Avenir Next", "Segoe UI", sans-serif);
+  --mcp-color-graphite-950: #211f1c;
+  --mcp-color-graphite-900: #2b2925;
+  --mcp-color-graphite-700: #4d4941;
+  --mcp-color-porcelain-50: #fffdf8;
+  --mcp-color-porcelain-100: #fbf7ef;
+  --mcp-color-sand-100: #efe5d2;
+  --mcp-color-sand-200: #dcc8a8;
+  --mcp-color-taupe-500: #9c8a72;
+  --mcp-color-tobacco-600: #9a6538;
+  --mcp-color-tobacco-700: #7c4f2d;
+  --mcp-color-bluegray-500: #697987;
+  --mcp-color-bluegray-700: #465763;
+  --mcp-color-sage-600: #6f8666;
+  --mcp-color-sage-700: #596f53;
+  --mcp-color-red-600: #b8554e;
+  --mcp-color-amber-600: #b8722d;
+  --mcp-color-text: #28231d;
+  --mcp-color-muted: #6f6252;
+  --mcp-color-border: var(--mcp-color-sand-200);
+  --mcp-color-surface: #ffffff;
+  --mcp-color-surface-muted: var(--mcp-color-porcelain-100);
+  --mcp-color-action-primary: var(--mcp-color-tobacco-600);
+  --mcp-color-action-primary-strong: var(--mcp-color-tobacco-700);
+  --mcp-color-action-secondary: var(--mcp-color-bluegray-700);
+  --mcp-color-state-success: var(--mcp-color-sage-600);
+  --mcp-color-state-success-strong: var(--mcp-color-sage-700);
+  --mcp-color-state-warning: var(--mcp-color-amber-600);
+  --mcp-color-state-danger: var(--mcp-color-red-600);
+  --mcp-color-state-info: var(--mcp-color-bluegray-500);
+  --mcp-shadow-sm: 0 4px 14px rgba(33, 31, 28, 0.06);
+  --mcp-shadow-md: 0 16px 34px rgba(33, 31, 28, 0.1);
+  --mcp-radius-xs: 4px;
+  --mcp-radius-sm: 6px;
+  --mcp-radius-md: 8px;
+  --mcp-space-1: 0.25rem;
+  --mcp-space-2: 0.5rem;
+  --mcp-space-3: 0.75rem;
+  --mcp-space-4: 1rem;
+  --mcp-space-5: 1.25rem;
+  --mcp-space-6: 1.5rem;
+  --mcp-font-size-xs: 0.78rem;
+  --mcp-font-size-sm: 0.86rem;
+  --mcp-font-size-md: 0.94rem;
+  --mcp-font-size-lg: 1.05rem;
+  --mcp-font-size-xl: 1.45rem;
+  --mcp-line-height-tight: 1.18;
+  --mcp-line-height-normal: 1.4;
+  --mcp-line-height-relaxed: 1.5;
+  --mcp-font-weight-regular: 400;
+  --mcp-font-weight-semibold: 700;
+  --mcp-font-weight-bold: 800;
+  --mcp-focus-ring-color: rgba(105, 121, 135, 0.24);
+  --mcp-focus-ring: 0 0 0 3px var(--mcp-focus-ring-color);
+}
+
+html[data-resolved-theme="dark"] {
+  --mcp-color-text: #f5efe3;
+  --mcp-color-muted: #c5b9a6;
+  --mcp-color-border: rgba(220, 200, 168, 0.36);
+  --mcp-color-surface: #2b2925;
+  --mcp-color-surface-muted: #211f1c;
+  --mcp-focus-ring-color: rgba(197, 185, 166, 0.28);
+  --mcp-shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.22);
+  --mcp-shadow-md: 0 18px 42px rgba(0, 0, 0, 0.28);
+}

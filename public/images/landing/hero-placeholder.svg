@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2C2416"/>
+      <stop offset="60%" stop-color="#4A3828"/>
+      <stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3A3028"/>
+      <stop offset="50%" stop-color="#4A3E34"/>
+      <stop offset="100%" stop-color="#3A3028"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <!-- Mountains -->
+  <path d="M0 550 L200 350 L400 480 L600 300 L800 450 L1000 320 L1200 420 L1400 280 L1600 400 L1600 600 L0 600Z" fill="#3A2E20" opacity="0.6"/>
+  <!-- Distant hills -->
+  <path d="M0 580 L300 450 L500 520 L700 400 L900 500 L1100 420 L1300 480 L1600 380 L1600 650 L0 650Z" fill="#2C2416" opacity="0.4"/>
+  <!-- Road -->
+  <rect x="0" y="700" width="1600" height="200" fill="url(#road)"/>
+  <!-- Road markings -->
+  <line x1="50" y1="800" x2="250" y2="800" stroke="#8B6914" stroke-width="4" opacity="0.5"/>
+  <line x1="350" y1="800" x2="550" y2="800" stroke="#8B6914" stroke-width="4" opacity="0.5"/>
+  <line x1="650" y1="800" x2="850" y2="800" stroke="#8B6914" stroke-width="4" opacity="0.5"/>
+  <line x1="950" y1="800" x2="1150" y2="800" stroke="#8B6914" stroke-width="4" opacity="0.5"/>
+  <line x1="1250" y1="800" x2="1450" y2="800" stroke="#8B6914" stroke-width="4" opacity="0.5"/>
+  <!-- Text overlay -->
+  <text x="800" y="440" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="600">
+    🚗 Car on scenic highway — video coming soon
+  </text>
+  <!-- Car silhouette -->
+  <rect x="620" y="670" width="140" height="40" rx="8" fill="#C67B4B" opacity="0.8"/>
+  <rect x="650" y="650" width="80" height="30" rx="6" fill="#C67B4B" opacity="0.8"/>
+  <circle cx="660" cy="710" r="16" fill="#2C2416" opacity="0.7"/>
+  <circle cx="720" cy="710" r="16" fill="#2C2416" opacity="0.7"/>
+  <!-- Light trails -->
+  <rect x="540" y="695" width="80" height="3" rx="2" fill="#FDF8F0" opacity="0.15"/>
+  <rect x="460" y="695" width="60" height="3" rx="2" fill="#FDF8F0" opacity="0.08"/>
+</svg>

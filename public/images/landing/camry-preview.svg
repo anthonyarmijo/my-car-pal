@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 42 256 108" role="img" aria-labelledby="title desc">
+  <title id="title">2020 Toyota Camry LE illustration</title>
+  <desc id="desc">Clean side-view vehicle illustration used in the My Car Pal dashboard preview.</desc>
+  <defs>
+    <linearGradient id="paint" x1="72" x2="248" y1="48" y2="126" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FCFA"/>
+      <stop offset="0.54" stop-color="#E6EFEC"/>
+      <stop offset="1" stop-color="#C9D8D4"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="110" x2="213" y1="54" y2="88" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E7F5F2"/>
+      <stop offset="1" stop-color="#9AB2BD"/>
+    </linearGradient>
+    <filter id="soft-shadow" x="34" y="40" width="252" height="104" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#14211F" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="160" cy="132" rx="110" ry="9" fill="#D9E5E1" opacity="0.62"/>
+  <g filter="url(#soft-shadow)">
+    <path
+      d="M55 104.5c3.8-15.3 11.7-24 23.7-26.1l43.6-7.5c9.1-13.7 21.5-20.5 37.2-20.5h27.3c15.7 0 28.8 6.2 39.2 18.5l17.9 21.2 28.8 7.7c7.4 2 12.1 7.7 14 17.2l-9.6 11H57.9L55 104.5Z"
+      fill="url(#paint)"
+      stroke="#0F7661"
+      stroke-linejoin="round"
+      stroke-width="4"
+    />
+    <path
+      d="M123.8 74.5c8.4-13 19.5-19.5 33.3-19.5h26.3c14.3 0 26 5.7 35.1 17l13.1 16.3H105.9l17.9-13.8Z"
+      fill="url(#glass)"
+      stroke="#0F7661"
+      stroke-linejoin="round"
+      stroke-width="3"
+    />
+    <path d="M157.6 55.6 149.3 88" stroke="#0F7661" stroke-linecap="round" stroke-width="3"/>
+    <path d="M190.3 56.2 196.6 88" stroke="#0F7661" stroke-linecap="round" stroke-width="3"/>
+    <path d="M72 102.7h34.4" stroke="#0F7661" stroke-linecap="round" stroke-width="3"/>
+    <path d="M235.4 100.7h31.2" stroke="#0F7661" stroke-linecap="round" stroke-width="3"/>
+    <path d="M133.2 98.4h15.6" stroke="#0F7661" stroke-linecap="round" stroke-width="3"/>
+    <path d="M58.5 115.5h218.8" stroke="#0F7661" stroke-linecap="round" stroke-width="4"/>
+    <circle cx="101.5" cy="126" r="18.5" fill="#14201F" stroke="#0F7661" stroke-width="4"/>
+    <circle cx="101.5" cy="126" r="8.3" fill="#F8FCFA" stroke="#AFC1BC" stroke-width="3"/>
+    <circle cx="225.5" cy="126" r="18.5" fill="#14201F" stroke="#0F7661" stroke-width="4"/>
+    <circle cx="225.5" cy="126" r="8.3" fill="#F8FCFA" stroke="#AFC1BC" stroke-width="3"/>
+  </g>
+  <path d="M65.8 105.7c11 3.4 23.8 5.7 38.5 6.9" stroke="#FFFFFF" stroke-linecap="round" stroke-width="4" opacity="0.72"/>
+  <path d="M211.4 75.6 226.7 93" stroke="#FFFFFF" stroke-linecap="round" stroke-width="3" opacity="0.72"/>
+</svg>

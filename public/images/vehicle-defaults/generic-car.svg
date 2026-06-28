@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 210" role="img" aria-labelledby="title desc">
+  <title id="title">Generic car silhouette</title>
+  <desc id="desc">A neutral car and truck placeholder illustration for vehicles without a photo.</desc>
+  <rect width="360" height="210" rx="24" fill="#f8f4ec"/>
+  <path d="M64 142h232" stroke="#dfd2be" stroke-width="6" stroke-linecap="round"/>
+  <path d="M79 129c8-28 24-43 48-43h73c24 0 45 15 60 43h16c11 0 20 9 20 20v10H64v-10c0-11 7-19 15-20Z" fill="#d9e3df" stroke="#34413d" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M128 96h43v31h-68c7-18 15-28 25-31Zm55 0h18c16 0 30 10 42 31h-60V96Z" fill="#ffffff" stroke="#34413d" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="116" cy="159" r="22" fill="#34413d"/>
+  <circle cx="244" cy="159" r="22" fill="#34413d"/>
+  <circle cx="116" cy="159" r="9" fill="#f8f4ec"/>
+  <circle cx="244" cy="159" r="9" fill="#f8f4ec"/>
+  <path d="M78 143h35m134 0h42" stroke="#b35b36" stroke-width="7" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 190'>
+  <rect width='260' height='190' fill='#f2f7ff'/>
+  <ellipse cx='130' cy='176' rx='86' ry='9' fill='#d1deee'/>
+  <rect x='58' y='86' width='16' height='78' rx='6' fill='#7d8a95'/>
+  <rect x='53' y='80' width='26' height='10' rx='4' fill='#6f7d89'/>
+  <path d='M71 70h94c19 0 34 15 34 34v31H71z' fill='#8ec3f8' stroke='#42648a' stroke-width='4'/>
+  <path d='M71 102h128' stroke='#6ea9de' stroke-width='3'/>
+  <path d='M203 60v28' stroke='#d44747' stroke-width='6' stroke-linecap='round'/>
+  <path d='M203 60l18 8-18 10z' fill='#d44747'/>
+  <circle cx='154' cy='116' r='4' fill='#2b4464'/>
+  <rect x='102' y='72' width='30' height='14' rx='3' fill='#fff' stroke='#758ba0' stroke-width='2'/>
+  <rect x='127' y='68' width='35' height='16' rx='3' fill='#fff' stroke='#758ba0' stroke-width='2'/>
+  <path d='M105 130c10 10 29 10 39 0' stroke='#2b4464' stroke-width='4' fill='none' stroke-linecap='round'/>
+</svg>
