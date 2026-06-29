@@ -162,6 +162,11 @@ async function assertHealthyPage({ page, check, viewport, failures, screenshots 
   screenshots.push(screenshotPath);
 }
 
+async function gotoReady(page, url) {
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
+  await page.locator("body").waitFor({ state: "visible", timeout: 10000 });
+}
+
 async function fillSafeFields(page, fillKind) {
   if (fillKind === "login") {
     await page.locator("#login-email").fill("smoke@example.com");
@@ -199,7 +204,7 @@ async function checkPublicPage(browser, baseUrl, check, viewport, failures, scre
   const flushFailures = createPageFailureCollectors(page, check.label, viewport.label, failures);
 
   try {
-    await page.goto(`${baseUrl}${check.path}`, { waitUntil: "networkidle", timeout: 30000 });
+    await gotoReady(page, `${baseUrl}${check.path}`);
     const currentPath = new URL(page.url()).pathname;
     if (currentPath !== check.expectedPath) {
       failures.push(`${check.label} (${viewport.label}) expected ${check.expectedPath}, reached ${currentPath}`);
@@ -223,7 +228,7 @@ async function checkProtectedRedirect(browser, baseUrl, check, viewport, failure
   const flushFailures = createPageFailureCollectors(page, check.label, viewport.label, failures);
 
   try {
-    await page.goto(`${baseUrl}${check.path}`, { waitUntil: "networkidle", timeout: 30000 });
+    await gotoReady(page, `${baseUrl}${check.path}`);
     const currentPath = new URL(page.url()).pathname;
     if (currentPath !== "/login") {
       failures.push(`${check.label} (${viewport.label}) expected redirect to /login, reached ${currentPath}`);
@@ -247,7 +252,7 @@ async function checkProtectedRedirect(browser, baseUrl, check, viewport, failure
 async function login(browser, baseUrl, viewport, failures) {
   const page = await browser.newPage({ viewport });
   try {
-    await page.goto(`${baseUrl}/login`, { waitUntil: "networkidle", timeout: 30000 });
+    await gotoReady(page, `${baseUrl}/login`);
     await page.locator("#login-email").fill(smokeEmail);
     await page.locator("#login-password").fill(smokePassword);
     await page.locator("form button[type='submit']").click();
@@ -276,7 +281,7 @@ async function checkAuthenticatedPage(browser, baseUrl, storageState, check, vie
   const flushFailures = createPageFailureCollectors(page, check.label, viewport.label, failures);
 
   try {
-    await page.goto(`${baseUrl}${check.path}`, { waitUntil: "networkidle", timeout: 30000 });
+    await gotoReady(page, `${baseUrl}${check.path}`);
     const currentPath = new URL(page.url()).pathname;
     if (currentPath !== check.path) {
       failures.push(`${check.label} (${viewport.label}) expected ${check.path}, reached ${currentPath}`);
