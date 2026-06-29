@@ -47,6 +47,7 @@
     "docker:up": "docker compose up --build -d app adminer",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f app",
+    "test": "npm run test:security:isolation",
     "test:security:isolation": "node scripts/test-user-isolation.mjs"
   },
   "dependencies": {

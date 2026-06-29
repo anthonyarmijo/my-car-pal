@@ -6,18 +6,25 @@ import { fileURLToPath } from "node:url";
 const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 
-const checks = [
+const fastChecks = [
   "check:ui-tokens",
   "check:ui-boundary",
   "check:ui-pack",
   "build:ui",
   "typecheck",
   "lint",
+];
+
+const renderedChecks = [
   "build",
   "test:design-system:routes",
   "test:design-system:rendered",
   "verify:storybook:visual",
 ];
+
+const checks = process.env.VERIFY_DESIGN_SYSTEM_SKIP_FAST === "1"
+  ? renderedChecks
+  : [...fastChecks, ...renderedChecks];
 
 function runNpmScript(script) {
   return new Promise((resolve, reject) => {

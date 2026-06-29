@@ -1,0 +1,12 @@
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # Next.js currently pins a vulnerable PostCSS range while Vite/Storybook
+      # need PostCSS 8.x. Dependabot cannot resolve that ecosystem conflict
+      # into a safe PR, so keep the alert visible but stop noisy update PRs.
+      - dependency-name: "postcss"
