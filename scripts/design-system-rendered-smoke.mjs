@@ -7,6 +7,7 @@ import { chromium } from "playwright";
 
 const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+const useProcessGroup = process.platform !== "win32";
 const outputDir = process.env.DESIGN_SYSTEM_RENDERED_OUTPUT_DIR || path.join("/tmp", "my-car-pal-rendered-smoke");
 const smokeEmail = process.env.DESIGN_SYSTEM_SMOKE_EMAIL || "";
 const smokePassword = process.env.DESIGN_SYSTEM_SMOKE_PASSWORD || "";
@@ -81,8 +82,22 @@ function stopServer(child) {
       return;
     }
 
+    const killServer = (signal) => {
+      try {
+        if (useProcessGroup) {
+          process.kill(-child.pid, signal);
+        } else {
+          child.kill(signal);
+        }
+      } catch (error) {
+        if (error?.code !== "ESRCH") {
+          throw error;
+        }
+      }
+    };
+
     const timeout = setTimeout(() => {
-      child.kill("SIGKILL");
+      killServer("SIGKILL");
       resolve();
     }, 5000);
 
@@ -90,7 +105,7 @@ function stopServer(child) {
       clearTimeout(timeout);
       resolve();
     });
-    child.kill("SIGTERM");
+    killServer("SIGTERM");
   });
 }
 
@@ -162,6 +177,11 @@ async function assertHealthyPage({ page, check, viewport, failures, screenshots 
   screenshots.push(screenshotPath);
 }
 
+async function gotoReady(page, url) {
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
+  await page.locator("body").waitFor({ state: "visible", timeout: 10000 });
+}
+
 async function fillSafeFields(page, fillKind) {
   if (fillKind === "login") {
     await page.locator("#login-email").fill("smoke@example.com");
@@ -199,7 +219,7 @@ async function checkPublicPage(browser, baseUrl, check, viewport, failures, scre
   const flushFailures = createPageFailureCollectors(page, check.label, viewport.label, failures);
 
   try {
-    await page.goto(`${baseUrl}${check.path}`, { waitUntil: "networkidle", timeout: 30000 });
+    await gotoReady(page, `${baseUrl}${check.path}`);
     const currentPath = new URL(page.url()).pathname;
     if (currentPath !== check.expectedPath) {
       failures.push(`${check.label} (${viewport.label}) expected ${check.expectedPath}, reached ${currentPath}`);
@@ -223,7 +243,7 @@ async function checkProtectedRedirect(browser, baseUrl, check, viewport, failure
   const flushFailures = createPageFailureCollectors(page, check.label, viewport.label, failures);
 
   try {
-    await page.goto(`${baseUrl}${check.path}`, { waitUntil: "networkidle", timeout: 30000 });
+    await gotoReady(page, `${baseUrl}${check.path}`);
     const currentPath = new URL(page.url()).pathname;
     if (currentPath !== "/login") {
       failures.push(`${check.label} (${viewport.label}) expected redirect to /login, reached ${currentPath}`);
@@ -247,7 +267,7 @@ async function checkProtectedRedirect(browser, baseUrl, check, viewport, failure
 async function login(browser, baseUrl, viewport, failures) {
   const page = await browser.newPage({ viewport });
   try {
-    await page.goto(`${baseUrl}/login`, { waitUntil: "networkidle", timeout: 30000 });
+    await gotoReady(page, `${baseUrl}/login`);
     await page.locator("#login-email").fill(smokeEmail);
     await page.locator("#login-password").fill(smokePassword);
     await page.locator("form button[type='submit']").click();
@@ -276,7 +296,7 @@ async function checkAuthenticatedPage(browser, baseUrl, storageState, check, vie
   const flushFailures = createPageFailureCollectors(page, check.label, viewport.label, failures);
 
   try {
-    await page.goto(`${baseUrl}${check.path}`, { waitUntil: "networkidle", timeout: 30000 });
+    await gotoReady(page, `${baseUrl}${check.path}`);
     const currentPath = new URL(page.url()).pathname;
     if (currentPath !== check.path) {
       failures.push(`${check.label} (${viewport.label}) expected ${check.path}, reached ${currentPath}`);
@@ -301,6 +321,7 @@ const port = await getFreePort();
 const baseUrl = `http://localhost:${port}`;
 const server = spawn(npmCommand, ["run", "start", "--", "-p", String(port), "-H", "127.0.0.1"], {
   cwd: repoRoot,
+  detached: useProcessGroup,
   env: process.env,
   stdio: ["ignore", "pipe", "pipe"],
 });

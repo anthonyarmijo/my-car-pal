@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+const useProcessGroup = process.platform !== "win32";
 
 const checks = [
   {
@@ -128,8 +129,22 @@ function stopServer(child) {
       return;
     }
 
+    const killServer = (signal) => {
+      try {
+        if (useProcessGroup) {
+          process.kill(-child.pid, signal);
+        } else {
+          child.kill(signal);
+        }
+      } catch (error) {
+        if (error?.code !== "ESRCH") {
+          throw error;
+        }
+      }
+    };
+
     const timeout = setTimeout(() => {
-      child.kill("SIGKILL");
+      killServer("SIGKILL");
       resolve();
     }, 5000);
 
@@ -137,7 +152,7 @@ function stopServer(child) {
       clearTimeout(timeout);
       resolve();
     });
-    child.kill("SIGTERM");
+    killServer("SIGTERM");
   });
 }
 
@@ -145,6 +160,7 @@ const port = await getFreePort();
 const baseUrl = `http://127.0.0.1:${port}`;
 const server = spawn(npmCommand, ["run", "start", "--", "-p", String(port), "-H", "127.0.0.1"], {
   cwd: repoRoot,
+  detached: useProcessGroup,
   env: process.env,
   stdio: ["ignore", "pipe", "pipe"],
 });

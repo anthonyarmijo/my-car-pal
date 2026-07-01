@@ -125,7 +125,7 @@ try {
 
       const url = `${baseUrl}/iframe.html?id=${story.id}&viewMode=story`;
       try {
-        await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
+        await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
         await page.locator("#storybook-root").waitFor({ state: "visible", timeout: 10000 });
 
         const rootHealth = await page.locator("#storybook-root").evaluate((root) => {
