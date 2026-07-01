@@ -1,58 +1,133 @@
-# Contributing
+# Contributing to My Car Pal
 
-Thanks for helping make My Car Pal a practical, privacy-forward vehicle maintenance command center.
+Thanks for wanting to help! My Car Pal is an owner-first vehicle maintenance command center — self-hostable, privacy-forward, and built to be welcoming to contributors.
 
-## Local Setup
+## Code of Conduct
 
-Prerequisites:
+Be kind, constructive, and patient. Treat others the way you'd want your car treated.
 
-- Node.js 20+
-- Docker
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20.x
+- Docker (for PostgreSQL; OrbStack works great on macOS)
+- Git
+
+### Local Setup
 
 ```bash
-npm install
+# Clone and install
+git clone https://github.com/anthonyarmijo/my-car-pal.git
+cd my-car-pal
 cp .env.example .env
+npm ci
+
+# Start Postgres
 npm run db:up
+
+# Run migrations and seed
 npx prisma migrate dev
+npm run db:seed
+
+# Start dev server
 npm run dev
 ```
 
-The app runs at [http://localhost:3000](http://localhost:3000). Adminer runs at [http://localhost:8080](http://localhost:8080).
+The app will be available at `http://localhost:3000`.
 
-## Verification
+### Quick SQLite (no Docker)
 
-Run the checks that match your change:
+Switch `prisma/schema.prisma` provider to `sqlite`, update `.env` to use `file:./dev.db`, then `npm run dev`.
 
-```bash
-npm run build
-npm run test:security:isolation
-POSTGRES_HOST_PORT=55432 docker compose build app
-POSTGRES_HOST_PORT=55432 docker compose up -d app adminer
-curl http://localhost:3000/api/health
+## Development Workflow
+
+### Conventional Commits
+
+All commits must follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+type(scope): short description
+
+Longer explanation if needed.
 ```
 
-Use `FILE_STORAGE_DRIVER=local` for public-core development unless you are intentionally testing an optional storage adapter.
+Types: `feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`, `perf`
 
-## Public Core Boundaries
+Examples:
+- `feat(garage): add VIN decode for motorcycles`
+- `fix(maintenance): correct date rendering in US timezones`
+- `docs(readme): update self-hosting instructions`
 
-Public-core contributions should keep the app self-hostable from a fresh checkout with Docker/Postgres and local storage. New core work should not require Vercel, Neon, Vercel Blob, Stripe, private domains, production deployment protection, or managed-cloud business logic.
+### Branch Naming
 
-Keep these areas out of public-core changes unless an explicit adapter or private-cloud boundary has been approved:
+- `feat/description` — new features
+- `fix/description` — bug fixes
+- `refactor/description` — code restructuring
+- `docs/description` — documentation
+- `ci/description` — CI/CD changes
 
-- billing, subscriptions, payment-provider webhooks, and premium entitlement rules
-- production deployment configuration and generated provider metadata
-- managed sync or customer operations
-- private roadmap, launch planning, pricing experiments, and sensitive infrastructure history
-- credentials, environment files, customer data, logs, and incident artifacts
+### Pull Requests
 
-Schema changes should be additive and migration-safe whenever possible. Destructive migrations, especially billing/subscription changes, need an explicit owner decision.
+1. Branch from `main`
+2. Make changes with clear commits
+3. Push and open a PR
+4. CI must pass (App Checks + scan)
+5. PRs auto-merge when checks pass — no manual approval needed
 
-## Documentation
+### Running Tests
 
-When product behavior changes, update:
+```bash
+npm test                          # User isolation security test
+npm run typecheck                 # TypeScript check
+npm run lint                      # ESLint
+npm run verify:design-system      # Full design-system gate (tokens, build, smoke)
+npm run test:design-system:routes # Public/auth route smoke tests
+```
 
-- `README.md`
-- `CHANGELOG.md`
-- relevant docs under `docs/dev/`
+### CI Pipeline
 
-Do not add a license file or choose an open-source license without owner approval.
+CI runs on every push and PR. The pipeline is:
+
+| Job | What It Checks |
+|-----|---------------|
+| UI Checks | Package boundary, tarball audit |
+| Typecheck | `tsc --noEmit` |
+| Lint | `next lint` |
+| Tests | User isolation security test |
+| Design System | Token sync, build, route smoke, visual smoke |
+| App Checks | Aggregate gate (passes when all above pass) |
+| Secret Scan | Gitleaks secret detection |
+
+## Project Structure
+
+```
+my-car-pal/
+  app/               # Next.js App Router pages and API routes
+  components/        # App-owned React components
+  lib/               # Server utilities, auth, storage
+  packages/ui/       # @my-car-pal/ui design system package
+  prisma/            # Database schema and migrations
+  public/            # Static assets
+  scripts/           # Dev, CI, and verification scripts
+  docs/              # Developer and infrastructure docs
+```
+
+### Design System
+
+The `@my-car-pal/ui` package contains shared primitives (Button, Card, Badge, FormMessage, EmptyState) with Desert Graphite tokens. App surfaces should use package primitives where possible. `components/ui/` holds legacy adapters scheduled for migration.
+
+## Where to Help
+
+- **Good first issues:** Look for issues labeled `good first issue`
+- **Documentation:** README, inline docs, SELF_HOSTING.md improvements
+- **Bug reports:** Open an issue with reproduction steps
+- **Feature ideas:** Discuss in an issue before building
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for reporting vulnerabilities. Never commit secrets, `.env` files, or private keys.
+
+## Questions?
+
+Open a discussion or issue — happy to help you get started.
