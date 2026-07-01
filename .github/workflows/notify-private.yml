@@ -1,0 +1,22 @@
+name: Notify Private Repo
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  dispatch:
+    name: Dispatch to Private Repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.CROSS_REPO_DISPATCH_PAT }}
+          repository: anthonyarmijo/my-car-pal-private
+          event-type: public-core-updated
+          client-payload: |
+            {
+              "sha": "${{ github.sha }}",
+              "ref": "${{ github.ref }}"
+            }
