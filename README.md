@@ -62,6 +62,20 @@ Local file storage by default. Optional adapters are available for social auth a
 
 ---
 
+## Quick Start (Development)
+
+```bash
+git clone https://github.com/anthonyarmijo/my-car-pal-public.git
+cd my-car-pal-public
+cp .env.example .env
+docker compose up -d
+npm ci && npx prisma migrate dev && npm run dev
+```
+
+See [docs/dev/](docs/dev/) for detailed setup.
+
+---
+
 ## Links
 
 | | |
