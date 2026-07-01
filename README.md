@@ -5,7 +5,7 @@
 **Your car's maintenance history, fully in your control.** Track service, receipts, registration, and reminders in one calm workspace - no ads, no data selling.
 
 [![AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-green)](LICENSE)
-[![CI](https://github.com/anthonyarmijo/my-car-pal-public/actions/workflows/ci.yml/badge.svg)](https://github.com/anthonyarmijo/my-car-pal-public/actions/workflows/ci.yml)
+[![CI](https://github.com/anthonyarmijo/my-car-pal/actions/workflows/ci.yml/badge.svg)](https://github.com/anthonyarmijo/my-car-pal/actions/workflows/ci.yml)
 
 ---
 
@@ -59,6 +59,20 @@ The Docker stack includes the app, Postgres, and Adminer on port 8080.
 Next.js 15 · TypeScript · Prisma · PostgreSQL · Better Auth · Docker
 
 Local file storage by default. Optional adapters are available for social auth and managed storage.
+
+---
+
+## Quick Start (Development)
+
+```bash
+git clone https://github.com/anthonyarmijo/my-car-pal.git
+cd my-car-pal
+cp .env.example .env
+docker compose up -d
+npm ci && npx prisma migrate dev && npm run dev
+```
+
+See [docs/dev/](docs/dev/) for detailed setup.
 
 ---
 
