@@ -157,8 +157,8 @@ jobs:
       - name: Run tests
         run: npm test
 
-  app-checks:
-    name: App Checks
+  design-system:
+    name: Design System
     runs-on: ubuntu-latest
     needs: [ui-checks, typecheck, lint, tests]
     timeout-minutes: 20
@@ -193,3 +193,38 @@ jobs:
 
       - name: Design-system verification
         run: npm run verify:design-system
+
+  app-checks:
+    name: App Checks
+    runs-on: ubuntu-latest
+    needs: [ui-checks, typecheck, lint, tests, design-system]
+    if: ${{ always() }}
+
+    steps:
+      - name: Verify required CI jobs
+        env:
+          UI_CHECKS_RESULT: ${{ needs.ui-checks.result }}
+          TYPECHECK_RESULT: ${{ needs.typecheck.result }}
+          LINT_RESULT: ${{ needs.lint.result }}
+          TESTS_RESULT: ${{ needs.tests.result }}
+          DESIGN_SYSTEM_RESULT: ${{ needs.design-system.result }}
+        run: |
+          failed=0
+
+          for check in \
+            "UI Checks:${UI_CHECKS_RESULT}" \
+            "Typecheck:${TYPECHECK_RESULT}" \
+            "Lint:${LINT_RESULT}" \
+            "Tests:${TESTS_RESULT}" \
+            "Design System:${DESIGN_SYSTEM_RESULT}"
+          do
+            name="${check%%:*}"
+            result="${check#*:}"
+
+            if [ "$result" != "success" ]; then
+              echo "::error title=${name} failed::${name} finished with result '${result}'."
+              failed=1
+            fi
+          done
+
+          exit "$failed"
