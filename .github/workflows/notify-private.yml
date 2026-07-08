@@ -1,6 +1,7 @@
 name: Notify Private Repo
 
 on:
+  workflow_dispatch:
   push:
     branches: ["main"]
 
