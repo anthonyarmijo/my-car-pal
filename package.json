@@ -54,7 +54,7 @@
     "@my-car-pal/ui": "file:packages/ui",
     "@prisma/client": "^6.19.2",
     "@shaggytools/nhtsa-api-wrapper": "^3.0.4",
-    "@vercel/blob": "^2.3.2",
+    "@vercel/blob": "^2.6.1",
     "better-auth": "^1.5.4",
     "jose": "^6.1.0",
     "next": "^15.1.6",
