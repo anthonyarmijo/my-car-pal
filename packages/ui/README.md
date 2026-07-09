@@ -6,7 +6,8 @@ It contains presentational React primitives and CSS tokens only.
 ## What Belongs Here
 
 - Reusable UI primitives: buttons, cards, badges, form controls, alerts, separators, page headers, and empty states.
-- Design tokens for the Desert Graphite visual system.
+- Design tokens for the Warm Scandinavian Garage visual system (manifest name
+  remains `desert-graphite` for compatibility).
 - Storybook examples using realistic but static My Car Pal states.
 - Accessibility expectations that apply to all app surfaces.
 

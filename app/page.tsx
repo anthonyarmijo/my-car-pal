@@ -1,23 +1,24 @@
 import type { Metadata } from "next";
-import { VideoHero } from "@/components/landing/VideoHero";
-import { PhotoShowcase } from "@/components/landing/PhotoShowcase";
-import { FeatureGrid } from "@/components/landing/FeatureGrid";
-import { TrustBar } from "@/components/landing/TrustBar";
+import { GarageHero } from "@/components/landing/GarageHero";
+import { DashboardReveal } from "@/components/landing/DashboardReveal";
+import { FeatureSection } from "@/components/landing/FeatureSection";
+import { PrivacySection } from "@/components/landing/PrivacySection";
 import { FinalCTA } from "@/components/landing/FinalCTA";
+import "./landing.css";
 
 export const metadata: Metadata = {
-  title: "My Car Pal — Own your car's history",
+  title: "My Car Pal — Take care of your car. We'll handle the rest.",
   description:
-    "The owner-first vehicle maintenance command center. Track service, receipts, registration, and reminders — private, ad-free, and in your control.",
+    "The owner-first vehicle maintenance home. Reminders, service history, receipts, and glovebox documents — private, ad-free, and in your control.",
 };
 
 export default function LandingPage() {
   return (
-    <div className="landing-product-page">
-      <VideoHero />
-      <PhotoShowcase />
-      <FeatureGrid />
-      <TrustBar />
+    <div className="landing-product-page lp-page">
+      <GarageHero />
+      <DashboardReveal />
+      <FeatureSection />
+      <PrivacySection />
       <FinalCTA />
     </div>
   );

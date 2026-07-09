@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-07-08
+- Adopted the "Warm Scandinavian Garage" visual direction across the landing
+  page and app shell: warm off-white/cream surfaces, moss/forest green accents,
+  warm graphite text, and a light top nav replacing the graphite/terracotta
+  Desert Graphite treatment (`docs/design/warm-scandinavian-garage.md`).
+- Rebuilt the landing page as a full-viewport sunlit-garage hero ("Take care of
+  your car. We'll handle the rest.") with pointer parallax, floating proof
+  cards, a scroll-in dashboard reveal, concise feature/privacy sections, and a
+  forest-green closing CTA; removed the old video hero, photo showcase, and
+  trust bar and ~3,500 lines of dead landing CSS.
+- Standardized the vehicle-image treatment as a foreground cutout on a reusable
+  stage plane with a synthetic shadow (landing hero, dashboard reveal, and Home
+  primary-vehicle card) so future make/model assets can be swapped in without
+  scene changes.
+- Updated `@my-car-pal/ui` tokens: new `moss.600`/`forest.700` primitives now
+  back `action.primary`/`action.primary.strong`; tobacco primitives retained
+  for compatibility.
+- All landing motion honors `prefers-reduced-motion`, and sections use
+  labelled landmarks with decorative imagery hidden from assistive tech.
+
 ## 2026-06-28
 - Expanded design-system adoption across authenticated Home, Garage,
   Maintenance, and Glovebox shell cards/actions using `@my-car-pal/ui` while

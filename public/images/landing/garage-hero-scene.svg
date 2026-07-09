@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 760" preserveAspectRatio="xMidYMax slice" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F9F3E6"/>
+      <stop offset="1" stop-color="#F0E7D3"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EAE0C9"/>
+      <stop offset="1" stop-color="#E0D5BA"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF3D2"/>
+      <stop offset="0.55" stop-color="#FCE7B4"/>
+      <stop offset="1" stop-color="#F6DA9E"/>
+    </linearGradient>
+    <linearGradient id="shaft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFE9B8" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FFE9B8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- wall + floor -->
+  <rect width="1600" height="600" fill="url(#wall)"/>
+  <rect y="600" width="1600" height="160" fill="url(#floor)"/>
+  <rect y="596" width="1600" height="6" fill="#D9CDAF"/>
+
+  <!-- window with morning light -->
+  <g>
+    <rect x="120" y="90" width="420" height="380" rx="10" fill="#E7DCC3"/>
+    <rect x="138" y="108" width="384" height="344" rx="6" fill="url(#glass)"/>
+    <rect x="322" y="108" width="14" height="344" fill="#EFE5CC"/>
+    <rect x="138" y="272" width="384" height="14" fill="#EFE5CC"/>
+    <!-- distant tree hint outside -->
+    <circle cx="220" cy="200" r="52" fill="#CBD8B4" opacity="0.65"/>
+    <rect x="212" y="230" width="12" height="46" fill="#BBA478" opacity="0.6"/>
+  </g>
+  <!-- light shaft from window onto floor -->
+  <polygon points="150,460 540,460 900,740 20,740" fill="url(#shaft)"/>
+
+  <!-- pegboard with tools (right) -->
+  <g opacity="0.85">
+    <rect x="1080" y="120" width="380" height="250" rx="10" fill="#EEE3CB"/>
+    <g fill="none" stroke="#9A9078" stroke-width="7" stroke-linecap="round" opacity="0.55">
+      <path d="M1130 170 v90"/>
+      <path d="M1130 170 a22 22 0 1 1 0.1 0" />
+      <path d="M1210 165 v100 M1192 165 h36"/>
+      <path d="M1290 160 v40 a18 18 0 0 0 36 0 v-40"/>
+      <path d="M1390 170 v85 M1372 255 h36"/>
+    </g>
+  </g>
+
+  <!-- workbench with plant and boxes -->
+  <g>
+    <rect x="1040" y="430" width="460" height="22" rx="6" fill="#D7C5A0"/>
+    <rect x="1076" y="452" width="16" height="146" fill="#CDBB93"/>
+    <rect x="1448" y="452" width="16" height="146" fill="#CDBB93"/>
+    <!-- boxes on bench -->
+    <rect x="1330" y="374" width="96" height="56" rx="6" fill="#E2D3AE"/>
+    <rect x="1352" y="342" width="60" height="34" rx="5" fill="#D9C79C"/>
+    <!-- potted plant -->
+    <g>
+      <path d="M1150 430 h64 l-9 -52 h-46 z" fill="#C77E52"/>
+      <g stroke="#5F8465" stroke-width="10" stroke-linecap="round" fill="none">
+        <path d="M1182 380 q-2 -46 -30 -66"/>
+        <path d="M1182 380 q2 -50 26 -72"/>
+        <path d="M1182 380 q0 -34 0 -58"/>
+      </g>
+      <circle cx="1150" cy="310" r="9" fill="#77997B"/>
+      <circle cx="1210" cy="304" r="9" fill="#77997B"/>
+      <circle cx="1182" cy="316" r="9" fill="#8AA98C"/>
+    </g>
+  </g>
+
+  <!-- tall plant on floor, far right -->
+  <g>
+    <path d="M1530 600 h52 l-7 -44 h-38 z" fill="#B98A5F"/>
+    <g stroke="#6A8D6E" stroke-width="9" stroke-linecap="round" fill="none">
+      <path d="M1556 556 q-6 -70 -34 -96"/>
+      <path d="M1556 556 q8 -76 30 -100"/>
+      <path d="M1556 556 q-1 -54 1 -84"/>
+    </g>
+  </g>
+
+  <!-- soft wall art / garage sign -->
+  <g opacity="0.9">
+    <rect x="700" y="150" width="200" height="120" rx="10" fill="#EFE4CA"/>
+    <rect x="716" y="166" width="168" height="88" rx="6" fill="#F8F1DE"/>
+    <path d="M740 232 l30 -34 22 20 26 -32 26 46 z" fill="#C9D3AE"/>
+    <circle cx="756" cy="192" r="9" fill="#F2C879"/>
+  </g>
+</svg>

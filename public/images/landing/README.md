@@ -1,5 +1,13 @@
 # Landing image attribution
 
+`garage-hero-scene.svg`
+
+- Source: Original My Car Pal illustration (created in-repo).
+- Notes: Warm Scandinavian Garage hero backdrop — decorative sunlit garage scene
+  (window, pegboard, workbench, plants). The vehicle is intentionally NOT part
+  of this scene; it is composited as a separate foreground cutout on a stage
+  plane (see `docs/design/warm-scandinavian-garage.md`).
+
 `camry-preview.svg`
 
 - Source: Original My Car Pal product preview illustration.

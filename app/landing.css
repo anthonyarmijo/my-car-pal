@@ -1,0 +1,866 @@
+/*
+ * Warm Scandinavian Garage landing page.
+ *
+ * All classes are prefixed `lp-` and scoped to the marketing page. The page
+ * keeps the legacy `landing-product-page` wrapper class so the shared shell
+ * overrides in globals.css (full-width shell, marketing header) still apply.
+ *
+ * Motion principles: subtle, ambient, and always optional — every transform
+ * or animation is disabled under prefers-reduced-motion.
+ */
+
+.lp-page {
+  display: grid;
+  gap: clamp(3rem, 7vw, 5.5rem);
+  padding-bottom: 1rem;
+}
+
+/* ---------- Hero: sunlit garage ---------- */
+
+.lp-hero {
+  margin: 0 -1.5rem;
+}
+
+.lp-hero-scene {
+  --lp-px: 0;
+  --lp-py: 0;
+  position: relative;
+  overflow: hidden;
+  min-height: min(88vh, 58rem);
+  display: grid;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #FAF4E7 0%, #F3EAD6 100%);
+}
+
+.lp-hero-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.lp-hero-backdrop-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  transform: translate3d(calc(var(--lp-px) * -8px), calc(var(--lp-py) * -4px), 0) scale(1.03);
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lp-hero-light-shaft {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 45% at calc(22% + var(--lp-px) * 2%) 30%, rgba(255, 226, 158, 0.34) 0%, rgba(255, 226, 158, 0) 70%),
+    linear-gradient(180deg, rgba(255, 251, 240, 0) 55%, rgba(250, 243, 228, 0.55) 100%);
+  transition: background-position 600ms ease;
+}
+
+.lp-hero-inner {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 78rem);
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 4vw, 3rem) clamp(4rem, 8vw, 6.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 30rem) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.lp-hero-eyebrow {
+  margin: 0 0 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.lp-hero-copy h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: #2A2A24;
+}
+
+.lp-hero-copy h1 span {
+  color: var(--accent);
+}
+
+.lp-hero-sub {
+  margin: 1.1rem 0 0;
+  max-width: 44ch;
+  font-size: clamp(1rem, 1.4vw, 1.14rem);
+  line-height: 1.6;
+  color: #5C5A4E;
+}
+
+.lp-hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.7rem;
+}
+
+.lp-hero-proof {
+  list-style: none;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1.15rem;
+}
+
+.lp-hero-proof li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #6C6353;
+}
+
+.lp-hero-proof li::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0.75;
+}
+
+/* Vehicle stage: reusable compositing pattern. The cutout sits on a clean
+   floor plane with a synthetic shadow so any make/model asset can be swapped
+   in without touching the background scene. */
+
+.lp-vehicle-stage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-items: end;
+}
+
+.lp-vehicle-cutout {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 18px rgba(42, 42, 36, 0.10));
+}
+
+.lp-vehicle-shadow {
+  position: absolute;
+  bottom: 1%;
+  left: 50%;
+  width: 78%;
+  height: 8%;
+  transform: translateX(-50%) translateX(calc(var(--lp-px, 0) * 6px));
+  border-radius: 50%;
+  filter: blur(6px);
+  background: radial-gradient(ellipse at center, rgba(42, 42, 36, 0.16) 0%, rgba(42, 42, 36, 0.06) 46%, rgba(42, 42, 36, 0) 70%);
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lp-hero-stage-wrap {
+  position: relative;
+  align-self: end;
+  padding-bottom: clamp(0rem, 2vw, 1.5rem);
+}
+
+.lp-hero-stage {
+  width: min(100%, 44rem);
+  margin: 0 auto;
+  transform: translate3d(calc(var(--lp-px) * 10px), calc(var(--lp-py) * 5px), 0);
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Floating proof cards over the stage */
+
+.lp-hero-card {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.62rem 0.85rem;
+  border-radius: 14px;
+  border: 1px solid rgba(224, 215, 195, 0.9);
+  background: rgba(255, 253, 248, 0.92);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 14px 30px rgba(42, 42, 36, 0.10);
+  transform: translate3d(calc(var(--lp-px) * 16px), calc(var(--lp-py) * 9px), 0);
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: lp-float 7s ease-in-out infinite;
+}
+
+.lp-hero-card-reminder {
+  top: 6%;
+  right: 4%;
+}
+
+.lp-hero-card-receipt {
+  bottom: 34%;
+  left: -4%;
+  animation-delay: 2.4s;
+}
+
+.lp-hero-card-copy {
+  display: grid;
+  gap: 0.08rem;
+}
+
+.lp-hero-card-copy strong {
+  font-size: 0.84rem;
+  color: #2A2A24;
+}
+
+.lp-hero-card-copy small {
+  font-size: 0.74rem;
+  color: #6C6353;
+}
+
+.lp-hero-card-icon {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+}
+
+.lp-hero-card-icon::after {
+  content: "";
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 2px;
+}
+
+.lp-hero-card-icon-clock {
+  background: #F6E7C8;
+}
+
+.lp-hero-card-icon-clock::after {
+  border-radius: 999px;
+  border: 2px solid #A2792F;
+  background:
+    linear-gradient(#A2792F, #A2792F) 50% 22% / 2px 34% no-repeat,
+    linear-gradient(#A2792F, #A2792F) 50% 50% / 30% 2px no-repeat;
+}
+
+.lp-hero-card-icon-check {
+  background: var(--accent-soft);
+}
+
+.lp-hero-card-icon-check::after {
+  border: 0;
+  width: 0.8rem;
+  height: 0.45rem;
+  border-left: 2.5px solid var(--accent);
+  border-bottom: 2.5px solid var(--accent);
+  border-radius: 0;
+  transform: rotate(-45deg) translateY(-1px);
+}
+
+@keyframes lp-float {
+  0%,
+  100% {
+    margin-top: 0;
+  }
+  50% {
+    margin-top: -7px;
+  }
+}
+
+.lp-hero-scroll-hint {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 1.1rem;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6C6353;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+}
+
+.lp-hero-scroll-hint:hover {
+  color: var(--accent);
+}
+
+/* ---------- Buttons ---------- */
+
+.lp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.6rem 1.35rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  transition: transform 140ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.lp-btn:hover {
+  transform: translateY(-1px);
+}
+
+.lp-btn:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 45%, #fff 55%);
+  outline-offset: 2px;
+}
+
+.lp-btn-primary {
+  color: #fff;
+  background: linear-gradient(180deg, #3E6B54 0%, #2C523F 100%);
+  border: 1px solid #274A38;
+  box-shadow: 0 12px 26px rgba(56, 98, 76, 0.24);
+}
+
+.lp-btn-primary:hover {
+  box-shadow: 0 16px 30px rgba(56, 98, 76, 0.3);
+}
+
+.lp-btn-ghost {
+  color: #2A2A24;
+  background: rgba(255, 253, 248, 0.85);
+  border: 1px solid var(--line);
+}
+
+.lp-btn-lg {
+  min-height: 3.2rem;
+  padding-inline: 1.7rem;
+  font-size: 1.02rem;
+}
+
+/* ---------- Shared section scaffolding ---------- */
+
+.lp-section {
+  width: min(100%, 72rem);
+  margin: 0 auto;
+  padding: 0 clamp(0.25rem, 2vw, 1rem);
+}
+
+.lp-section-head {
+  max-width: 44rem;
+  margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
+}
+
+.lp-kicker {
+  margin: 0 0 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.lp-section-head h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.lp-section-sub {
+  margin: 0.8rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #5C5A4E;
+}
+
+/* Fade/rise on scroll (shared with useFadeIn) */
+
+.lp-fade-up {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lp-fade-up.landing-fade-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Dashboard reveal ---------- */
+
+.lp-reveal-frame {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 30px 70px rgba(42, 42, 36, 0.12);
+}
+
+.lp-reveal-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: #F4EEE0;
+}
+
+.lp-reveal-dots {
+  display: inline-flex;
+  gap: 0.32rem;
+}
+
+.lp-reveal-dots i {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 999px;
+  background: #DACFB6;
+}
+
+.lp-reveal-address {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6C6353;
+  background: #FFFDF8;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.22rem 0.85rem;
+}
+
+.lp-reveal-body {
+  padding: clamp(1rem, 2.5vw, 1.8rem);
+  display: grid;
+  gap: 1rem;
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF5EA 100%);
+}
+
+.lp-reveal-vehicle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 1.25rem;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.1rem 1.3rem;
+  background:
+    radial-gradient(ellipse 70% 90% at 85% 20%, rgba(255, 232, 178, 0.28) 0%, rgba(255, 232, 178, 0) 70%),
+    #FFFDF8;
+}
+
+.lp-reveal-vehicle-copy {
+  display: grid;
+  gap: 0.3rem;
+  justify-items: start;
+}
+
+.lp-reveal-vehicle-copy strong {
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.lp-reveal-vehicle-copy > small {
+  color: #6C6353;
+  font-size: 0.86rem;
+}
+
+.lp-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.22rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line) 78%);
+}
+
+.lp-reveal-next {
+  margin-top: 0.7rem;
+  display: grid;
+  gap: 0.1rem;
+  border-left: 3px solid var(--accent);
+  padding-left: 0.75rem;
+}
+
+.lp-reveal-next em {
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6C6353;
+}
+
+.lp-reveal-next b {
+  font-size: 0.95rem;
+}
+
+.lp-reveal-next small {
+  color: #A2792F;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.lp-reveal-stage {
+  width: min(100%, 26rem);
+  justify-self: center;
+}
+
+.lp-reveal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.lp-reveal-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.lp-reveal-stat {
+  display: grid;
+  align-content: center;
+  gap: 0.15rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #FFFDF8;
+  padding: 0.9rem 1rem;
+}
+
+.lp-reveal-stat strong {
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+  color: var(--accent);
+}
+
+.lp-reveal-stat span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #6C6353;
+}
+
+.lp-reveal-side {
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
+}
+
+.lp-reveal-panel {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #FFFDF8;
+  padding: 0.85rem 1rem;
+}
+
+.lp-reveal-panel h3 {
+  margin: 0 0 0.3rem;
+  font-size: 0.92rem;
+}
+
+.lp-reveal-panel p {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #6C6353;
+}
+
+.lp-dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  margin-right: 0.25rem;
+}
+
+.lp-dot-ok {
+  background: #6F8666;
+}
+
+/* ---------- Features ---------- */
+
+.lp-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.lp-feature-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 1.25rem 1.3rem 1.35rem;
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  transition: transform 160ms ease, box-shadow 200ms ease;
+}
+
+.lp-feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px rgba(42, 42, 36, 0.09);
+}
+
+.lp-feature-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--accent-soft);
+}
+
+.lp-feature-card h3 {
+  margin: 0.35rem 0 0;
+  font-size: 1.02rem;
+}
+
+.lp-feature-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #6C6353;
+}
+
+/* ---------- Privacy ---------- */
+
+.lp-privacy-inner {
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--line) 80%);
+  border-radius: 22px;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  background:
+    radial-gradient(ellipse 60% 80% at 12% 0%, rgba(228, 236, 221, 0.7) 0%, rgba(228, 236, 221, 0) 70%),
+    var(--surface);
+}
+
+.lp-privacy-head {
+  margin-bottom: 0;
+}
+
+.lp-privacy-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.lp-privacy-card {
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #FFFDF8;
+  padding: 0.95rem 1rem;
+}
+
+.lp-privacy-card strong {
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+
+.lp-privacy-card span {
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #6C6353;
+}
+
+/* ---------- Final CTA ---------- */
+
+.lp-final-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  border-radius: 22px;
+  padding: clamp(1.6rem, 4vw, 2.6rem);
+  color: #F4F1E7;
+  background:
+    radial-gradient(ellipse 70% 120% at 90% 0%, rgba(255, 226, 158, 0.14) 0%, rgba(255, 226, 158, 0) 60%),
+    linear-gradient(160deg, #35624A 0%, #274A38 100%);
+  box-shadow: 0 26px 60px rgba(39, 74, 56, 0.28);
+}
+
+.lp-final-copy h2 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  letter-spacing: -0.015em;
+  color: #FCFAF2;
+}
+
+.lp-final-copy p {
+  margin: 0.55rem 0 0;
+  color: rgba(244, 241, 231, 0.85);
+  font-size: 0.98rem;
+}
+
+.lp-final-action {
+  display: grid;
+  gap: 0.55rem;
+  justify-items: center;
+}
+
+.lp-final-action .lp-btn-primary {
+  background: #FCFAF2;
+  color: #274A38;
+  border-color: #FCFAF2;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+}
+
+.lp-final-action span {
+  font-size: 0.8rem;
+  color: rgba(244, 241, 231, 0.75);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 960px) {
+  .lp-hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: clamp(3rem, 9vw, 5rem);
+  }
+
+  .lp-hero-stage-wrap {
+    order: 2;
+  }
+
+  .lp-hero-card-receipt {
+    left: 0;
+  }
+
+  .lp-reveal-vehicle,
+  .lp-reveal-grid,
+  .lp-privacy-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .lp-feature-grid,
+  .lp-reveal-stats,
+  .lp-privacy-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-hero-card {
+    display: none;
+  }
+
+  .lp-hero-scroll-hint {
+    display: none;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-hero-backdrop-art,
+  .lp-hero-stage,
+  .lp-hero-card,
+  .lp-vehicle-shadow {
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
+  .lp-fade-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .lp-btn,
+  .lp-feature-card {
+    transition: none;
+  }
+
+  .lp-btn:hover,
+  .lp-feature-card:hover {
+    transform: none;
+  }
+}
+
+/* ---------- Dark theme fallback ----------
+   The hero is intentionally a daylight scene; in dark mode we keep the scene
+   readable but let surrounding sections pick up the dark surfaces. */
+
+html[data-resolved-theme="dark"] .lp-hero-scene {
+  border-bottom-color: rgba(224, 215, 195, 0.18);
+}
+
+html[data-resolved-theme="dark"] .lp-hero-copy h1,
+html[data-resolved-theme="dark"] .lp-hero-sub,
+html[data-resolved-theme="dark"] .lp-hero-proof li,
+html[data-resolved-theme="dark"] .lp-hero-scroll-hint {
+  color: #2A2A24;
+}
+
+html[data-resolved-theme="dark"] .lp-hero-copy h1 span,
+html[data-resolved-theme="dark"] .lp-hero-eyebrow {
+  color: #35624A;
+}
+
+html[data-resolved-theme="dark"] .lp-feature-card,
+html[data-resolved-theme="dark"] .lp-privacy-card,
+html[data-resolved-theme="dark"] .lp-reveal-stat,
+html[data-resolved-theme="dark"] .lp-reveal-panel,
+html[data-resolved-theme="dark"] .lp-privacy-inner,
+html[data-resolved-theme="dark"] .lp-reveal-frame {
+  background: var(--surface);
+  border-color: var(--line);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-body {
+  background: var(--surface);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-chrome {
+  background: var(--surface-quiet);
+  border-bottom-color: var(--line);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-address {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-vehicle {
+  background: var(--surface-quiet);
+  border-color: var(--line);
+}
+
+html[data-resolved-theme="dark"] .lp-feature-card p,
+html[data-resolved-theme="dark"] .lp-privacy-card span,
+html[data-resolved-theme="dark"] .lp-reveal-stat span,
+html[data-resolved-theme="dark"] .lp-reveal-panel p,
+html[data-resolved-theme="dark"] .lp-reveal-vehicle-copy > small,
+html[data-resolved-theme="dark"] .lp-section-sub {
+  color: var(--muted);
+}
+
+html[data-resolved-theme="dark"] .lp-btn-ghost {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--line);
+}

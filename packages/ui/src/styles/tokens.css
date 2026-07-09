@@ -11,6 +11,8 @@
   --mcp-color-taupe-500: #9c8a72;
   --mcp-color-tobacco-600: #9a6538;
   --mcp-color-tobacco-700: #7c4f2d;
+  --mcp-color-moss-600: #38624C;
+  --mcp-color-forest-700: #274A38;
   --mcp-color-bluegray-500: #697987;
   --mcp-color-bluegray-700: #465763;
   --mcp-color-sage-600: #6f8666;
@@ -22,8 +24,8 @@
   --mcp-color-border: var(--mcp-color-sand-200);
   --mcp-color-surface: #ffffff;
   --mcp-color-surface-muted: var(--mcp-color-porcelain-100);
-  --mcp-color-action-primary: var(--mcp-color-tobacco-600);
-  --mcp-color-action-primary-strong: var(--mcp-color-tobacco-700);
+  --mcp-color-action-primary: var(--mcp-color-moss-600);
+  --mcp-color-action-primary-strong: var(--mcp-color-forest-700);
   --mcp-color-action-secondary: var(--mcp-color-bluegray-700);
   --mcp-color-state-success: var(--mcp-color-sage-600);
   --mcp-color-state-success-strong: var(--mcp-color-sage-700);

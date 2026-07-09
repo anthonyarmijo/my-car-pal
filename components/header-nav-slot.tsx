@@ -54,9 +54,9 @@ export function HeaderNavSlot({ avatarUrl = null }: HeaderNavSlotProps) {
     return (
       <div className="landing-public-nav-wrap">
         <nav className="landing-public-nav" aria-label="Marketing">
-          <Link href="/#how-it-works">Features</Link>
-          <Link href="/privacy">Security &amp; Privacy</Link>
-          <Link href="/#how-it-works">How It Works</Link>
+          <Link href="/#features">Features</Link>
+          <Link href="/#privacy">Security &amp; Privacy</Link>
+          <Link href="/#product">How It Works</Link>
           <Link href="/diy">Resources</Link>
         </nav>
         <div className="landing-login-sign landing-login-sign-actions">

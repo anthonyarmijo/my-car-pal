@@ -7,20 +7,19 @@ export function FinalCTA() {
   const ref = useFadeIn();
 
   return (
-    <div ref={ref} className="landing-final-cta-wrap landing-fade-up" id="final-cta">
-      <div className="landing-final-cta-strip">
-        <div className="landing-final-cta-copy">
-          <span className="landing-final-cta-kicker">Ready for the next service?</span>
-          <h2>Give your car a memory.</h2>
-          <p>Start free with one vehicle, reminders, receipts, and glovebox records.</p>
+    <section ref={ref} className="lp-section lp-final lp-fade-up" id="final-cta" aria-labelledby="lp-final-title">
+      <div className="lp-final-strip">
+        <div className="lp-final-copy">
+          <h2 id="lp-final-title">Take care of your car. We&rsquo;ll handle the rest.</h2>
+          <p>Start free with one vehicle — reminders, records, and glovebox included.</p>
         </div>
-        <div className="landing-final-cta-action">
-          <Link href="/register" className="landing-btn landing-btn-cta">
-            Start free →
+        <div className="lp-final-action">
+          <Link href="/register" className="lp-btn lp-btn-primary lp-btn-lg">
+            Start free
           </Link>
           <span>No credit card · Export anytime</span>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

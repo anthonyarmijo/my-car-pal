@@ -33,7 +33,7 @@ export const desertGraphiteTokens = {
   version: "0.1.0",
   theme: "desert-graphite",
   description:
-    "Owner-first My Car Pal tokens for graphite navigation, porcelain surfaces, tobacco primary actions, sand/taupe structure, blue-gray secondary states, and sage success only.",
+    "Owner-first My Car Pal tokens for the Warm Scandinavian Garage direction: warm porcelain/cream surfaces, moss/forest green primary actions, sand/taupe structure, blue-gray secondary states, and sage success only.",
   color: {
     primitive: {
       "graphite.950": {
@@ -79,12 +79,22 @@ export const desertGraphiteTokens = {
       "tobacco.600": {
         value: "#9a6538",
         cssVariable: "--mcp-color-tobacco-600",
-        description: "Primary tobacco/copper action and accent.",
+        description: "Legacy tobacco/copper accent kept for compatibility; prefer moss.600 for actions.",
       },
       "tobacco.700": {
         value: "#7c4f2d",
         cssVariable: "--mcp-color-tobacco-700",
-        description: "Pressed or high-contrast tobacco action state.",
+        description: "Legacy pressed tobacco state kept for compatibility; prefer forest.700 for actions.",
+      },
+      "moss.600": {
+        value: "#38624C",
+        cssVariable: "--mcp-color-moss-600",
+        description: "Primary moss green action and accent.",
+      },
+      "forest.700": {
+        value: "#274A38",
+        cssVariable: "--mcp-color-forest-700",
+        description: "Pressed or high-contrast deep forest action state.",
       },
       "bluegray.500": {
         value: "#697987",
@@ -144,12 +154,12 @@ export const desertGraphiteTokens = {
         description: "Secondary card and quiet control surface.",
       },
       "action.primary": {
-        value: "{color.primitive.tobacco.600}",
+        value: "{color.primitive.moss.600}",
         cssVariable: "--mcp-color-action-primary",
         description: "Primary call-to-action background.",
       },
       "action.primary.strong": {
-        value: "{color.primitive.tobacco.700}",
+        value: "{color.primitive.forest.700}",
         cssVariable: "--mcp-color-action-primary-strong",
         description: "Primary action hover, pressed, and gradient stop.",
       },
@@ -266,6 +276,8 @@ export const desertGraphiteCssVariables = {
   "--mcp-color-taupe-500": desertGraphiteTokens.color.primitive["taupe.500"].value,
   "--mcp-color-tobacco-600": desertGraphiteTokens.color.primitive["tobacco.600"].value,
   "--mcp-color-tobacco-700": desertGraphiteTokens.color.primitive["tobacco.700"].value,
+  "--mcp-color-moss-600": desertGraphiteTokens.color.primitive["moss.600"].value,
+  "--mcp-color-forest-700": desertGraphiteTokens.color.primitive["forest.700"].value,
   "--mcp-color-bluegray-500": desertGraphiteTokens.color.primitive["bluegray.500"].value,
   "--mcp-color-bluegray-700": desertGraphiteTokens.color.primitive["bluegray.700"].value,
   "--mcp-color-sage-600": desertGraphiteTokens.color.primitive["sage.600"].value,
@@ -277,8 +289,8 @@ export const desertGraphiteCssVariables = {
   "--mcp-color-border": "var(--mcp-color-sand-200)",
   "--mcp-color-surface": desertGraphiteTokens.color.semantic.surface.value,
   "--mcp-color-surface-muted": "var(--mcp-color-porcelain-100)",
-  "--mcp-color-action-primary": "var(--mcp-color-tobacco-600)",
-  "--mcp-color-action-primary-strong": "var(--mcp-color-tobacco-700)",
+  "--mcp-color-action-primary": "var(--mcp-color-moss-600)",
+  "--mcp-color-action-primary-strong": "var(--mcp-color-forest-700)",
   "--mcp-color-action-secondary": "var(--mcp-color-bluegray-700)",
   "--mcp-color-state-success": "var(--mcp-color-sage-600)",
   "--mcp-color-state-success-strong": "var(--mcp-color-sage-700)",

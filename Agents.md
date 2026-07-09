@@ -40,13 +40,18 @@ Default new core work should avoid requiring Vercel, Neon, Vercel Blob, Stripe, 
 ## UX / design direction
 - Modern and clean visual system inspired by Things 3 and YNAB:
   - whitespace, readable typography, subdued colors, rounded surfaces
-- Authenticated Home's current selected direction is "Desert Graphite":
-  - graphite/near-black top nav
-  - porcelain/white content and card surfaces
-  - tobacco/copper primary accent
-  - sand/taupe borders
-  - muted blue-gray secondary states
-  - sage only for positive/success states
+- Current selected direction is "Warm Scandinavian Garage" (see
+  `docs/design/warm-scandinavian-garage.md` for the full spec):
+  - light, warm, calm, premium, owner-first — a clean sunlit garage, not a dark workshop
+  - warm off-white/cream backgrounds and porcelain card surfaces
+  - moss/forest green primary accent (accent, never a dominant dark pane)
+  - light warm top nav with sage active states
+  - stone/sand borders, warm graphite text
+  - muted amber/clay for warnings, sage only for positive/success states
+  - preferred tagline: "Take care of your car. We'll handle the rest."
+  - landing hero: sunlit garage scene with the vehicle as a composited foreground
+    cutout on a reusable stage/shadow plane (never baked into the scene art)
+  - motion: subtle ambient parallax/float only, always honoring prefers-reduced-motion
 - Keep navigation and section structure consistent across app pages.
 - Maintain playful/friendly touches without sacrificing clarity.
 - Tone: neutral, trustworthy, practical, empowering.

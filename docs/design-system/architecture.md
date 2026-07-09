@@ -26,7 +26,9 @@ Move into the design system:
 - presentational button, link-button class helper, card, badge, field, form
   message, input, textarea, select, page header, empty state, alert, and
   separator patterns
-- Desert Graphite color, spacing, radius, shadow, focus, and typography tokens
+- color, spacing, radius, shadow, focus, and typography tokens (manifest still
+  named `desert-graphite` for compatibility; values follow the Warm
+  Scandinavian Garage direction — see `docs/design/warm-scandinavian-garage.md`)
 - static examples for common vehicle, maintenance, glovebox, and alert states
 - low-risk auth form controls where auth behavior remains owned by app routes
 
