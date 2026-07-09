@@ -55,6 +55,7 @@ export function FeatureSection() {
           </div>
         ))}
       </div>
+      <p className="lp-owners-line">Built for owners, not dealerships.</p>
     </section>
   );
 }
