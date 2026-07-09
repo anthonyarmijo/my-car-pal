@@ -1,12 +1,13 @@
 # Landing image attribution
 
-`garage-hero-scene.svg`
+`garage-hero-scene.jpg`
 
-- Source: Original My Car Pal illustration (created in-repo).
-- Notes: Warm Scandinavian Garage hero backdrop — decorative sunlit garage scene
-  (window, pegboard, workbench, plants). The vehicle is intentionally NOT part
-  of this scene; it is composited as a separate foreground cutout on a stage
-  plane (see `docs/design/warm-scandinavian-garage.md`).
+- Source: AI-generated image (ChatGPT/DALL·E) created by the project owner for
+  My Car Pal; owner holds usage rights per OpenAI terms.
+- Notes: Warm Scandinavian Garage hero backdrop — photorealistic sunlit garage
+  with an open door, greenery, and shelving. The vehicle is intentionally NOT
+  part of this scene; it is composited as a separate foreground cutout on a
+  stage plane (see `docs/design/warm-scandinavian-garage.md`).
 
 `camry-preview.svg`
 

@@ -64,7 +64,7 @@ export function GarageHero() {
       <div className="lp-hero-scene" ref={sceneRef}>
         <div className="lp-hero-backdrop" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/landing/garage-hero-scene.svg" alt="" className="lp-hero-backdrop-art" />
+          <img src="/images/landing/garage-hero-scene.jpg" alt="" className="lp-hero-backdrop-art" />
           <div className="lp-hero-light-shaft" />
         </div>
 

@@ -58,10 +58,12 @@ Avoid futuristic or decorative display fonts.
 Structure (`app/page.tsx`, styles in `app/landing.css`, components in `components/landing/`):
 
 1. **Sunlit garage hero** (`GarageHero`) — full-viewport "living photograph": warm morning light,
-   bright garage backdrop (`public/images/landing/garage-hero-scene.svg`), organized tools, plants,
-   and a vehicle clearly in the foreground. Tagline, one supporting line, primary + secondary CTA,
-   and three proof points. A static/interactive scene today; it is deliberately structured in
-   layers so a video loop could replace the backdrop later.
+   bright open-door garage backdrop (`public/images/landing/garage-hero-scene.jpg`, an
+   AI-generated photorealistic scene with no vehicle in it), organized shelves, plants, and the
+   vehicle composited clearly in the foreground. Tagline, one supporting line, primary + secondary
+   CTA, and three proof points. Deliberately structured in layers (backdrop img → readability
+   wash → vehicle stage → floating cards) so a video loop or seasonal variant can replace the
+   backdrop later without touching anything else.
 2. **Dashboard reveal** (`DashboardReveal`, `#product`) — as the user scrolls, the digital garage
    rises out of the garage scene: primary vehicle, next service, health, activity, stats.
 3. **Features** (`FeatureSection`, `#features`) — six concise, visual cards. No walls of text.
