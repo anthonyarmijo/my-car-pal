@@ -101,6 +101,9 @@ export function GarageHero() {
         </a>
       </div>
 
+      {/* Quiet breathing room so the garage reveal asks for one more scroll. */}
+      <div className="lp-road-gap" aria-hidden="true" />
+
       <div className="lp-hero-scene lp-fade-up" id="garage" ref={sceneRef}>
         <div className="lp-hero-backdrop" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}

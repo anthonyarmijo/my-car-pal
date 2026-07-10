@@ -19,7 +19,7 @@ export function PrivacySection() {
           <p className="lp-kicker">Ownership, the way it should feel</p>
           <h2 id="lp-privacy-title">Private by default. Yours by design.</h2>
           <p className="lp-section-sub">
-            My Car Pal exists so you can take pride in maintaining your vehicles — not so anyone can
+            My Car Pal exists so you can take pride in maintaining your vehicles, not so anyone can
             mine your data. Self-host the core for free, or let our managed cloud handle sync and
             backups when you want the convenience.
           </p>

@@ -116,6 +116,13 @@
   }
 }
 
+/* Empty band between the video and the garage: the reveal deliberately asks
+   for a little more scrolling, and the fade itself runs longer. */
+.lp-road-gap {
+  height: clamp(12rem, 38vh, 24rem);
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbf6 100%);
+}
+
 .lp-hero-scene {
   --lp-px: 0;
   --lp-py: 0;
@@ -125,6 +132,15 @@
   display: grid;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, #FAF4E7 0%, #F3EAD6 100%);
+}
+
+.lp-hero-scene.lp-fade-up {
+  transform: translateY(56px);
+  transition-duration: 1200ms;
+}
+
+.lp-hero-scene.lp-fade-up.landing-fade-visible {
+  transform: translateY(0);
 }
 
 .lp-hero-backdrop {
@@ -407,42 +423,100 @@
 
 .lp-reveal-frame {
   position: relative;
-  border: 1px solid var(--line);
-  border-radius: 20px;
+  width: min(100%, 56rem);
+  margin: 0 auto;
+  border: 1px solid #d9d4c8;
+  border-radius: 14px;
   overflow: hidden;
   background: var(--surface);
-  box-shadow: 0 30px 70px rgba(42, 42, 36, 0.12);
+  box-shadow: 0 30px 70px rgba(42, 42, 36, 0.14);
 }
 
+/* Browser chrome: traffic lights, nav controls, padlocked address bar. */
 .lp-reveal-chrome {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
-  padding: 0.6rem 1rem;
-  border-bottom: 1px solid var(--line);
-  background: #F4EEE0;
+  gap: 0.7rem;
+  padding: 0.5rem 0.85rem;
+  border-bottom: 1px solid #dcd7ca;
+  background: linear-gradient(180deg, #f4f1ea 0%, #ebe7dc 100%);
 }
 
 .lp-reveal-dots {
   display: inline-flex;
-  gap: 0.32rem;
+  gap: 0.42rem;
+  padding-right: 0.15rem;
 }
 
 .lp-reveal-dots i {
-  width: 0.62rem;
-  height: 0.62rem;
+  width: 0.72rem;
+  height: 0.72rem;
   border-radius: 999px;
-  background: #DACFB6;
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+}
+
+.lp-reveal-dots i:nth-child(1) {
+  background: #f6635a;
+}
+
+.lp-reveal-dots i:nth-child(2) {
+  background: #f5bf4f;
+}
+
+.lp-reveal-dots i:nth-child(3) {
+  background: #65c466;
+}
+
+.lp-reveal-navbtns {
+  display: inline-flex;
+  gap: 0.55rem;
+  color: #8d887a;
+}
+
+.lp-reveal-navbtns svg,
+.lp-reveal-chrome-end svg,
+.lp-reveal-address svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lp-reveal-chrome-end svg {
+  fill: currentColor;
+  stroke: none;
 }
 
 .lp-reveal-address {
-  font-size: 0.78rem;
+  flex: 1;
+  max-width: 30rem;
+  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  color: #6C6353;
-  background: #FFFDF8;
-  border: 1px solid var(--line);
+  color: #55503f;
+  background: #fffdf8;
+  border: 1px solid #ddd8cb;
   border-radius: 999px;
-  padding: 0.22rem 0.85rem;
+  padding: 0.28rem 0.85rem;
+  box-shadow: inset 0 1px 2px rgba(42, 42, 36, 0.04);
+}
+
+.lp-reveal-address svg {
+  width: 0.72rem;
+  height: 0.72rem;
+  color: #6f8666;
+}
+
+.lp-reveal-chrome-end {
+  display: inline-flex;
+  color: #8d887a;
 }
 
 .lp-reveal-body {

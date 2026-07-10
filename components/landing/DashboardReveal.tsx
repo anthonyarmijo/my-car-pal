@@ -16,7 +16,7 @@ export function DashboardReveal() {
     <section ref={ref} className="lp-section lp-reveal lp-fade-up" id="product" aria-labelledby="lp-reveal-title">
       <div className="lp-section-head">
         <p className="lp-kicker">The dashboard</p>
-        <h2 id="lp-reveal-title">Maintenance, health, and records — at a glance.</h2>
+        <h2 id="lp-reveal-title">Maintenance, health, and records at a glance.</h2>
       </div>
 
       <div className="lp-reveal-frame" aria-label="Dashboard preview">
@@ -26,7 +26,18 @@ export function DashboardReveal() {
             <i />
             <i />
           </span>
-          <span className="lp-reveal-address">mycarpal.app/home</span>
+          <span className="lp-reveal-navbtns">
+            <svg viewBox="0 0 24 24"><path d="M14.5 5.5 8 12l6.5 6.5" /></svg>
+            <svg viewBox="0 0 24 24"><path d="m9.5 5.5 6.5 6.5-6.5 6.5" /></svg>
+            <svg viewBox="0 0 24 24"><path d="M5.5 12a6.5 6.5 0 1 1 1.9 4.6M5.5 12V7.8M5.5 12h4.2" /></svg>
+          </span>
+          <span className="lp-reveal-address">
+            <svg viewBox="0 0 24 24"><rect x="6" y="10.4" width="12" height="9" rx="2" /><path d="M8.6 10.4V8a3.4 3.4 0 0 1 6.8 0v2.4" /></svg>
+            mycarpal.app/home
+          </span>
+          <span className="lp-reveal-chrome-end">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="5.4" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="12" cy="18.6" r="1.5" /></svg>
+          </span>
         </div>
 
         <div className="lp-reveal-body">
