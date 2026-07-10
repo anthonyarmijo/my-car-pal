@@ -38,6 +38,8 @@
   height: 100%;
   object-fit: cover;
   object-position: center 62%;
+  /* Warm grade so the cool misty footage sits in the cream/moss palette. */
+  filter: sepia(0.28) hue-rotate(-8deg) saturate(1.12) brightness(1.04) contrast(0.98);
 }
 
 .lp-road-poster {
@@ -49,7 +51,9 @@
 .lp-road-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(20, 18, 14, 0) 55%, rgba(20, 18, 14, 0.22) 100%);
+  background:
+    linear-gradient(180deg, rgba(240, 184, 92, 0.08) 0%, rgba(240, 184, 92, 0.04) 45%, rgba(240, 184, 92, 0) 70%),
+    linear-gradient(180deg, rgba(20, 18, 14, 0) 55%, rgba(20, 18, 14, 0.22) 100%);
   pointer-events: none;
 }
 
@@ -1099,23 +1103,66 @@
   }
 }
 
-/* ---------- Dark theme fallback ----------
-   The hero is intentionally a daylight scene; in dark mode we keep the scene
-   readable but let surrounding sections pick up the dark surfaces. */
+/* ---------- Dark theme: nighttime garage ----------
+   The same photo is graded into night with CSS: the daylight through the
+   door dims to dusk, and warm interior "lamp pools" light the garage. A real
+   night-shot asset can replace this by swapping the img source per theme. */
 
-html[data-resolved-theme="dark"] .lp-hero-scene {
-  border-bottom-color: rgba(224, 215, 195, 0.18);
+html[data-resolved-theme="dark"] body:has(.landing-product-page) .app-bg {
+  background: #131109;
 }
 
-html[data-resolved-theme="dark"] .lp-hero-copy h2,
-html[data-resolved-theme="dark"] .lp-hero-sub,
+html[data-resolved-theme="dark"] .lp-road-gap {
+  background: linear-gradient(180deg, #131109 0%, #17140d 60%, #1b1710 100%);
+}
+
+html[data-resolved-theme="dark"] .lp-road-gap::after {
+  background: linear-gradient(180deg, rgba(159, 199, 171, 0) 0%, rgba(159, 199, 171, 0.35) 50%, rgba(159, 199, 171, 0) 100%);
+}
+
+html[data-resolved-theme="dark"] .lp-hero-scene {
+  border-bottom-color: rgba(224, 215, 195, 0.14);
+  background: linear-gradient(180deg, #1b1710 0%, #14110b 100%);
+}
+
+html[data-resolved-theme="dark"] .lp-hero-backdrop-art {
+  filter: brightness(0.42) saturate(0.72) contrast(1.05) hue-rotate(-4deg);
+}
+
+/* Night overlay: cool dusk through the door opening on the right, warm lamp
+   glows inside the garage on the left and near the shelves. */
+html[data-resolved-theme="dark"] .lp-hero-light-shaft {
+  background:
+    radial-gradient(ellipse 24% 26% at 15% 22%, rgba(255, 196, 110, 0.34) 0%, rgba(255, 196, 110, 0) 72%),
+    radial-gradient(ellipse 26% 30% at 41% 26%, rgba(255, 189, 100, 0.3) 0%, rgba(255, 189, 100, 0) 70%),
+    radial-gradient(ellipse 60% 52% at 34% 62%, rgba(255, 190, 105, 0.14) 0%, rgba(255, 190, 105, 0) 75%),
+    linear-gradient(75deg, rgba(10, 12, 20, 0) 55%, rgba(10, 14, 26, 0.42) 82%, rgba(8, 12, 24, 0.5) 100%),
+    linear-gradient(180deg, rgba(10, 9, 6, 0.05) 0%, rgba(10, 9, 6, 0.28) 78%, rgba(12, 10, 7, 0.42) 100%);
+}
+
+html[data-resolved-theme="dark"] .lp-hero-copy::before {
+  background: radial-gradient(ellipse 60% 55% at 50% 52%, rgba(16, 14, 10, 0.6) 0%, rgba(16, 14, 10, 0.32) 55%, rgba(16, 14, 10, 0) 78%);
+}
+
+html[data-resolved-theme="dark"] .lp-hero-copy h2 {
+  color: #F4F1E7;
+}
+
+html[data-resolved-theme="dark"] .lp-hero-sub {
+  color: #CFC8B8;
+}
+
 html[data-resolved-theme="dark"] .lp-hero-proof li {
-  color: #2A2A24;
+  color: #BDB6A5;
 }
 
 html[data-resolved-theme="dark"] .lp-hero-copy h2 span,
 html[data-resolved-theme="dark"] .lp-hero-eyebrow {
-  color: #35624A;
+  color: #9FC7AB;
+}
+
+html[data-resolved-theme="dark"] .lp-owners-line {
+  color: #CFC8B8;
 }
 
 html[data-resolved-theme="dark"] .lp-feature-card,

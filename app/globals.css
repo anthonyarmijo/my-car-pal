@@ -6749,7 +6749,26 @@ body:has(.landing-product-page) .landing-public-nav a:hover {
 }
 
 body:has(.landing-product-page) .landing-login-sign .theme-toggle {
-  display: none;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body:has(.landing-product-page) .theme-toggle-option {
+  color: rgba(252, 250, 242, 0.78);
+  text-shadow: 0 1px 8px rgba(20, 18, 14, 0.5);
+}
+
+body:has(.landing-product-page) .theme-toggle-option:hover {
+  background: rgba(252, 250, 242, 0.16);
+  color: #ffffff;
+}
+
+body:has(.landing-product-page) .theme-toggle-option-active {
+  background: rgba(252, 250, 242, 0.92);
+  color: #274A38;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 body:has(.landing-product-page) .landing-login-sign,
@@ -6762,28 +6781,33 @@ body:has(.landing-product-page) .landing-login-sign-actions {
 }
 
 body:has(.landing-product-page) .landing-login-text-link {
-  border: 1px solid rgba(252, 250, 242, 0.65);
-  background: rgba(20, 18, 14, 0.18);
-  backdrop-filter: blur(4px);
-  color: #FCFAF2;
+  border: 0;
+  background: transparent;
+  color: rgba(252, 250, 242, 0.92);
+  font-weight: 700;
+  text-shadow: 0 1px 8px rgba(20, 18, 14, 0.5);
   border-radius: 999px;
 }
 
 body:has(.landing-product-page) .landing-login-text-link:hover {
-  border-color: #FCFAF2;
-  background: rgba(20, 18, 14, 0.32);
+  color: #ffffff;
+  background: rgba(252, 250, 242, 0.12);
+  transform: none;
 }
 
+/* Transparent like the nav, with an outline for a little extra pop. */
 body:has(.landing-product-page) .landing-try-now-link {
-  border: 1px solid #FCFAF2;
-  background: #FCFAF2;
-  color: #274A38;
+  border: 1.5px solid rgba(252, 250, 242, 0.85);
+  background: transparent;
+  color: #FCFAF2;
   border-radius: 999px;
-  box-shadow: 0 10px 24px rgba(20, 18, 14, 0.25);
+  text-shadow: 0 1px 8px rgba(20, 18, 14, 0.5);
+  box-shadow: none;
 }
 
 body:has(.landing-product-page) .landing-try-now-link:hover {
-  background: #ffffff;
+  border-color: #ffffff;
+  background: rgba(252, 250, 242, 0.16);
 }
 
 @media (max-width: 760px) {
