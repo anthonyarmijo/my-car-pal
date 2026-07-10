@@ -44,12 +44,12 @@
   display: none;
 }
 
+/* Subtle darkening near the tagline only — no white/cream fade over the
+   footage. */
 .lp-road-fade {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(20, 18, 14, 0.18) 0%, rgba(20, 18, 14, 0) 30%),
-    linear-gradient(180deg, rgba(250, 244, 231, 0) 62%, rgba(250, 244, 231, 0.5) 86%, #faf4e7 100%);
+  background: linear-gradient(180deg, rgba(20, 18, 14, 0) 55%, rgba(20, 18, 14, 0.22) 100%);
   pointer-events: none;
 }
 
@@ -121,7 +121,7 @@
   --lp-py: 0;
   position: relative;
   overflow: hidden;
-  min-height: min(76vh, 52rem);
+  min-height: min(92vh, 60rem);
   display: grid;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, #FAF4E7 0%, #F3EAD6 100%);
@@ -144,28 +144,48 @@
   transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Soft wash over the photo: keeps the left copy column readable and lets the
-   warm daylight breathe on the right. */
+/* Soft bottom wash over the photo: the garage stays open and airy while the
+   centered copy reads cleanly against the floor. */
 .lp-hero-light-shaft {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(90deg, rgba(250, 246, 235, 0.88) 0%, rgba(250, 246, 235, 0.58) 36%, rgba(250, 246, 235, 0) 62%),
-    radial-gradient(ellipse 62% 50% at calc(74% + var(--lp-px) * 2%) 36%, rgba(255, 232, 168, 0.12) 0%, rgba(255, 232, 168, 0) 70%),
-    linear-gradient(180deg, rgba(255, 251, 240, 0) 62%, rgba(250, 243, 228, 0.35) 100%);
-  transition: background-position 600ms ease;
+  background: linear-gradient(180deg, rgba(250, 246, 235, 0) 42%, rgba(250, 246, 235, 0.5) 68%, rgba(250, 246, 235, 0.78) 100%);
 }
 
+/* Copy sits centered over the clean floor at the bottom of the scene,
+   leaving the garage itself as open, quiet space. */
 .lp-hero-inner {
   position: relative;
   z-index: 1;
   width: min(100%, 78rem);
   margin: 0 auto;
-  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 4vw, 3rem) clamp(4rem, 8vw, 6.5rem);
-  display: grid;
-  grid-template-columns: minmax(0, 30rem) minmax(0, 1fr);
+  min-height: inherit;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 4vw, 3rem) clamp(2.25rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
+  text-align: center;
+}
+
+.lp-hero-copy {
+  position: relative;
+  display: grid;
+  justify-items: center;
+}
+
+/* Local radial scrim behind the copy — keeps the floor visible while the
+   text stays readable, without a hard white band over the photo. */
+.lp-hero-copy::before {
+  content: "";
+  position: absolute;
+  inset: -14% -18%;
+  background: radial-gradient(ellipse 60% 55% at 50% 52%, rgba(250, 246, 235, 0.66) 0%, rgba(250, 246, 235, 0.34) 55%, rgba(250, 246, 235, 0) 78%);
+  pointer-events: none;
+}
+
+.lp-hero-copy > * {
+  position: relative;
 }
 
 .lp-hero-eyebrow {
@@ -179,7 +199,7 @@
 
 .lp-hero-copy h1 {
   margin: 0;
-  font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+  font-size: clamp(2rem, 3.8vw, 3rem);
   line-height: 1.04;
   letter-spacing: -0.025em;
   color: #2A2A24;
@@ -190,7 +210,7 @@
 }
 
 .lp-hero-sub {
-  margin: 1.1rem 0 0;
+  margin: 0.9rem 0 0;
   max-width: 44ch;
   font-size: clamp(1rem, 1.4vw, 1.14rem);
   line-height: 1.6;
@@ -200,16 +220,18 @@
 .lp-hero-cta-row {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.7rem;
-  margin-top: 1.7rem;
+  margin-top: 1.4rem;
 }
 
 .lp-hero-proof {
   list-style: none;
-  margin: 1.6rem 0 0;
+  margin: 1.3rem 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.45rem 1.15rem;
 }
 
@@ -249,10 +271,8 @@
   height: auto;
 }
 
-/* Contact shadow straddling the wheel line (the cutout's opaque pixels run
-   to the image bottom edge), so the vehicle reads as parked, not floating. */
-/* Tilted to follow the cutout's ground line (the front wheel sits lower than
-   the rear in the three-quarter view). */
+/* Contact shadow straddling the wheel line, tilted to follow the cutout's
+   ground line, so the vehicle reads as parked rather than floating. */
 .lp-vehicle-shadow {
   position: absolute;
   bottom: -1.5%;
@@ -263,137 +283,6 @@
   border-radius: 50%;
   filter: blur(5px);
   background: radial-gradient(ellipse at center, rgba(46, 40, 29, 0.5) 0%, rgba(46, 40, 29, 0.42) 34%, rgba(46, 40, 29, 0.16) 60%, rgba(46, 40, 29, 0) 78%);
-}
-
-.lp-hero-stage-wrap {
-  position: relative;
-  align-self: end;
-  padding-bottom: clamp(0rem, 2vw, 1.5rem);
-}
-
-/* The parked vehicle stays still — no parallax on the stage. */
-.lp-hero-stage {
-  width: min(116%, 52rem);
-  margin: 0 -2rem 0 auto;
-  padding-bottom: 0.6rem;
-}
-
-/* Floating proof cards over the stage */
-
-.lp-hero-card {
-  position: absolute;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.62rem 0.85rem;
-  border-radius: 14px;
-  border: 1px solid rgba(224, 215, 195, 0.9);
-  background: rgba(255, 253, 248, 0.92);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 14px 30px rgba(42, 42, 36, 0.10);
-  transform: translate3d(calc(var(--lp-px) * 16px), calc(var(--lp-py) * 9px), 0);
-  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-  animation: lp-float 7s ease-in-out infinite;
-}
-
-/* Anchored beside the vehicle, not on top of it */
-.lp-hero-card-reminder {
-  top: -8%;
-  right: 2%;
-}
-
-.lp-hero-card-receipt {
-  bottom: 2%;
-  left: -7%;
-  animation-delay: 2.4s;
-}
-
-.lp-hero-card-copy {
-  display: grid;
-  gap: 0.08rem;
-}
-
-.lp-hero-card-copy strong {
-  font-size: 0.84rem;
-  color: #2A2A24;
-}
-
-.lp-hero-card-copy small {
-  font-size: 0.74rem;
-  color: #6C6353;
-}
-
-.lp-hero-card-icon {
-  width: 1.9rem;
-  height: 1.9rem;
-  border-radius: 999px;
-  flex-shrink: 0;
-  display: inline-grid;
-  place-items: center;
-}
-
-.lp-hero-card-icon::after {
-  content: "";
-  width: 0.85rem;
-  height: 0.85rem;
-  border-radius: 2px;
-}
-
-.lp-hero-card-icon-clock {
-  background: #F6E7C8;
-}
-
-.lp-hero-card-icon-clock::after {
-  border-radius: 999px;
-  border: 2px solid #A2792F;
-  background:
-    linear-gradient(#A2792F, #A2792F) 50% 22% / 2px 34% no-repeat,
-    linear-gradient(#A2792F, #A2792F) 50% 50% / 30% 2px no-repeat;
-}
-
-.lp-hero-card-icon-check {
-  background: var(--accent-soft);
-}
-
-.lp-hero-card-icon-check::after {
-  border: 0;
-  width: 0.8rem;
-  height: 0.45rem;
-  border-left: 2.5px solid var(--accent);
-  border-bottom: 2.5px solid var(--accent);
-  border-radius: 0;
-  transform: rotate(-45deg) translateY(-1px);
-}
-
-@keyframes lp-float {
-  0%,
-  100% {
-    margin-top: 0;
-  }
-  50% {
-    margin-top: -7px;
-  }
-}
-
-.lp-hero-scroll-hint {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  bottom: 1.1rem;
-  transform: translateX(-50%);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #6C6353;
-  padding: 0.3rem 0.75rem;
-  border-radius: 999px;
-}
-
-.lp-hero-scroll-hint:hover {
-  color: var(--accent);
 }
 
 /* ---------- Buttons ---------- */
@@ -947,31 +836,6 @@
     padding-bottom: clamp(3rem, 9vw, 5rem);
   }
 
-  /* On narrow screens the copy stacks over the photo, so wash from the top
-     instead of the left and keep the floor visible for the vehicle. */
-  .lp-hero-light-shaft {
-    background: linear-gradient(
-      180deg,
-      rgba(250, 246, 235, 0.94) 0%,
-      rgba(250, 246, 235, 0.8) 46%,
-      rgba(250, 246, 235, 0.2) 74%,
-      rgba(250, 246, 235, 0) 100%
-    );
-  }
-
-  .lp-hero-stage-wrap {
-    order: 2;
-  }
-
-  .lp-hero-stage {
-    width: 100%;
-    margin: 0;
-  }
-
-  .lp-hero-card-receipt {
-    left: 0;
-  }
-
   .lp-reveal-vehicle,
   .lp-reveal-grid,
   .lp-privacy-inner {
@@ -999,13 +863,6 @@
     min-height: 20rem;
   }
 
-  .lp-hero-card {
-    display: none;
-  }
-
-  .lp-hero-scroll-hint {
-    display: none;
-  }
 }
 
 /* ---------- Reduced motion ---------- */
@@ -1023,8 +880,7 @@
     animation: none;
   }
 
-  .lp-hero-backdrop-art,
-  .lp-hero-card {
+  .lp-hero-backdrop-art {
     transform: none;
     transition: none;
     animation: none;
@@ -1057,8 +913,7 @@ html[data-resolved-theme="dark"] .lp-hero-scene {
 
 html[data-resolved-theme="dark"] .lp-hero-copy h1,
 html[data-resolved-theme="dark"] .lp-hero-sub,
-html[data-resolved-theme="dark"] .lp-hero-proof li,
-html[data-resolved-theme="dark"] .lp-hero-scroll-hint {
+html[data-resolved-theme="dark"] .lp-hero-proof li {
   color: #2A2A24;
 }
 

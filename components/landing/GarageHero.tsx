@@ -6,18 +6,14 @@ import { useEffect, useRef } from "react";
 const proofPoints = ["Free for one vehicle", "No ads, no data selling", "Export anytime"];
 
 /**
- * Landing opener: an ambient highway loop up top, then the sunlit-garage
- * scene fading in beneath it.
+ * Landing opener: a full-viewport highway loop, then the empty sunlit-garage
+ * scene fading in beneath it with the copy centered over the clean floor.
+ * (The composited vehicle lives in the dashboard reveal below — see the
+ * lp-vehicle-stage pattern there.)
  *
- * The garage scene is layered so the vehicle stays a swappable foreground
- * asset: photo backdrop → readability wash → floor stage + synthetic contact
- * shadow → vehicle cutout → floating UI cards. Any make/model cutout can be
- * dropped onto the same stage without re-integrating it into the background.
- *
- * Pointer parallax (backdrop and cards only — the parked vehicle stays
- * still) writes --lp-px / --lp-py custom properties consumed by CSS
- * transforms; it is disabled for prefers-reduced-motion and coarse pointers,
- * as is the highway video.
+ * Pointer parallax on the backdrop writes --lp-px / --lp-py custom
+ * properties consumed by CSS transforms; it is disabled for
+ * prefers-reduced-motion and coarse pointers, as is the highway video.
  */
 export function GarageHero() {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -145,38 +141,7 @@ export function GarageHero() {
               ))}
             </ul>
           </div>
-
-          <div className="lp-hero-stage-wrap" aria-hidden="true">
-            <div className="lp-vehicle-stage lp-hero-stage">
-              <span className="lp-vehicle-shadow" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/landing/vehicle-cutout-tacoma.png"
-                alt=""
-                className="lp-vehicle-cutout"
-              />
-            </div>
-
-            <div className="lp-hero-card lp-hero-card-reminder">
-              <span className="lp-hero-card-icon lp-hero-card-icon-clock" />
-              <span className="lp-hero-card-copy">
-                <strong>Oil change due soon</strong>
-                <small>In 480 mi · Reminder set</small>
-              </span>
-            </div>
-            <div className="lp-hero-card lp-hero-card-receipt">
-              <span className="lp-hero-card-icon lp-hero-card-icon-check" />
-              <span className="lp-hero-card-copy">
-                <strong>Receipt saved</strong>
-                <small>Tires · $612 · Glovebox</small>
-              </span>
-            </div>
-          </div>
         </div>
-
-        <a href="#product" className="lp-hero-scroll-hint">
-          <span aria-hidden="true">↓</span> Your digital garage
-        </a>
       </div>
     </section>
   );
