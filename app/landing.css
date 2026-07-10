@@ -25,8 +25,8 @@
    garage scene only appears once the user scrolls (or taps the arrow). */
 .lp-road {
   position: relative;
-  height: calc(100svh - 6.6rem);
-  min-height: 26rem;
+  height: 100svh;
+  min-height: 30rem;
   overflow: hidden;
 }
 
@@ -197,7 +197,7 @@
   color: var(--accent);
 }
 
-.lp-hero-copy h1 {
+.lp-hero-copy h2 {
   margin: 0;
   font-size: clamp(2rem, 3.8vw, 3rem);
   line-height: 1.04;
@@ -205,7 +205,7 @@
   color: #2A2A24;
 }
 
-.lp-hero-copy h1 span {
+.lp-hero-copy h2 span {
   color: var(--accent);
 }
 
@@ -859,7 +859,6 @@
   }
 
   .lp-road {
-    height: calc(100svh - 4.6rem);
     min-height: 20rem;
   }
 
@@ -911,13 +910,13 @@ html[data-resolved-theme="dark"] .lp-hero-scene {
   border-bottom-color: rgba(224, 215, 195, 0.18);
 }
 
-html[data-resolved-theme="dark"] .lp-hero-copy h1,
+html[data-resolved-theme="dark"] .lp-hero-copy h2,
 html[data-resolved-theme="dark"] .lp-hero-sub,
 html[data-resolved-theme="dark"] .lp-hero-proof li {
   color: #2A2A24;
 }
 
-html[data-resolved-theme="dark"] .lp-hero-copy h1 span,
+html[data-resolved-theme="dark"] .lp-hero-copy h2 span,
 html[data-resolved-theme="dark"] .lp-hero-eyebrow {
   color: #35624A;
 }

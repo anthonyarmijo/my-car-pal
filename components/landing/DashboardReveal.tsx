@@ -15,12 +15,8 @@ export function DashboardReveal() {
   return (
     <section ref={ref} className="lp-section lp-reveal lp-fade-up" id="product" aria-labelledby="lp-reveal-title">
       <div className="lp-section-head">
-        <p className="lp-kicker">Your digital garage</p>
-        <h2 id="lp-reveal-title">Everything about your car, in one calm place.</h2>
-        <p className="lp-section-sub">
-          Step out of the garage and into a dashboard that keeps maintenance, reminders, and records
-          quietly organized.
-        </p>
+        <p className="lp-kicker">The dashboard</p>
+        <h2 id="lp-reveal-title">Maintenance, health, and records — at a glance.</h2>
       </div>
 
       <div className="lp-reveal-frame" aria-label="Dashboard preview">

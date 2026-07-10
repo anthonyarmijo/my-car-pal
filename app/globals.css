@@ -6677,3 +6677,122 @@ html[data-resolved-theme="dark"] .activation-progress-pill,
 html[data-resolved-theme="dark"] .home-view-all-link {
   color: #dce3e9;
 }
+
+/* ── Landing: transparent Porsche-style header overlaid on the full-bleed
+   hero video — centered logo, quiet nav left, auth actions right ── */
+body:has(.landing-product-page) .app-bg {
+  padding: 0;
+  background: #ffffff;
+}
+
+body:has(.landing-product-page) .app-shell {
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body:has(.landing-product-page) .app-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  padding: 1.05rem clamp(1rem, 3vw, 2.5rem);
+  border-bottom: 0;
+  background: transparent;
+}
+
+body:has(.landing-product-page) .app-main {
+  padding: 0 1.5rem 1.5rem;
+}
+
+body:has(.landing-product-page) .brand-lockup {
+  position: absolute;
+  left: 50%;
+  top: 0.95rem;
+  transform: translateX(-50%);
+  gap: 0.5rem;
+  align-items: center;
+}
+
+body:has(.landing-product-page) .app-logo {
+  width: 2.3rem;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.35));
+}
+
+body:has(.landing-product-page) .brand-name {
+  color: #FCFAF2;
+  font-size: 1.18rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-shadow: 0 2px 12px rgba(20, 18, 14, 0.55);
+}
+
+body:has(.landing-product-page) .landing-public-nav-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 0;
+  max-width: none;
+}
+
+body:has(.landing-product-page) .landing-public-nav {
+  color: rgba(252, 250, 242, 0.92);
+  font-weight: 700;
+  text-shadow: 0 1px 8px rgba(20, 18, 14, 0.5);
+}
+
+body:has(.landing-product-page) .landing-public-nav a:hover {
+  color: #ffffff;
+}
+
+body:has(.landing-product-page) .landing-login-sign .theme-toggle {
+  display: none;
+}
+
+body:has(.landing-product-page) .landing-login-sign,
+body:has(.landing-product-page) .landing-login-sign-actions {
+  width: auto;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+body:has(.landing-product-page) .landing-login-text-link {
+  border: 1px solid rgba(252, 250, 242, 0.65);
+  background: rgba(20, 18, 14, 0.18);
+  backdrop-filter: blur(4px);
+  color: #FCFAF2;
+  border-radius: 999px;
+}
+
+body:has(.landing-product-page) .landing-login-text-link:hover {
+  border-color: #FCFAF2;
+  background: rgba(20, 18, 14, 0.32);
+}
+
+body:has(.landing-product-page) .landing-try-now-link {
+  border: 1px solid #FCFAF2;
+  background: #FCFAF2;
+  color: #274A38;
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(20, 18, 14, 0.25);
+}
+
+body:has(.landing-product-page) .landing-try-now-link:hover {
+  background: #ffffff;
+}
+
+@media (max-width: 760px) {
+  /* keep just the centered mark on small screens */
+  body:has(.landing-product-page) .brand-name {
+    display: none;
+  }
+
+  body:has(.landing-product-page) .brand-lockup {
+    top: 1.1rem;
+  }
+}

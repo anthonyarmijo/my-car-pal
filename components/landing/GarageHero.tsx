@@ -117,15 +117,11 @@ export function GarageHero() {
 
         <div className="lp-hero-inner">
           <div className="lp-hero-copy">
-            <p className="lp-hero-eyebrow">My Car Pal</p>
-            <h1 id="lp-hero-title">
-              Take care of your car.
-              <br />
-              <span>We&rsquo;ll handle the rest.</span>
-            </h1>
+            <p className="lp-hero-eyebrow">Your digital garage</p>
+            <h2 id="lp-hero-title">Everything about your car, in one calm place.</h2>
             <p className="lp-hero-sub">
-              Reminders, service history, receipts, and glovebox documents — organized in one calm,
-              private place for every vehicle you own.
+              Step out of the garage and into a dashboard that keeps maintenance, reminders, and
+              records quietly organized.
             </p>
             <div className="lp-hero-cta-row">
               <Link href="/register" className="lp-btn lp-btn-primary">
