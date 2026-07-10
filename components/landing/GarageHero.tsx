@@ -81,7 +81,7 @@ export function GarageHero() {
 
   return (
     <section className="lp-hero" aria-labelledby="lp-hero-title">
-      <div className="lp-road" aria-hidden="true">
+      <div className="lp-road">
         <video
           className="lp-road-video"
           autoPlay
@@ -90,15 +90,22 @@ export function GarageHero() {
           playsInline
           preload="metadata"
           poster="/images/landing/highway-poster.jpg"
+          aria-hidden="true"
         >
           <source src="/videos/highway-loop.mp4" type="video/mp4" />
         </video>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/landing/highway-poster.jpg" alt="" className="lp-road-poster" />
-        <div className="lp-road-fade" />
+        <img src="/images/landing/highway-poster.jpg" alt="" className="lp-road-poster" aria-hidden="true" />
+        <div className="lp-road-fade" aria-hidden="true" />
+        <p className="lp-road-tagline">Take care of your car. We&rsquo;ll handle the rest.</p>
+        <a href="#garage" className="lp-road-arrow" aria-label="Scroll down to explore My Car Pal">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 4v14.5M5.8 12.6 12 18.8l6.2-6.2" />
+          </svg>
+        </a>
       </div>
 
-      <div className="lp-hero-scene lp-fade-up" ref={sceneRef}>
+      <div className="lp-hero-scene lp-fade-up" id="garage" ref={sceneRef}>
         <div className="lp-hero-backdrop" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

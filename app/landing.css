@@ -21,10 +21,12 @@
   margin: 0 -1.5rem;
 }
 
-/* Ambient highway loop across the top; fades into the garage scene below. */
+/* Full-viewport highway opener: the loop owns the first screen, and the
+   garage scene only appears once the user scrolls (or taps the arrow). */
 .lp-road {
   position: relative;
-  height: clamp(14rem, 42vh, 26rem);
+  height: calc(100svh - 6.6rem);
+  min-height: 26rem;
   overflow: hidden;
 }
 
@@ -45,8 +47,73 @@
 .lp-road-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(250, 244, 231, 0) 45%, rgba(250, 244, 231, 0.55) 78%, #faf4e7 100%);
+  background:
+    linear-gradient(180deg, rgba(20, 18, 14, 0.18) 0%, rgba(20, 18, 14, 0) 30%),
+    linear-gradient(180deg, rgba(250, 244, 231, 0) 62%, rgba(250, 244, 231, 0.5) 86%, #faf4e7 100%);
   pointer-events: none;
+}
+
+.lp-road-tagline {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(6.5rem, 16vh, 9.5rem);
+  transform: translateX(-50%);
+  margin: 0;
+  width: min(92%, 46rem);
+  text-align: center;
+  font-size: clamp(1.3rem, 2.6vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: #FCFAF2;
+  text-shadow: 0 2px 22px rgba(20, 18, 14, 0.55);
+}
+
+.lp-road-arrow {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.6rem, 5vh, 3rem);
+  transform: translateX(-50%);
+  width: 3.1rem;
+  height: 3.1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1.5px solid rgba(252, 250, 242, 0.75);
+  background: rgba(20, 18, 14, 0.28);
+  backdrop-filter: blur(4px);
+  color: #FCFAF2;
+  animation: lp-arrow-nudge 2.4s ease-in-out infinite;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.lp-road-arrow:hover {
+  background: rgba(20, 18, 14, 0.45);
+  border-color: #FCFAF2;
+}
+
+.lp-road-arrow:focus-visible {
+  outline: 3px solid rgba(252, 250, 242, 0.85);
+  outline-offset: 2px;
+}
+
+.lp-road-arrow svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@keyframes lp-arrow-nudge {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(7px);
+  }
 }
 
 .lp-hero-scene {
@@ -928,7 +995,8 @@
   }
 
   .lp-road {
-    height: clamp(10rem, 30vh, 16rem);
+    height: calc(100svh - 4.6rem);
+    min-height: 20rem;
   }
 
   .lp-hero-card {
@@ -949,6 +1017,10 @@
 
   .lp-road-poster {
     display: block;
+  }
+
+  .lp-road-arrow {
+    animation: none;
   }
 
   .lp-hero-backdrop-art,
