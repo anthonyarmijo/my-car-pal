@@ -6820,3 +6820,43 @@ body:has(.landing-product-page) .landing-try-now-link:hover {
     top: 1.1rem;
   }
 }
+
+/* ── Sun/moon theme icon toggle (landing header) ── */
+.theme-icon-toggle {
+  width: 2.35rem;
+  height: 2.35rem;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.theme-icon-toggle svg,
+.theme-icon-toggle-placeholder {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.theme-icon-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+body:has(.landing-product-page) .theme-icon-toggle {
+  color: rgba(252, 250, 242, 0.9);
+  filter: drop-shadow(0 1px 6px rgba(20, 18, 14, 0.5));
+}
+
+body:has(.landing-product-page) .theme-icon-toggle:hover {
+  background: rgba(252, 250, 242, 0.16);
+  color: #ffffff;
+}

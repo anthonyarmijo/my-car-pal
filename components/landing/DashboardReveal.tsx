@@ -57,12 +57,22 @@ export function DashboardReveal() {
       </div>
 
       <div className="lp-reveal-frame" aria-label="Dashboard preview">
-        <div className="lp-reveal-chrome" aria-hidden="true">
+        <div className="lp-reveal-tabbar" aria-hidden="true">
           <span className="lp-reveal-dots">
             <i />
             <i />
             <i />
           </span>
+          <span className="lp-reveal-tab">
+            <i className="lp-reveal-favicon" />
+            My Car Pal — Home
+            <svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17" /></svg>
+          </span>
+          <span className="lp-reveal-newtab">
+            <svg viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13" /></svg>
+          </span>
+        </div>
+        <div className="lp-reveal-chrome" aria-hidden="true">
           <span className="lp-reveal-navbtns">
             <svg viewBox="0 0 24 24"><path d="M14.5 5.5 8 12l6.5 6.5" /></svg>
             <svg viewBox="0 0 24 24"><path d="m9.5 5.5 6.5 6.5-6.5 6.5" /></svg>
@@ -71,6 +81,7 @@ export function DashboardReveal() {
           <span className="lp-reveal-address">
             <svg viewBox="0 0 24 24"><rect x="6" y="10.4" width="12" height="9" rx="2" /><path d="M8.6 10.4V8a3.4 3.4 0 0 1 6.8 0v2.4" /></svg>
             mycarpal.app/home
+            <svg className="lp-reveal-star" viewBox="0 0 24 24"><path d="m12 4.6 2.1 4.4 4.8.6-3.5 3.4.9 4.8L12 15.5l-4.3 2.3.9-4.8-3.5-3.4 4.8-.6z" /></svg>
           </span>
           <span className="lp-reveal-chrome-end">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="5.4" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="12" cy="18.6" r="1.5" /></svg>
@@ -101,6 +112,14 @@ export function DashboardReveal() {
           </aside>
 
           <div className="lp-reveal-main">
+            <div className="lp-reveal-topbar">
+              <span>
+                <b>Good morning, Anthony</b>
+                <small>Tuesday, July 8 · 68° and clear</small>
+              </span>
+              <span className="lp-reveal-alert-chip">1 reminder due soon</span>
+            </div>
+
             <div className="lp-reveal-vehicle">
               <div className="lp-reveal-vehicle-copy">
                 <span className="lp-pill">Primary vehicle</span>
@@ -117,6 +136,28 @@ export function DashboardReveal() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/images/landing/vehicle-cutout-tacoma.png" alt="" className="lp-vehicle-cutout" />
               </div>
+            </div>
+
+            <div className="lp-reveal-panel lp-reveal-upcoming">
+              <h3>Upcoming</h3>
+              <ul>
+                <li>
+                  <svg viewBox="0 0 24 24"><path d="M15.7 4.6a3.7 3.7 0 0 0-4.3 4.8l-6.5 6.5 3.2 3.2 6.5-6.5a3.7 3.7 0 0 0 4.8-4.3l-2.5 2.5-2.4-2.4 2.5-2.5Z" /></svg>
+                  <span>
+                    <b>Oil &amp; filter change</b>
+                    <small>2021 Toyota Tacoma</small>
+                  </span>
+                  <em className="is-due">Due in 480 mi</em>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24"><path d="M7 4.5h6.2l3.8 3.8v11.2H7z" /><path d="M13 4.8V9h4M9.6 12h4.8M9.6 15.4h4.8" /></svg>
+                  <span>
+                    <b>Registration renewal</b>
+                    <small>2021 Toyota Tacoma</small>
+                  </span>
+                  <em>Aug 12</em>
+                </li>
+              </ul>
             </div>
 
             <div className="lp-reveal-grid">

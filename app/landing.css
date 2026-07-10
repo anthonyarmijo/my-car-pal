@@ -178,6 +178,15 @@
   transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.lp-hero-night {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  pointer-events: none;
+}
+
 /* Soft bottom wash over the photo: the garage stays open and airy while the
    centered copy reads cleanly against the floor. */
 .lp-hero-light-shaft {
@@ -443,27 +452,83 @@
   position: relative;
   width: min(100%, 48rem);
   margin: 0 auto;
-  border: 1px solid #d9d4c8;
-  border-radius: 14px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
   overflow: hidden;
   background: var(--surface);
-  box-shadow: 0 30px 70px rgba(42, 42, 36, 0.14);
+  box-shadow: 0 30px 70px rgba(42, 42, 36, 0.16);
 }
 
-/* Browser chrome: traffic lights, nav controls, padlocked address bar. */
+/* Tab strip: traffic lights, active tab, new-tab button — neutral browser
+   grays rather than the site palette. */
+.lp-reveal-tabbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  padding: 0.42rem 0.7rem 0;
+  background: #DEE1E6;
+}
+
+.lp-reveal-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.34rem 0.75rem;
+  border-radius: 9px 9px 0 0;
+  background: #F7F8FA;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #3c4043;
+  min-width: 11rem;
+}
+
+.lp-reveal-tab svg {
+  width: 0.62rem;
+  height: 0.62rem;
+  margin-left: auto;
+  fill: none;
+  stroke: #5f6368;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.lp-reveal-favicon {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 3px;
+  background: linear-gradient(160deg, #3E6B54 0%, #274A38 100%);
+}
+
+.lp-reveal-newtab {
+  display: inline-flex;
+  align-self: center;
+  color: #5f6368;
+}
+
+.lp-reveal-newtab svg {
+  width: 0.78rem;
+  height: 0.78rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+/* Toolbar: nav controls and padlocked address bar. */
 .lp-reveal-chrome {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  padding: 0.5rem 0.85rem;
-  border-bottom: 1px solid #dcd7ca;
-  background: linear-gradient(180deg, #f4f1ea 0%, #ebe7dc 100%);
+  padding: 0.44rem 0.85rem;
+  border-bottom: 1px solid #E3E3E3;
+  background: #F7F8FA;
 }
 
 .lp-reveal-dots {
   display: inline-flex;
+  align-self: center;
   gap: 0.42rem;
-  padding-right: 0.15rem;
+  padding: 0 0.15rem 0.3rem 0;
 }
 
 .lp-reveal-dots i {
@@ -488,7 +553,7 @@
 .lp-reveal-navbtns {
   display: inline-flex;
   gap: 0.55rem;
-  color: #8d887a;
+  color: #5f6368;
 }
 
 .lp-reveal-navbtns svg,
@@ -516,25 +581,29 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: #55503f;
-  background: #fffdf8;
-  border: 1px solid #ddd8cb;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: #3c4043;
+  background: #EFF1F4;
+  border: 0;
   border-radius: 999px;
-  padding: 0.28rem 0.85rem;
-  box-shadow: inset 0 1px 2px rgba(42, 42, 36, 0.04);
+  padding: 0.3rem 0.85rem;
 }
 
 .lp-reveal-address svg {
-  width: 0.72rem;
-  height: 0.72rem;
-  color: #6f8666;
+  width: 0.7rem;
+  height: 0.7rem;
+  color: #5f6368;
+}
+
+.lp-reveal-address .lp-reveal-star {
+  margin-left: auto;
+  color: #80868b;
 }
 
 .lp-reveal-chrome-end {
   display: inline-flex;
-  color: #8d887a;
+  color: #5f6368;
 }
 
 .lp-reveal-body {
@@ -642,6 +711,93 @@
   display: grid;
   gap: 0.7rem;
   align-content: start;
+}
+
+.lp-reveal-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.1rem 0.15rem;
+}
+
+.lp-reveal-topbar b {
+  display: block;
+  font-size: 0.88rem;
+  letter-spacing: -0.01em;
+}
+
+.lp-reveal-topbar small {
+  font-size: 0.66rem;
+  color: #6C6353;
+}
+
+.lp-reveal-alert-chip {
+  flex-shrink: 0;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #8a5a17;
+  background: #F8ECD9;
+  border: 1px solid rgba(184, 114, 45, 0.3);
+  border-radius: 999px;
+  padding: 0.24rem 0.6rem;
+}
+
+.lp-reveal-upcoming ul {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.lp-reveal-upcoming li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.42rem 0.5rem;
+  border: 1px solid #F0EADA;
+  border-radius: 8px;
+  background: #FDFBF4;
+}
+
+.lp-reveal-upcoming li svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lp-reveal-upcoming li b {
+  display: block;
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.lp-reveal-upcoming li small {
+  font-size: 0.62rem;
+  color: #6C6353;
+}
+
+.lp-reveal-upcoming li em {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-style: normal;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #6C6353;
+  background: #F3EFE3;
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+}
+
+.lp-reveal-upcoming li em.is-due {
+  color: #8a5a17;
+  background: #F8ECD9;
 }
 
 .lp-reveal-vehicle {
@@ -1126,18 +1282,21 @@ html[data-resolved-theme="dark"] .lp-hero-scene {
 }
 
 html[data-resolved-theme="dark"] .lp-hero-backdrop-art {
-  filter: brightness(0.42) saturate(0.72) contrast(1.05) hue-rotate(-4deg);
+  filter: brightness(0.52) saturate(0.82) contrast(1.14) hue-rotate(-4deg);
 }
 
-/* Night overlay: cool dusk through the door opening on the right, warm lamp
-   glows inside the garage on the left and near the shelves. */
+html[data-resolved-theme="dark"] .lp-hero-night {
+  display: block;
+}
+
+/* Interior at night: warm lamp glows over the shelves and a gentle
+   moonlight wash across the floor (the doorway sky is drawn by the SVG). */
 html[data-resolved-theme="dark"] .lp-hero-light-shaft {
   background:
-    radial-gradient(ellipse 24% 26% at 15% 22%, rgba(255, 196, 110, 0.34) 0%, rgba(255, 196, 110, 0) 72%),
-    radial-gradient(ellipse 26% 30% at 41% 26%, rgba(255, 189, 100, 0.3) 0%, rgba(255, 189, 100, 0) 70%),
-    radial-gradient(ellipse 60% 52% at 34% 62%, rgba(255, 190, 105, 0.14) 0%, rgba(255, 190, 105, 0) 75%),
-    linear-gradient(75deg, rgba(10, 12, 20, 0) 55%, rgba(10, 14, 26, 0.42) 82%, rgba(8, 12, 24, 0.5) 100%),
-    linear-gradient(180deg, rgba(10, 9, 6, 0.05) 0%, rgba(10, 9, 6, 0.28) 78%, rgba(12, 10, 7, 0.42) 100%);
+    radial-gradient(ellipse 22% 24% at 15% 20%, rgba(255, 196, 110, 0.38) 0%, rgba(255, 196, 110, 0) 72%),
+    radial-gradient(ellipse 24% 28% at 40% 24%, rgba(255, 189, 100, 0.34) 0%, rgba(255, 189, 100, 0) 70%),
+    radial-gradient(ellipse 55% 40% at 30% 58%, rgba(255, 190, 105, 0.12) 0%, rgba(255, 190, 105, 0) 75%),
+    linear-gradient(180deg, rgba(10, 9, 6, 0.04) 0%, rgba(10, 9, 6, 0.24) 78%, rgba(12, 10, 7, 0.4) 100%);
 }
 
 html[data-resolved-theme="dark"] .lp-hero-copy::before {

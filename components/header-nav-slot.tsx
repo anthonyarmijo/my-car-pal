@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AppInfoNav, AppNav } from "@/components/app-nav";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeIconToggle, ThemeToggle } from "@/components/theme-toggle";
 import { logoutAction } from "@/app/login/actions";
 
 type HeaderNavSlotProps = {
@@ -60,7 +60,7 @@ export function HeaderNavSlot({ avatarUrl = null }: HeaderNavSlotProps) {
           <Link href="/diy">Resources</Link>
         </nav>
         <div className="landing-login-sign landing-login-sign-actions">
-          <ThemeToggle />
+          <ThemeIconToggle />
           <Link href="/login" className="landing-login-text-link">
             Log In
           </Link>
