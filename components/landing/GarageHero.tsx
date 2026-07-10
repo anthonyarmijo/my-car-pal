@@ -6,16 +6,18 @@ import { useEffect, useRef } from "react";
 const proofPoints = ["Free for one vehicle", "No ads, no data selling", "Export anytime"];
 
 /**
- * Full-viewport "sunlit garage" hero.
+ * Landing opener: an ambient highway loop up top, then the sunlit-garage
+ * scene fading in beneath it.
  *
- * The scene is layered so the vehicle stays a swappable foreground asset:
- * backdrop illustration → floor/stage plane → shadow → vehicle cutout →
- * floating UI cards. Any make/model cutout can be dropped onto the same
- * stage without re-integrating it into the background.
+ * The garage scene is layered so the vehicle stays a swappable foreground
+ * asset: photo backdrop → readability wash → floor stage + synthetic contact
+ * shadow → vehicle cutout → floating UI cards. Any make/model cutout can be
+ * dropped onto the same stage without re-integrating it into the background.
  *
- * Pointer parallax writes --lp-px / --lp-py custom properties consumed by
- * CSS transforms; it is disabled for prefers-reduced-motion and coarse
- * pointers.
+ * Pointer parallax (backdrop and cards only — the parked vehicle stays
+ * still) writes --lp-px / --lp-py custom properties consumed by CSS
+ * transforms; it is disabled for prefers-reduced-motion and coarse pointers,
+ * as is the highway video.
  */
 export function GarageHero() {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -24,47 +26,89 @@ export function GarageHero() {
     const scene = sceneRef.current;
     if (!scene) return;
 
+    const cleanups: Array<() => void> = [];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("landing-fade-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    observer.observe(scene);
+    cleanups.push(() => observer.disconnect());
+
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const finePointer = window.matchMedia("(pointer: fine)");
-    if (reducedMotion.matches || !finePointer.matches) return;
+    if (!reducedMotion.matches && finePointer.matches) {
+      let frame = 0;
+      let targetX = 0;
+      let targetY = 0;
 
-    let frame = 0;
-    let targetX = 0;
-    let targetY = 0;
+      const onPointerMove = (event: PointerEvent) => {
+        const rect = scene.getBoundingClientRect();
+        targetX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+        targetY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+        if (!frame) {
+          frame = window.requestAnimationFrame(() => {
+            frame = 0;
+            scene.style.setProperty("--lp-px", targetX.toFixed(3));
+            scene.style.setProperty("--lp-py", targetY.toFixed(3));
+          });
+        }
+      };
 
-    const onPointerMove = (event: PointerEvent) => {
-      const rect = scene.getBoundingClientRect();
-      targetX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-      targetY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-      if (!frame) {
-        frame = window.requestAnimationFrame(() => {
-          frame = 0;
-          scene.style.setProperty("--lp-px", targetX.toFixed(3));
-          scene.style.setProperty("--lp-py", targetY.toFixed(3));
-        });
-      }
-    };
+      const onPointerLeave = () => {
+        scene.style.setProperty("--lp-px", "0");
+        scene.style.setProperty("--lp-py", "0");
+      };
 
-    const onPointerLeave = () => {
-      scene.style.setProperty("--lp-px", "0");
-      scene.style.setProperty("--lp-py", "0");
-    };
+      scene.addEventListener("pointermove", onPointerMove);
+      scene.addEventListener("pointerleave", onPointerLeave);
+      cleanups.push(() => {
+        scene.removeEventListener("pointermove", onPointerMove);
+        scene.removeEventListener("pointerleave", onPointerLeave);
+        if (frame) window.cancelAnimationFrame(frame);
+      });
+    }
 
-    scene.addEventListener("pointermove", onPointerMove);
-    scene.addEventListener("pointerleave", onPointerLeave);
-    return () => {
-      scene.removeEventListener("pointermove", onPointerMove);
-      scene.removeEventListener("pointerleave", onPointerLeave);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
+    return () => cleanups.forEach((fn) => fn());
   }, []);
 
   return (
     <section className="lp-hero" aria-labelledby="lp-hero-title">
-      <div className="lp-hero-scene" ref={sceneRef}>
+      <div className="lp-road" aria-hidden="true">
+        <video
+          className="lp-road-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster="/images/landing/highway-poster.jpg"
+        >
+          <source src="/videos/highway-loop.mp4" type="video/mp4" />
+        </video>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/landing/highway-poster.jpg" alt="" className="lp-road-poster" />
+        <div className="lp-road-fade" />
+      </div>
+
+      <div className="lp-hero-scene lp-fade-up" ref={sceneRef}>
         <div className="lp-hero-backdrop" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/landing/garage-hero-scene.jpg" alt="" className="lp-hero-backdrop-art" />
+          <img
+            src="/images/landing/garage-hero-scene.jpg"
+            srcSet="/images/landing/garage-hero-scene-900.jpg 900w, /images/landing/garage-hero-scene.jpg 1672w"
+            sizes="100vw"
+            alt=""
+            fetchPriority="high"
+            className="lp-hero-backdrop-art"
+          />
           <div className="lp-hero-light-shaft" />
         </div>
 

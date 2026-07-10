@@ -57,7 +57,10 @@ Avoid futuristic or decorative display fonts.
 
 Structure (`app/page.tsx`, styles in `app/landing.css`, components in `components/landing/`):
 
-1. **Sunlit garage hero** (`GarageHero`) — full-viewport "living photograph": warm morning light,
+1. **Highway intro + sunlit garage hero** (`GarageHero`) — an ambient muted highway loop
+   (`public/videos/highway-loop.mp4`, poster fallback for reduced motion and loading) opens the
+   page, fading into the garage scene below, which rises in on first view. The garage is a
+   full-viewport "living photograph": warm morning light,
    bright open-door garage backdrop (`public/images/landing/garage-hero-scene.jpg`, an
    AI-generated photorealistic scene with no vehicle in it), organized shelves, plants, and the
    vehicle composited clearly in the foreground. Tagline, one supporting line, primary + secondary

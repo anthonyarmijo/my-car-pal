@@ -4172,31 +4172,44 @@ body:has(.landing-product-page) .app-main,
     min-width: 0;
   }
 
+  body:has(.landing-product-page) .brand-name {
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+
+  /* Compact single-row marketing header: logo left, Log In + Start Free right. */
   body:has(.landing-product-page) .app-header {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.6rem;
   }
 
   .landing-public-nav-wrap {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
-    margin-left: 0;
-    max-width: 22rem;
+    margin-left: auto;
     min-width: 0;
+    gap: 0;
+  }
+
+  body:has(.landing-product-page) .landing-login-sign .theme-toggle {
+    display: none;
   }
 
   body:has(.landing-product-page) .landing-login-sign-actions {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 0.55rem;
-    width: 100%;
+    gap: 0.4rem;
+    width: auto;
+    flex-wrap: nowrap;
   }
 
   body:has(.landing-product-page) .landing-login-text-link,
   body:has(.landing-product-page) .landing-try-now-link {
     min-width: 0;
-    padding-inline: 0.55rem;
+    min-height: 2.35rem;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
   }
 
   

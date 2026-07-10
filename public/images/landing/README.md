@@ -1,5 +1,16 @@
 # Landing image attribution
 
+`highway-poster.jpg` and `../../videos/highway-loop.mp4`
+
+- Source: https://coverr.co/videos/misty-mountain-road-journey
+- License: Coverr license (free for commercial use, no attribution required).
+- Notes: Ambient highway loop at the top of the landing hero (re-encoded to
+  1280w/CRF30); the poster frame is the reduced-motion and loading fallback.
+
+`garage-hero-scene-900.jpg`
+
+- Source: resized variant of `garage-hero-scene.jpg` (below) for small screens.
+
 `garage-hero-scene.jpg`
 
 - Source: AI-generated image (ChatGPT/DALL·E) created by the project owner for

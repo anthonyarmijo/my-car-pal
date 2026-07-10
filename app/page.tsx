@@ -4,6 +4,7 @@ import { DashboardReveal } from "@/components/landing/DashboardReveal";
 import { FeatureSection } from "@/components/landing/FeatureSection";
 import { PrivacySection } from "@/components/landing/PrivacySection";
 import { FinalCTA } from "@/components/landing/FinalCTA";
+import { SiteFooter } from "@/components/landing/SiteFooter";
 import "./landing.css";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function LandingPage() {
       <FeatureSection />
       <PrivacySection />
       <FinalCTA />
+      <SiteFooter />
     </div>
   );
 }
