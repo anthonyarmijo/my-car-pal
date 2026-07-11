@@ -6860,3 +6860,22 @@ body:has(.landing-product-page) .theme-icon-toggle:hover {
   background: rgba(252, 250, 242, 0.16);
   color: #ffffff;
 }
+
+/* Keep the marketing actions as translucent overlays in night mode too. */
+html[data-resolved-theme="dark"] body:has(.landing-product-page) .landing-login-text-link,
+html[data-resolved-theme="dark"] body:has(.landing-product-page) .landing-try-now-link {
+  border: 1px solid rgba(240, 241, 235, 0.5);
+  background: rgba(12, 17, 20, 0.2);
+  background-color: rgba(12, 17, 20, 0.2) !important;
+  color: #F5F4EC;
+  box-shadow: none;
+  backdrop-filter: blur(10px);
+}
+
+html[data-resolved-theme="dark"] body:has(.landing-product-page) .landing-login-text-link:hover,
+html[data-resolved-theme="dark"] body:has(.landing-product-page) .landing-try-now-link:hover {
+  border-color: rgba(255, 255, 255, 0.82);
+  background: rgba(12, 17, 20, 0.34);
+  background-color: rgba(12, 17, 20, 0.34) !important;
+  color: #ffffff;
+}

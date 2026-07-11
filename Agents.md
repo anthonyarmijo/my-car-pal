@@ -48,10 +48,18 @@ Default new core work should avoid requiring Vercel, Neon, Vercel Blob, Stripe, 
   - light warm top nav with sage active states
   - stone/sand borders, warm graphite text
   - muted amber/clay for warnings, sage only for positive/success states
-  - preferred tagline: "Take care of your car. We'll handle the rest."
-  - landing hero: sunlit garage scene with the vehicle as a composited foreground
-    cutout on a reusable stage/shadow plane (never baked into the scene art)
-  - motion: subtle ambient parallax/float only, always honoring prefers-reduced-motion
+  - preferred tagline: "Take care of your car. We'll handle the rest." (lives on the
+    landing's highway film opener and the closing CTA)
+  - landing structure: full-viewport muted highway film with a transparent overlay
+    header (centered logo, sun/moon theme icon), then an intentionally empty sunlit
+    garage scene, then a browser-framed dashboard preview where the vehicle appears
+  - vehicle imagery is always a composited foreground cutout on a reusable
+    stage/shadow plane (never baked into scene art); the garage hero itself stays
+    vehicle-free
+  - theming: system preference by default with a manual sun/moon override on the
+    landing; dark mode is theme-matched (photographic night-garage scene, dark
+    dashboard preview palette, sage accent), not just dimmed
+  - motion: subtle ambient parallax/fades only, always honoring prefers-reduced-motion
 - Keep navigation and section structure consistent across app pages.
 - Maintain playful/friendly touches without sacrificing clarity.
 - Tone: neutral, trustworthy, practical, empowering.

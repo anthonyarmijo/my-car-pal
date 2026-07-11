@@ -18,13 +18,19 @@
 /* ---------- Hero: highway loop into the sunlit garage ---------- */
 
 .lp-hero {
+  position: relative;
   margin: 0 -1.5rem;
 }
 
 /* Full-viewport highway opener: the loop owns the first screen, and the
    garage scene only appears once the user scrolls (or taps the arrow). */
 .lp-road {
-  position: relative;
+  --lp-road-scale: 1;
+  --lp-road-copy-opacity: 1;
+  --lp-road-shade-opacity: 0;
+  position: sticky;
+  top: 0;
+  z-index: 0;
   height: 100svh;
   min-height: 30rem;
   overflow: hidden;
@@ -39,7 +45,9 @@
   object-fit: cover;
   object-position: center 62%;
   /* Warm grade so the cool misty footage sits in the cream/moss palette. */
-  filter: sepia(0.28) hue-rotate(-8deg) saturate(1.12) brightness(1.04) contrast(0.98);
+  filter: sepia(0.24) hue-rotate(-8deg) saturate(1.1) brightness(1.12) contrast(0.97);
+  transform: scale(var(--lp-road-scale));
+  transition: transform 80ms linear;
 }
 
 .lp-road-poster {
@@ -53,7 +61,16 @@
   inset: 0;
   background:
     linear-gradient(180deg, rgba(240, 184, 92, 0.08) 0%, rgba(240, 184, 92, 0.04) 45%, rgba(240, 184, 92, 0) 70%),
-    linear-gradient(180deg, rgba(20, 18, 14, 0) 55%, rgba(20, 18, 14, 0.22) 100%);
+    linear-gradient(180deg, rgba(20, 18, 14, 0) 88%, rgba(20, 18, 14, 0.12) 94%, rgba(255, 255, 255, 0.72) 100%);
+  pointer-events: none;
+}
+
+.lp-road::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #101714;
+  opacity: var(--lp-road-shade-opacity);
   pointer-events: none;
 }
 
@@ -70,6 +87,8 @@
   letter-spacing: -0.015em;
   color: #FCFAF2;
   text-shadow: 0 2px 22px rgba(20, 18, 14, 0.55);
+  opacity: var(--lp-road-copy-opacity);
+  transition: opacity 80ms linear;
 }
 
 .lp-road-arrow {
@@ -88,6 +107,7 @@
   color: #FCFAF2;
   animation: lp-arrow-nudge 2.4s ease-in-out infinite;
   transition: background-color 160ms ease, border-color 160ms ease;
+  opacity: var(--lp-road-copy-opacity);
 }
 
 .lp-road-arrow:hover {
@@ -120,36 +140,32 @@
   }
 }
 
-/* Breathing room between the video and the garage: blends from white into
-   the scene's cream so no bare rectangle is left behind, with a quiet green
-   thread guiding the eye down. */
+/* The garage overlaps the final slice of the road. Masking its top edge makes
+   the two photographs crossfade instead of placing a flat cream band between
+   them. */
 .lp-road-gap {
   position: relative;
-  height: clamp(8rem, 24vh, 14rem);
-  background: linear-gradient(180deg, #ffffff 0%, #FCF8EE 55%, #FAF4E7 100%);
+  z-index: 0;
+  height: clamp(14rem, 42vh, 24rem);
 }
 
 .lp-road-gap::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 18%;
-  bottom: 18%;
-  width: 2px;
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(56, 98, 76, 0) 0%, rgba(56, 98, 76, 0.32) 50%, rgba(56, 98, 76, 0) 100%);
+  content: none;
 }
 
 .lp-hero-scene {
   --lp-px: 0;
   --lp-py: 0;
   position: relative;
+  z-index: 1;
   overflow: hidden;
   min-height: min(92vh, 60rem);
   display: grid;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, #FAF4E7 0%, #F3EAD6 100%);
+  margin-top: clamp(-5rem, -8vh, -3.5rem);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.35) 24px, #000 clamp(3.5rem, 8vh, 5rem));
+  mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.35) 24px, #000 clamp(3.5rem, 8vh, 5rem));
 }
 
 .lp-hero-scene.lp-fade-up {
@@ -167,6 +183,16 @@
   pointer-events: none;
 }
 
+.lp-hero-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: soft-light;
+}
+
 .lp-hero-backdrop-art {
   position: absolute;
   inset: 0;
@@ -176,6 +202,7 @@
   object-position: center bottom;
   transform: translate3d(calc(var(--lp-px) * -8px), calc(var(--lp-py) * -4px), 0) scale(1.03);
   transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  filter: saturate(0.9) hue-rotate(3deg) brightness(0.99) contrast(1.025);
 }
 
 .lp-hero-night {
@@ -1268,12 +1295,23 @@ html[data-resolved-theme="dark"] body:has(.landing-product-page) .app-bg {
   background: #131109;
 }
 
+html[data-resolved-theme="dark"] .lp-road-video,
+html[data-resolved-theme="dark"] .lp-road-poster {
+  filter: sepia(0.1) hue-rotate(-4deg) saturate(0.84) brightness(0.62) contrast(1.1);
+}
+
+html[data-resolved-theme="dark"] .lp-road-fade {
+  background:
+    linear-gradient(180deg, rgba(10, 13, 12, 0.22) 0%, rgba(10, 13, 12, 0.1) 48%, rgba(10, 13, 12, 0.2) 72%),
+    linear-gradient(180deg, rgba(8, 9, 8, 0) 82%, rgba(8, 9, 8, 0.32) 94%, rgba(19, 17, 9, 0.92) 100%);
+}
+
 html[data-resolved-theme="dark"] .lp-road-gap {
-  background: linear-gradient(180deg, #131109 0%, #17140d 60%, #1b1710 100%);
+  background: transparent;
 }
 
 html[data-resolved-theme="dark"] .lp-road-gap::after {
-  background: linear-gradient(180deg, rgba(159, 199, 171, 0) 0%, rgba(159, 199, 171, 0.35) 50%, rgba(159, 199, 171, 0) 100%);
+  background: linear-gradient(180deg, rgba(159, 199, 171, 0) 0%, rgba(159, 199, 171, 0.3) 50%, rgba(159, 199, 171, 0) 100%);
 }
 
 html[data-resolved-theme="dark"] .lp-hero-scene {
@@ -1282,21 +1320,16 @@ html[data-resolved-theme="dark"] .lp-hero-scene {
 }
 
 html[data-resolved-theme="dark"] .lp-hero-backdrop-art {
-  filter: brightness(0.52) saturate(0.82) contrast(1.14) hue-rotate(-4deg);
+  content: url("/images/landing/garage-hero-scene-night-neutral.png");
+  filter: none;
 }
 
-html[data-resolved-theme="dark"] .lp-hero-night {
-  display: block;
-}
-
-/* Interior at night: warm lamp glows over the shelves and a gentle
-   moonlight wash across the floor (the doorway sky is drawn by the SVG). */
+/* The night photo already has the interior and exterior lighting. Keep only a
+   light vignette here so the scene retains photographic depth. */
 html[data-resolved-theme="dark"] .lp-hero-light-shaft {
   background:
-    radial-gradient(ellipse 22% 24% at 15% 20%, rgba(255, 196, 110, 0.38) 0%, rgba(255, 196, 110, 0) 72%),
-    radial-gradient(ellipse 24% 28% at 40% 24%, rgba(255, 189, 100, 0.34) 0%, rgba(255, 189, 100, 0) 70%),
-    radial-gradient(ellipse 55% 40% at 30% 58%, rgba(255, 190, 105, 0.12) 0%, rgba(255, 190, 105, 0) 75%),
-    linear-gradient(180deg, rgba(10, 9, 6, 0.04) 0%, rgba(10, 9, 6, 0.24) 78%, rgba(12, 10, 7, 0.4) 100%);
+    radial-gradient(ellipse 70% 60% at 50% 75%, rgba(10, 8, 5, 0) 35%, rgba(10, 8, 5, 0.16) 100%),
+    linear-gradient(180deg, rgba(10, 8, 5, 0.02) 0%, rgba(10, 8, 5, 0.18) 100%);
 }
 
 html[data-resolved-theme="dark"] .lp-hero-copy::before {
@@ -1327,35 +1360,161 @@ html[data-resolved-theme="dark"] .lp-owners-line {
 html[data-resolved-theme="dark"] .lp-feature-card,
 html[data-resolved-theme="dark"] .lp-privacy-card,
 html[data-resolved-theme="dark"] .lp-reveal-stat,
-html[data-resolved-theme="dark"] .lp-reveal-panel,
-html[data-resolved-theme="dark"] .lp-privacy-inner,
-html[data-resolved-theme="dark"] .lp-reveal::before {
-  display: none;
+html[data-resolved-theme="dark"] .lp-reveal-panel {
+  border-color: var(--line);
+  background: var(--surface);
 }
 
+html[data-resolved-theme="dark"] .lp-privacy-inner {
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line) 62%);
+  background:
+    radial-gradient(ellipse 60% 80% at 12% 0%, rgba(92, 129, 100, 0.2) 0%, rgba(92, 129, 100, 0) 70%),
+    var(--surface);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal::before {
+  display: block;
+  background:
+    linear-gradient(180deg, rgba(19, 17, 9, 0.94) 0%, rgba(19, 17, 9, 0.72) 38%, rgba(19, 17, 9, 0.95) 100%),
+    url("/images/landing/garage-hero-scene-night-neutral.png") center 72% / cover no-repeat;
+}
+
+/* Full dark treatment for the browser chrome and dashboard preview. */
 html[data-resolved-theme="dark"] .lp-reveal-frame {
-  background: var(--surface);
-  border-color: var(--line);
+  color: #ECE9DF;
+  background: #171819;
+  border-color: #414346;
+  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.42);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-tabbar {
+  background: #242628;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-tab {
+  color: #E4E6E1;
+  background: #33363A;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-tab svg {
+  stroke: #9EA6A0;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-newtab,
+html[data-resolved-theme="dark"] .lp-reveal-navbtns,
+html[data-resolved-theme="dark"] .lp-reveal-chrome-end {
+  color: #A7AEA9;
 }
 
 html[data-resolved-theme="dark"] .lp-reveal-body {
-  background: var(--surface);
+  color: #ECE9DF;
+  background: linear-gradient(180deg, #191B1D 0%, #131517 100%);
 }
 
 html[data-resolved-theme="dark"] .lp-reveal-chrome {
-  background: var(--surface-quiet);
-  border-bottom-color: var(--line);
+  background: #303337;
+  border-bottom-color: #414346;
 }
 
 html[data-resolved-theme="dark"] .lp-reveal-address {
-  background: var(--surface);
-  border-color: var(--line);
-  color: var(--muted);
+  background: #1D1F22;
+  border-color: #414346;
+  color: #C7CDC8;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-address svg,
+html[data-resolved-theme="dark"] .lp-reveal-address .lp-reveal-star {
+  color: #8F9992;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-side {
+  border-right-color: #36393D;
+  background: #16181A;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-side-brand {
+  color: #F0EDE3;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-nav-item {
+  color: #AAB0AB;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-nav-item.is-active {
+  color: #CAD8DF;
+  background: #303840;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-side-user {
+  border-top-color: #36393D;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-avatar {
+  color: #CAD8DF;
+  background: #303840;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-side-user small,
+html[data-resolved-theme="dark"] .lp-reveal-topbar small,
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li small,
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li em,
+html[data-resolved-theme="dark"] .lp-reveal-next em,
+html[data-resolved-theme="dark"] .lp-reveal-vehicle-copy > small,
+html[data-resolved-theme="dark"] .lp-reveal-stat span,
+html[data-resolved-theme="dark"] .lp-reveal-panel p {
+  color: #A9AFA9;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-alert-chip,
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li em.is-due {
+  color: #E7C990;
+  background: #352A19;
+  border-color: rgba(210, 164, 83, 0.28);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li em {
+  background: #2A2D30;
 }
 
 html[data-resolved-theme="dark"] .lp-reveal-vehicle {
-  background: var(--surface-quiet);
-  border-color: var(--line);
+  background:
+    radial-gradient(ellipse 70% 90% at 85% 20%, rgba(125, 143, 154, 0.12) 0%, rgba(125, 143, 154, 0) 70%),
+    #202326;
+  border-color: #3E4246;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li,
+html[data-resolved-theme="dark"] .lp-reveal-stat,
+html[data-resolved-theme="dark"] .lp-reveal-panel {
+  color: #ECE9DF;
+  border-color: #3E4246;
+  background: #202326;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-stat strong {
+  color: #AFC3CD;
+}
+
+html[data-resolved-theme="dark"] .lp-pill {
+  color: #C6D5DC;
+  background: #2C353B;
+  border-color: #46545C;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li svg {
+  stroke: #C89570;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-next {
+  border-left-color: #B9825D;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-next small {
+  color: #D4B271;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-stage .lp-vehicle-cutout {
+  filter: brightness(0.86) saturate(0.88);
 }
 
 html[data-resolved-theme="dark"] .lp-feature-card p,

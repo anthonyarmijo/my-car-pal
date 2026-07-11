@@ -4,8 +4,10 @@
 
 - Source: https://coverr.co/videos/misty-mountain-road-journey
 - License: Coverr license (free for commercial use, no attribution required).
-- Notes: Ambient highway loop at the top of the landing hero (re-encoded to
-  1280w/CRF30); the poster frame is the reduced-motion and loading fallback.
+- Notes: Full-viewport highway film that opens the landing page (720p source,
+  re-encoded at CRF21 with light sharpening); the poster frame is the
+  reduced-motion and loading fallback. Warm/dark color grading is applied in
+  CSS per theme.
 
 `garage-hero-scene-900.jpg`
 
@@ -20,10 +22,26 @@
   part of this scene; it is composited as a separate foreground cutout on a
   stage plane (see `docs/design/warm-scandinavian-garage.md`).
 
+`garage-hero-scene-night-neutral.png` and `garage-hero-scene-night.png`
+
+- Source: AI-generated images (ChatGPT/DALL·E) created by the project owner for
+  My Car Pal; owner holds usage rights per OpenAI terms.
+- Notes: Nighttime variants of the garage scene for dark mode. The current
+  landing uses `-night-neutral` (neutral interior lighting); `-night` is a
+  warmer alternate take kept for comparison. Like the daylight scene, neither
+  contains a vehicle.
+
+`hero-placeholder.svg`
+
+- Source: Original My Car Pal placeholder illustration.
+- Notes: Legacy asset from the pre-redesign landing; not used by the current
+  landing page.
+
 `camry-preview.svg`
 
 - Source: Original My Car Pal product preview illustration.
-- Notes: Local vector vehicle asset for the landing dashboard preview.
+- Notes: Legacy asset from the pre-redesign landing; not used by the current
+  landing page.
 
 `toyota-camry-le-2020.jpg`
 
@@ -31,7 +49,8 @@
 - Author: Lvity
 - License: Creative Commons Attribution-Share Alike 4.0 International
 - License URL: https://creativecommons.org/licenses/by-sa/4.0/
-- Notes: Development landing-page placeholder image for the dashboard vehicle preview.
+- Notes: Legacy development placeholder from the pre-redesign landing; still
+  referenced by the default vehicle image catalog data, not by the landing page.
 
 `vehicle-cutout-tacoma.png`
 

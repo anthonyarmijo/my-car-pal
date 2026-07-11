@@ -32,3 +32,5 @@ infra/terraform/envs/*/terraform.tfvars
 # Codex CLI
 .codex/
 tsconfig.tsbuildinfo
+.codegraph
+.codebase-memory/

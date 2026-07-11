@@ -1,5 +1,46 @@
 # Changelog
 
+## 2026-07-10
+- Added a sticky, scroll-driven highway handoff that gently zooms and dims the
+  footage before the garage rises through the crossfade.
+- Replaced the landing hero's rigid separator with a short overlapping image
+  crossfade, subtly cooled and textured the daytime garage photography, and
+  removed the redundant "Your digital garage" eyebrow.
+- Refined the night landing experience with more neutral garage lighting, a
+  softer highway-to-garage fade, a greyer dashboard palette, and a slight
+  dark-mode video exposure lift.
+- Shortened the original linear highway-to-garage fade so it retains its
+  stronger finish without reaching as far up the video while scrolling.
+
+## 2026-07-09
+- Fixed dark-mode landing rendering so the dashboard preview keeps its complete
+  layout and all feature, privacy, closing CTA, and footer content remain
+  visible.
+- Updated the landing header actions to use matching translucent dark-mode
+  treatment.
+- Added a complete dark palette to the landing dashboard/browser preview and
+  adjusted the highway video exposure separately for light and dark themes.
+- Replaced the flat blue dark-mode garage overlay with a dedicated
+  photographic night-garage scene and warm, realistic outdoor lighting.
+- Restructured the landing opener: the highway film (restored from the
+  pre-redesign hero, re-encoded and warm-graded) now fills the first viewport
+  edge-to-edge with the tagline and a scroll-cue arrow, under a transparent
+  Porsche-style header with a centered logo, white nav links, and transparent
+  Log In / outlined Start Free actions.
+- Made the garage scene intentionally vehicle-free with the "Your digital
+  garage" copy centered over the clean floor; the composited vehicle cutout now
+  appears only in the dashboard preview and the signed-in Home page.
+- Rebuilt the dashboard preview as a realistic neutral-gray browser mockup
+  (tab strip, toolbar, padlocked address bar) around a product shell with left
+  sidebar navigation, greeting bar, Upcoming list, stats, and health/activity
+  panels.
+- Replaced the three-way theme selector on the landing header with a single
+  system-default sun/moon icon toggle.
+- Landing polish pass: moss-green line icons on feature cards, a site footer
+  with product/company/trust links, a compact single-row mobile header, a
+  responsive hero image with high fetch priority, and "Built for owners, not
+  dealerships." under the feature grid.
+
 ## 2026-07-08
 - Adopted the "Warm Scandinavian Garage" visual direction across the landing
   page and app shell: warm off-white/cream surfaces, moss/forest green accents,

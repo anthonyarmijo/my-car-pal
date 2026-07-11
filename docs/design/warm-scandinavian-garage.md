@@ -17,8 +17,9 @@ but not pretentious.
 
 > **Take care of your car. We'll handle the rest.**
 
-Use this as the primary hero headline and closing CTA. Tone stays neutral, trustworthy, practical,
-and empowering.
+The tagline lives on the highway film that opens the page and is restated on the closing CTA
+strip; the garage scene beneath carries the product-focused heading instead. Tone stays neutral,
+trustworthy, practical, and empowering.
 
 ## Palette
 
@@ -40,8 +41,18 @@ sage for success.
 
 Dark green is an **accent, not a dominant background**. The only intentionally green-dominant
 surface is the final landing CTA strip. Do not introduce a dark green primary pane in the app
-shell; the preferred direction is lighter and brighter. Dark mode remains supported as a secondary
-theme with a soft sage accent (`#9FC7AB`).
+shell; the preferred direction is lighter and brighter.
+
+### Theming
+
+The theme defaults to the **system preference**; the landing header exposes a single sun/moon
+icon that shows the theme you would switch *to* and, when clicked, moves from system-following to
+an explicit manual choice. Dark mode is theme-matched rather than merely dimmed: the garage
+backdrop swaps to a photographic night scene
+(`public/images/landing/garage-hero-scene-night-neutral.png`), the highway film gets its own
+exposure treatment per theme, the dashboard/browser preview carries a complete dark palette, and
+the accent softens to sage (`#9FC7AB`). The signed-in app keeps the three-way
+Auto/Light/Dark toggle.
 
 Design-system note: `@my-car-pal/ui` token *names* still live under the `desert-graphite` manifest
 for compatibility; `moss.600` / `forest.700` primitives now back `action.primary` /
@@ -57,22 +68,28 @@ Avoid futuristic or decorative display fonts.
 
 Structure (`app/page.tsx`, styles in `app/landing.css`, components in `components/landing/`):
 
-1. **Highway intro + sunlit garage hero** (`GarageHero`) — an ambient muted highway loop
-   (`public/videos/highway-loop.mp4`, poster fallback for reduced motion and loading) opens the
-   page, fading into the garage scene below, which rises in on first view. The garage is a
-   full-viewport "living photograph": warm morning light,
-   bright open-door garage backdrop (`public/images/landing/garage-hero-scene.jpg`, an
-   AI-generated photorealistic scene with no vehicle in it), organized shelves, plants, and the
-   vehicle composited clearly in the foreground. Tagline, one supporting line, primary + secondary
-   CTA, and three proof points. Deliberately structured in layers (backdrop img → readability
-   wash → vehicle stage → floating cards) so a video loop or seasonal variant can replace the
-   backdrop later without touching anything else.
-2. **Dashboard reveal** (`DashboardReveal`, `#product`) — as the user scrolls, the digital garage
-   rises out of the garage scene: primary vehicle, next service, health, activity, stats.
-3. **Features** (`FeatureSection`, `#features`) — six concise, visual cards. No walls of text.
-4. **Privacy / ownership** (`PrivacySection`, `#privacy`) — trustworthy, not alarmist. Mentions
+1. **Highway film opener** (in `GarageHero`) — a full-viewport muted highway loop
+   (`public/videos/highway-loop.mp4`, poster fallback for reduced motion and loading) owns the
+   first screen, with the tagline overlaid and a bouncing scroll-cue arrow. The site header sits
+   transparently on top of the film, Porsche-style: centered logo lockup, quiet white nav links
+   left, the sun/moon theme icon plus transparent Log In / outlined Start Free pills right.
+2. **Sunlit garage scene** (`#garage`) — after a short crossfade band, the garage rises in: a
+   photorealistic open-door garage "living photograph"
+   (`public/images/landing/garage-hero-scene.jpg` by day, the night variant in dark mode) with
+   **no vehicle in it** — deliberately open, quiet space. The copy sits centered over the clean
+   floor: "Your digital garage / Everything about your car, in one calm place.", a
+   dashboard-focused supporting line, primary + secondary CTA, and three proof points behind a
+   soft local scrim. Subtle pointer parallax moves the backdrop only.
+3. **Dashboard reveal** (`DashboardReveal`, `#product`) — a realistic neutral-gray browser mockup
+   (tab strip, toolbar, padlocked address bar) framing the product shell: left sidebar navigation,
+   greeting bar, primary-vehicle card with the composited cutout, Upcoming list, stats, and
+   health/activity panels. This is where the vehicle appears — it reads as *your car in the app*.
+4. **Features** (`FeatureSection`, `#features`) — six concise cards with moss-green line icons,
+   closed by "Built for owners, not dealerships." No walls of text.
+5. **Privacy / ownership** (`PrivacySection`, `#privacy`) — trustworthy, not alarmist. Mentions
    self-hosting and the managed cloud option calmly.
-5. **Final CTA** (`FinalCTA`) — tagline restated on the deep forest strip.
+6. **Final CTA + footer** (`FinalCTA`, `SiteFooter`) — tagline restated on the deep forest strip,
+   then a quiet footer with product/company/trust links.
 
 ## Vehicle image compositing constraint
 
@@ -83,24 +100,28 @@ motorcycles), possibly vectorized or cut out. Therefore:
   onto a clean stage/floor plane.
 - The shadow is **synthetic and reusable** (a soft radial-gradient ellipse on the stage), so any
   cutout can be swapped in without retouching the background.
-- Implemented as the `lp-vehicle-stage` / `lp-vehicle-shadow` / `lp-vehicle-cutout` pattern on the
-  landing page and `.home-primary-vehicle-media::after` on the Home dashboard.
+- Implemented as the `lp-vehicle-stage` / `lp-vehicle-shadow` / `lp-vehicle-cutout` pattern in the
+  landing dashboard preview and `.home-primary-vehicle-media::after` on the Home dashboard. The
+  garage hero itself is intentionally vehicle-free — the empty scene is the point, and the car
+  shows up inside the product preview instead.
 - Current placeholder asset: `public/images/landing/vehicle-cutout-tacoma.png` (see `Agents.md`
   imagery milestone).
 
 ## Motion principles
 
-Subtle, tasteful, ambient — a living photo, never a flashy marketing video.
+Subtle, tasteful, ambient — a living photo, not a flashy marketing reel.
 
-- Pointer parallax on the hero (backdrop, vehicle, floating cards move a few pixels on
-  `--lp-px`/`--lp-py` custom properties).
-- Gentle float on the hero proof cards; soft fade/rise on section entry (IntersectionObserver via
-  `useFadeIn`).
-- Small hover responses (1–3px lift) on cards and buttons.
+- One ambient film: the muted, warm-graded highway loop at the top (autoplay, no audio, poster
+  fallback under `prefers-reduced-motion`).
+- Pointer parallax on the garage backdrop only (a few pixels on `--lp-px`/`--lp-py` custom
+  properties); the scene's content stays still.
+- Soft fade/rise on section entry (IntersectionObserver via `useFadeIn`); the garage scene uses a
+  longer ~1.2s rise after a deliberate breathing-space band below the film.
+- A gently nudging scroll-cue arrow on the film; small hover responses (1–3px lift) on cards and
+  buttons.
 - **Every** transform, transition, and animation is disabled under `prefers-reduced-motion`;
   parallax is also skipped for coarse pointers.
-- No autoplaying video, no scroll-jacking, no large parallax distances, no attention-grabbing
-  loops.
+- No scroll-jacking, no large parallax distances, no attention-grabbing loops.
 
 ## Accessibility principles
 
@@ -112,7 +133,8 @@ Subtle, tasteful, ambient — a living photo, never a flashy marketing video.
 - Semantic landmarks: sections are labelled with `aria-labelledby`; decorative scene art and the
   vehicle cutout use empty `alt` and `aria-hidden`.
 - Reduced-motion support as above.
-- No text baked into imagery; the hero scene SVG is purely decorative.
+- No text baked into imagery; scene photography and the film are purely decorative
+  (`aria-hidden`, empty `alt`).
 
 ## Privacy-forward tone
 
@@ -123,9 +145,11 @@ makes, never as the default that harvests data.
 ## Future enhancements (wishlist)
 
 - **Seasonal hero**: the garage scene shifts with the seasons (light angle, foliage outside the
-  window, small props). The layered SVG backdrop + CSS light overlay was built so a seasonal or
-  time-of-day variant can be swapped in without touching the vehicle stage or copy. Not scheduled.
-- Replace the static hero backdrop with a slow ambient video loop (same composition).
+  door, small props). The layered structure (backdrop image → wash → copy) means a seasonal
+  variant is just another image swap — the day/night pair in dark mode already proves the
+  mechanism. Not scheduled.
+- Higher-resolution highway footage: the current Coverr source is 720p; a 1080p+ clip (or a
+  generated golden-hour loop matched to the palette) would sharpen the opener.
 - Vehicle image library keyed by year/make/model/trim/body style (see `Agents.md`).
 - Rename the `desert-graphite` token manifest to a warm-garage name once downstream consumers are
   ready.

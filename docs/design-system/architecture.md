@@ -67,10 +67,10 @@ resulting layered `mcp-*` and legacy styles have been browser-reviewed.
 ## Tokens
 
 The package exports `@my-car-pal/ui/styles.css`, which includes:
-- graphite navigation neutrals
-- porcelain/white surfaces
-- tobacco/copper primary actions
-- sand/taupe borders
+- warm porcelain/cream surfaces
+- moss/forest green primary actions (Warm Scandinavian Garage direction;
+  legacy tobacco/copper primitives are retained for compatibility)
+- sand/taupe borders and graphite text neutrals
 - muted blue-gray secondary states
 - sage success states only
 - warning and error tones for validation and due-state messaging
