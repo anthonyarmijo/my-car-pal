@@ -1,6 +1,43 @@
 # Changelog
 
+## 2026-07-12
+- Restored the forest-highway film's original color and upgraded the landing
+  asset and reduced-motion poster from a fresh 1080p source download, replacing
+  the earlier 720p-derived warm grade with neutral handoff shading and a subtle,
+  hue-preserving saturation and contrast lift plus a faint green-biased canopy
+  treatment that gives the trees more presence without an aggressive grade.
+- Tightened the landing dashboard sample into a shorter, more focused preview,
+  kept its compact navigation visible at tablet widths, added sage and cool-stone
+  surface variation, and grounded the Subaru on a subtle simulated floor plane.
+- Added a privacy-themed scroll reveal that clears a scrambled pixel mosaic and
+  sharpens the ownership commitments as the section enters view, while honoring
+  reduced-motion preferences.
+
 ## 2026-07-10
+- Updated the landing dashboard preview with an Autumn Green Subaru Outback
+  Wilderness photo cutout, including a lightweight transparent WebP and
+  source attribution.
+- Refreshed the landing dashboard preview around the new owner-command-center
+  concept: it now shows a quieter garage sidebar, saved-state top bar, Outback
+  vehicle card, complete upcoming list, concise health summary, and recent
+  activity in both light and dark themes.
+- Replaced the preview vehicle with a local transparent Autumn Green 2023
+  Subaru Outback Wilderness cutout. The credited CC BY-SA source and the
+  background-removal modification are recorded with the landing assets.
+- Added a dashboard mockup mapping document for the later authenticated-page
+  redesign; the real Home, Garage, Maintenance, Glovebox, DIY, and Profile
+  routes remain unchanged in this pass.
+- Moved the Start free / See how it works buttons and the proof points from
+  the garage scene to sit centered under the dashboard preview, leaving the
+  garage copy as a quiet headline; "See how it works" now scrolls to the
+  features section.
+- Fixed the highway video's sticky pin (a shell `overflow: hidden` was
+  disabling it), so the garage scene now genuinely crossfades over the
+  still-playing footage instead of leaving a blank band after the video.
+- Added a scroll-driven color journey to the handoff: the footage grades
+  toward warm dusk as you scroll and a soft garage-light glow blooms along
+  the crossfade seam (lamplight amber at night); the loop also pauses
+  automatically once scrolled out of view.
 - Added a sticky, scroll-driven highway handoff that gently zooms and dims the
   footage before the garage rises through the crossfade.
 - Replaced the landing hero's rigid separator with a short overlapping image

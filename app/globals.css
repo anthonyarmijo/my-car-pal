@@ -4663,9 +4663,12 @@ html[data-resolved-theme="dark"] .app-logo {
 /* ── Keyframe animations ── */
 
 
-/* ── Landing shell: marketing header stays visible above the sunlit hero ── */
+/* ── Landing shell: marketing header stays visible above the sunlit hero ──
+   clip (not hidden) so the shell still contains full-bleed landing layers
+   without creating a scroll container — position: sticky on the hero video
+   only works with clip. */
 body:has(.landing-product-page) .app-shell {
-  overflow: hidden;
+  overflow: clip;
 }
 
 

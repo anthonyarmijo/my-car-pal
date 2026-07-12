@@ -1,9 +1,6 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef } from "react";
-
-const proofPoints = ["Free for one vehicle", "No ads, no data selling", "Export anytime"];
 
 /**
  * Landing opener: a full-viewport highway loop, then the empty sunlit-garage
@@ -51,11 +48,17 @@ export function GarageHero() {
       const updateRoadProgress = () => {
         scrollFrame = 0;
         const holdDistance = Math.max(window.innerHeight * 0.42, 224);
-        const progress = Math.min(1, Math.max(0, (window.scrollY - hero.offsetTop) / holdDistance));
+        const scrolled = window.scrollY - hero.offsetTop;
+        const progress = Math.min(1, Math.max(0, scrolled / holdDistance));
+        // The handoff ramp runs until the garage scene's mask edge crosses the
+        // footage, so the seam glow peaks exactly at the crossfade.
+        const handoffDistance = Math.max(scene.offsetTop - hero.offsetTop, holdDistance);
+        const handoff = Math.min(1, Math.max(0, scrolled / handoffDistance));
 
         road.style.setProperty("--lp-road-scale", (1 + progress * 0.045).toFixed(4));
         road.style.setProperty("--lp-road-copy-opacity", (1 - progress * 0.72).toFixed(3));
-        road.style.setProperty("--lp-road-shade-opacity", (progress * 0.24).toFixed(3));
+        road.style.setProperty("--lp-road-shade-opacity", (progress * 0.45).toFixed(3));
+        hero.style.setProperty("--lp-handoff", handoff.toFixed(3));
       };
 
       const onScroll = () => {
@@ -70,6 +73,21 @@ export function GarageHero() {
         window.removeEventListener("resize", onScroll);
         if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
       });
+
+      // The pinned loop keeps painting behind the garage scene; stop it once
+      // the road leaves the viewport and resume when it returns.
+      const video = road.querySelector("video");
+      if (video) {
+        const videoObserver = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+        videoObserver.observe(road);
+        cleanups.push(() => videoObserver.disconnect());
+      }
     }
 
     if (!reducedMotion.matches && finePointer.matches) {
@@ -157,19 +175,6 @@ export function GarageHero() {
               Step out of the garage and into a dashboard that keeps maintenance, reminders, and
               records quietly organized.
             </p>
-            <div className="lp-hero-cta-row">
-              <Link href="/register" className="lp-btn lp-btn-primary">
-                Start free
-              </Link>
-              <a href="#product" className="lp-btn lp-btn-ghost">
-                See how it works
-              </a>
-            </div>
-            <ul className="lp-hero-proof" aria-label="Highlights">
-              {proofPoints.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>

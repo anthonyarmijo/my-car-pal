@@ -4,10 +4,12 @@
 
 - Source: https://coverr.co/videos/misty-mountain-road-journey
 - License: Coverr license (free for commercial use, no attribution required).
-- Notes: Full-viewport highway film that opens the landing page (720p source,
-  re-encoded at CRF21 with light sharpening); the poster frame is the
-  reduced-motion and loading fallback. Warm/dark color grading is applied in
-  CSS per theme.
+- Notes: Full-viewport highway film that opens the landing page, re-encoded
+  from the original 1080p Coverr download at H.264 CRF22 with fast-start
+  metadata. The poster frame is the reduced-motion and loading fallback. The
+  source color is preserved with a restrained saturation/contrast lift and a
+  faint green-biased canopy overlay; dark mode applies a subtler version at a
+  lower exposure.
 
 `garage-hero-scene-900.jpg`
 
@@ -56,6 +58,15 @@
 
 - Source: My Car Pal local development placeholder.
 - Notes: Temporary Tacoma cutout used by landing previews and the starter default vehicle image catalog until licensed model-specific assets are added.
+
+`vehicle-cutout-subaru-outback-wilderness.png` and `vehicle-cutout-subaru-outback-wilderness.webp`
+
+- Source: https://commons.wikimedia.org/wiki/File:2023_Subaru_Outback_Wilderness_in_Autumn_Green_Metallic,_Front_Left,_04-29-2023.jpg
+- Author: Elise240SX
+- License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+- License URL: https://creativecommons.org/licenses/by-sa/4.0/
+- Changes: The background was removed to produce a transparent dashboard cutout; the vehicle is shown as a front-left three-quarter view.
+- Notes: The PNG is the transparent master; the WebP is the optimized asset used only in the public landing-page dashboard preview. Any redistribution of either modified asset must preserve this attribution and the CC BY-SA 4.0 license.
 
 `../vehicle-defaults/generic-car.svg`
 

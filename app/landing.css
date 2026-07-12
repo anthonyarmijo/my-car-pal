@@ -44,8 +44,9 @@
   height: 100%;
   object-fit: cover;
   object-position: center 62%;
-  /* Warm grade so the cool misty footage sits in the cream/moss palette. */
-  filter: sepia(0.24) hue-rotate(-8deg) saturate(1.1) brightness(1.12) contrast(0.97);
+  /* Restrained source-color lift; enough saturation for the forest canopy to
+     read clearly without returning to a stylized warm grade. */
+  filter: saturate(1.16) contrast(1.05) brightness(1.02);
   transform: scale(var(--lp-road-scale));
   transition: transform 80ms linear;
 }
@@ -55,21 +56,24 @@
 }
 
 /* Subtle darkening near the tagline only — no white/cream fade over the
-   footage. */
+   footage; the crossfade into the garage is handled by the scene mask and
+   the seam glow on .lp-road-gap. */
 .lp-road-fade {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(240, 184, 92, 0.08) 0%, rgba(240, 184, 92, 0.04) 45%, rgba(240, 184, 92, 0) 70%),
-    linear-gradient(180deg, rgba(20, 18, 14, 0) 88%, rgba(20, 18, 14, 0.12) 94%, rgba(255, 255, 255, 0.72) 100%);
+    linear-gradient(180deg, rgba(34, 78, 45, 0.055) 0%, rgba(34, 78, 45, 0.018) 58%, rgba(34, 78, 45, 0) 78%),
+    linear-gradient(180deg, rgba(10, 14, 13, 0.08) 0%, rgba(10, 14, 13, 0.02) 60%, rgba(10, 14, 13, 0) 78%),
+    linear-gradient(180deg, rgba(20, 18, 14, 0) 88%, rgba(20, 18, 14, 0.18) 100%);
   pointer-events: none;
 }
 
+/* Scroll-driven neutral shade: preserve the source color while the garage arrives. */
 .lp-road::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: #101714;
+  background: rgba(10, 14, 13, 0.92);
   opacity: var(--lp-road-shade-opacity);
   pointer-events: none;
 }
@@ -149,8 +153,16 @@
   height: clamp(14rem, 42vh, 24rem);
 }
 
+/* Seam glow: soft garage light blooming over the dimming footage as the scene
+   rises, driven by --lp-handoff (set on .lp-hero by the scroll handler). */
 .lp-road-gap::after {
-  content: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 85% 130% at 50% 100%,
+    rgba(225, 231, 215, 0.38) 0%, rgba(225, 231, 215, 0.14) 45%, rgba(225, 231, 215, 0) 75%);
+  opacity: var(--lp-handoff, 0);
 }
 
 .lp-hero-scene {
@@ -484,6 +496,14 @@
   overflow: hidden;
   background: var(--surface);
   box-shadow: 0 30px 70px rgba(42, 42, 36, 0.16);
+}
+
+/* Primary CTAs + proof points sit centered under the dashboard preview,
+   reusing the hero row/proof styles. */
+.lp-reveal-cta {
+  display: grid;
+  justify-items: center;
+  margin-top: clamp(1.25rem, 3vw, 2rem);
 }
 
 /* Tab strip: traffic lights, active tab, new-tab button — neutral browser
@@ -1041,16 +1061,109 @@
 /* ---------- Privacy ---------- */
 
 .lp-privacy-inner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--line) 80%);
   border-radius: 22px;
   padding: clamp(1.5rem, 4vw, 2.75rem);
+  background:
+    radial-gradient(ellipse 60% 80% at 12% 0%, rgba(228, 236, 221, 0.7) 0%, rgba(228, 236, 221, 0) 70%),
+    var(--surface);
+}
+
+.lp-privacy-content {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 3rem);
   align-items: center;
-  background:
-    radial-gradient(ellipse 60% 80% at 12% 0%, rgba(228, 236, 221, 0.7) 0%, rgba(228, 236, 221, 0) 70%),
-    var(--surface);
+  opacity: 0.58;
+  filter: blur(3px) saturate(0.7);
+  transform: scale(0.992);
+  transition:
+    opacity 760ms ease 120ms,
+    filter 900ms cubic-bezier(0.22, 1, 0.36, 1) 90ms,
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1) 90ms;
+}
+
+.lp-privacy.landing-fade-visible .lp-privacy-content {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+/* Privacy reveal: a coarse, data-like mosaic clears in a scrambled order as
+   the panel enters view, followed by a soft scan line. */
+.lp-privacy-pixel-veil {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+  visibility: visible;
+  transition: visibility 0s linear 1.15s;
+}
+
+.lp-privacy-pixel-veil i {
+  display: block;
+  margin: -0.5px;
+  background: rgba(52, 91, 70, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(237, 242, 229, 0.1);
+  opacity: 0.93;
+  transform: scale(1.02);
+  transition:
+    opacity 210ms steps(2, end) var(--pixel-delay),
+    transform 390ms cubic-bezier(0.4, 0, 1, 1) var(--pixel-delay);
+}
+
+.lp-privacy-pixel-veil i.is-tone-1 {
+  background: rgba(83, 116, 89, 0.88);
+}
+
+.lp-privacy-pixel-veil i.is-tone-2 {
+  background: rgba(187, 198, 169, 0.94);
+}
+
+.lp-privacy-pixel-veil i.is-tone-3 {
+  background: rgba(222, 226, 205, 0.94);
+}
+
+.lp-privacy.landing-fade-visible .lp-privacy-pixel-veil i {
+  opacity: 0;
+  transform: translateY(var(--pixel-drift)) scale(0.55);
+}
+
+.lp-privacy.landing-fade-visible .lp-privacy-pixel-veil {
+  visibility: hidden;
+}
+
+.lp-privacy-pixel-veil::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -8%;
+  height: 3px;
+  opacity: 0;
+  background: rgba(247, 226, 168, 0.86);
+  box-shadow: 0 0 18px 6px rgba(221, 190, 113, 0.28);
+}
+
+.lp-privacy.landing-fade-visible .lp-privacy-pixel-veil::after {
+  animation: lp-privacy-scan 1.05s cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+}
+
+@keyframes lp-privacy-scan {
+  0% { top: -8%; opacity: 0; }
+  12% { opacity: 0.85; }
+  75% { opacity: 0.55; }
+  100% { top: 108%; opacity: 0; }
 }
 
 .lp-privacy-head {
@@ -1213,7 +1326,7 @@
 
   .lp-reveal-vehicle,
   .lp-reveal-grid,
-  .lp-privacy-inner {
+  .lp-privacy-content {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -1275,6 +1388,17 @@
     transition: none;
   }
 
+  .lp-privacy-content {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+
+  .lp-privacy-pixel-veil {
+    display: none;
+  }
+
   .lp-btn,
   .lp-feature-card {
     transition: none;
@@ -1297,13 +1421,18 @@ html[data-resolved-theme="dark"] body:has(.landing-product-page) .app-bg {
 
 html[data-resolved-theme="dark"] .lp-road-video,
 html[data-resolved-theme="dark"] .lp-road-poster {
-  filter: sepia(0.1) hue-rotate(-4deg) saturate(0.84) brightness(0.62) contrast(1.1);
+  filter: saturate(1.1) brightness(0.64) contrast(1.1);
 }
 
 html[data-resolved-theme="dark"] .lp-road-fade {
   background:
     linear-gradient(180deg, rgba(10, 13, 12, 0.22) 0%, rgba(10, 13, 12, 0.1) 48%, rgba(10, 13, 12, 0.2) 72%),
-    linear-gradient(180deg, rgba(8, 9, 8, 0) 82%, rgba(8, 9, 8, 0.32) 94%, rgba(19, 17, 9, 0.92) 100%);
+    linear-gradient(180deg, rgba(8, 9, 8, 0) 82%, rgba(8, 9, 8, 0.4) 100%);
+}
+
+/* Night handoff: neutral exposure shading deepens toward the garage. */
+html[data-resolved-theme="dark"] .lp-road::after {
+  background: rgba(7, 10, 9, 0.95);
 }
 
 html[data-resolved-theme="dark"] .lp-road-gap {
@@ -1311,7 +1440,8 @@ html[data-resolved-theme="dark"] .lp-road-gap {
 }
 
 html[data-resolved-theme="dark"] .lp-road-gap::after {
-  background: linear-gradient(180deg, rgba(159, 199, 171, 0) 0%, rgba(159, 199, 171, 0.3) 50%, rgba(159, 199, 171, 0) 100%);
+  background: radial-gradient(ellipse 85% 130% at 50% 100%,
+    rgba(174, 193, 176, 0.28) 0%, rgba(174, 193, 176, 0.1) 45%, rgba(174, 193, 176, 0) 75%);
 }
 
 html[data-resolved-theme="dark"] .lp-hero-scene {
@@ -1370,6 +1500,23 @@ html[data-resolved-theme="dark"] .lp-privacy-inner {
   background:
     radial-gradient(ellipse 60% 80% at 12% 0%, rgba(92, 129, 100, 0.2) 0%, rgba(92, 129, 100, 0) 70%),
     var(--surface);
+}
+
+html[data-resolved-theme="dark"] .lp-privacy-pixel-veil i {
+  background: rgba(22, 48, 35, 0.95);
+  box-shadow: inset 0 0 0 1px rgba(174, 199, 178, 0.07);
+}
+
+html[data-resolved-theme="dark"] .lp-privacy-pixel-veil i.is-tone-1 {
+  background: rgba(42, 70, 50, 0.95);
+}
+
+html[data-resolved-theme="dark"] .lp-privacy-pixel-veil i.is-tone-2 {
+  background: rgba(68, 92, 68, 0.94);
+}
+
+html[data-resolved-theme="dark"] .lp-privacy-pixel-veil i.is-tone-3 {
+  background: rgba(100, 119, 91, 0.94);
 }
 
 html[data-resolved-theme="dark"] .lp-reveal::before {
@@ -1530,4 +1677,564 @@ html[data-resolved-theme="dark"] .lp-btn-ghost {
   background: var(--surface);
   color: var(--text);
   border-color: var(--line);
+}
+
+/* ---------- Dashboard mockup alignment ----------
+   The public preview mirrors the supplied product concept, but remains a
+   non-interactive illustration. These rules stay scoped to `lp-` so the real
+   authenticated application can adopt the system deliberately in a later pass. */
+.lp-reveal-frame {
+  width: min(100%, 56rem);
+  border-color: #cbc9c2;
+  border-radius: 12px;
+}
+
+.lp-reveal-body {
+  grid-template-columns: 11rem minmax(0, 1fr);
+  background: #F2F0E9;
+}
+
+.lp-reveal-side {
+  gap: 0.4rem;
+  padding: 0.85rem 0.62rem 0.7rem;
+  border-right-color: #DCD5BC;
+  background: linear-gradient(180deg, #E6E9DB 0%, #DCE2D2 100%);
+}
+
+.lp-reveal-side-brand {
+  gap: 0.5rem;
+  padding: 0.18rem 0.5rem 0.68rem;
+  font-size: 0.84rem;
+  color: #25291F;
+}
+
+.lp-reveal-side-mark {
+  width: 1.08rem;
+  height: 1.08rem;
+  border-radius: 6px;
+  background: linear-gradient(140deg, #24503B 20%, #5F7F5B);
+}
+
+.lp-reveal-nav-item {
+  gap: 0.56rem;
+  padding: 0.48rem 0.58rem;
+  border-radius: 9px;
+  color: #5D6354;
+}
+
+.lp-reveal-nav-item.is-active {
+  color: #24503B;
+  background: #E9EFDF;
+  box-shadow: inset 0 0 0 1px rgba(36, 80, 59, 0.1);
+}
+
+.lp-reveal-side-user {
+  gap: 0.5rem;
+  border-top-color: #DCD5BC;
+}
+
+.lp-reveal-avatar {
+  background: #24503B;
+  color: #F3EFE2;
+}
+
+.lp-reveal-productbar {
+  display: flex;
+  align-items: center;
+  gap: 0.48rem;
+  min-width: 0;
+  padding: 0.04rem 0.1rem 0.38rem;
+  border-bottom: 1px solid #EEE6D4;
+}
+
+.lp-reveal-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+  min-width: 0;
+  max-width: 15rem;
+  flex: 1;
+  border: 1px solid #E6DCC7;
+  border-radius: 8px;
+  padding: 0.3rem 0.46rem;
+  color: #8B9080;
+  background: #FFFDF7;
+  font-size: 0.61rem;
+  font-weight: 600;
+}
+
+.lp-reveal-search svg,
+.lp-reveal-bell {
+  width: 0.78rem;
+  height: 0.78rem;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.9;
+}
+
+.lp-reveal-search kbd {
+  margin-left: auto;
+  border: 1px solid #E6DCC7;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0.02rem 0.24rem;
+  background: #F5F0E5;
+  color: #5D6354;
+  font: inherit;
+  font-size: 0.54rem;
+}
+
+.lp-reveal-saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.26rem;
+  flex-shrink: 0;
+  border: 1px solid #DCE6CB;
+  border-radius: 999px;
+  padding: 0.2rem 0.44rem;
+  background: #ECF1E0;
+  color: #597840;
+  font-size: 0.56rem;
+  font-weight: 700;
+}
+
+.lp-reveal-saved i,
+.lp-reveal-health-ok i {
+  width: 0.32rem;
+  height: 0.32rem;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.lp-reveal-bell {
+  color: #5D6354;
+}
+
+.lp-reveal-main {
+  gap: 0.62rem;
+  padding: 0.8rem;
+  background: linear-gradient(180deg, #F7F4EC 0%, #F1EEE6 100%);
+}
+
+.lp-reveal-topbar {
+  align-items: flex-start;
+  padding: 0.16rem 0.15rem 0.04rem;
+}
+
+.lp-reveal-topbar > span:first-child {
+  display: grid;
+  gap: 0.08rem;
+}
+
+.lp-reveal-topbar b {
+  font-size: 0.94rem;
+  color: #25291F;
+}
+
+.lp-reveal-topbar small {
+  font-size: 0.61rem;
+  color: #5D6354;
+}
+
+.lp-reveal-topbar .lp-reveal-eyebrow {
+  color: #5F7F5B;
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lp-reveal-alert-chip {
+  color: #A6740E;
+  background: #F8ECD2;
+  border-color: #EBD9AE;
+}
+
+.lp-reveal-vehicle {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 14rem);
+  gap: 0.8rem;
+  border-color: #E6DCC7;
+  border-radius: 14px;
+  padding: 0.88rem 1rem;
+  background:
+    radial-gradient(ellipse 55% 95% at 88% 12%, rgba(151, 173, 140, 0.24) 0%, rgba(151, 173, 140, 0) 72%),
+    linear-gradient(135deg, #F9FBF4 0%, #EEF3E8 100%);
+}
+
+.lp-reveal-vehicle-copy strong {
+  font-size: 1.08rem;
+  color: #25291F;
+}
+
+.lp-reveal-vehicle-copy > small {
+  color: #5D6354;
+}
+
+.lp-pill {
+  color: #24503B;
+  background: #E9EFDF;
+  border-color: #D6E1CC;
+}
+
+.lp-reveal-next {
+  gap: 0.13rem;
+  border-left-color: #A6740E;
+}
+
+.lp-reveal-next b {
+  font-size: 0.84rem;
+  color: #25291F;
+}
+
+.lp-reveal-next small {
+  color: #8B9080;
+}
+
+.lp-reveal-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.lp-reveal-progress i {
+  display: block;
+  width: min(7rem, 65%);
+  height: 0.32rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #D9A93F 90%, #EEE6D4 90%);
+}
+
+.lp-reveal-progress small {
+  color: #A6740E;
+  font-size: 0.61rem;
+  font-weight: 800;
+}
+
+.lp-reveal-stage {
+  align-self: end;
+  min-height: 7.8rem;
+  transform: translate(-3%, 9%);
+}
+
+.lp-reveal-stage::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: -7%;
+  right: -7%;
+  bottom: -2%;
+  height: 36%;
+  border-top: 1px solid rgba(91, 105, 78, 0.28);
+  border-radius: 50% 50% 10px 10px;
+  background: linear-gradient(180deg, rgba(123, 140, 108, 0.13), rgba(123, 140, 108, 0.03));
+  transform: perspective(12rem) rotateX(62deg);
+  transform-origin: center top;
+}
+
+.lp-reveal-stage .lp-vehicle-cutout {
+  z-index: 2;
+  width: 122%;
+  max-width: none;
+  transform: translateY(5%) rotate(1.15deg);
+  transform-origin: 50% 80%;
+}
+
+.lp-reveal-stage .lp-vehicle-shadow {
+  z-index: 1;
+  bottom: 0;
+  left: 50%;
+  width: 70%;
+  height: 8%;
+}
+
+.lp-reveal-panel,
+.lp-reveal-stat {
+  border-color: #EEE6D4;
+  background: #FFFDF7;
+}
+
+.lp-reveal-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.lp-reveal-panel-heading > span {
+  color: #5F7F5B;
+  font-size: 0.57rem;
+  font-weight: 800;
+}
+
+.lp-reveal-health-ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  color: #597840 !important;
+}
+
+.lp-reveal-upcoming ul {
+  gap: 0;
+}
+
+.lp-reveal-upcoming li {
+  gap: 0.48rem;
+  padding: 0.44rem 0.28rem;
+  border: 0;
+  border-radius: 0;
+  border-top: 1px solid #EEE6D4;
+  background: transparent;
+}
+
+.lp-reveal-upcoming li:first-child {
+  margin-top: 0.34rem;
+}
+
+.lp-reveal-upcoming li svg {
+  width: 0.78rem;
+  color: #A6740E;
+  stroke: currentColor;
+}
+
+.lp-reveal-upcoming li b {
+  color: #25291F;
+}
+
+.lp-reveal-upcoming li small {
+  color: #8B9080;
+}
+
+.lp-reveal-upcoming li em {
+  color: #5D6354;
+  background: #EFE8D8;
+}
+
+.lp-reveal-upcoming li em.is-due {
+  color: #A6740E;
+  background: #F8ECD2;
+}
+
+.lp-reveal-stat {
+  gap: 0.1rem;
+  padding: 0.62rem 0.7rem;
+}
+
+.lp-reveal-stat strong {
+  color: #24503B;
+}
+
+.lp-reveal-stat span {
+  color: #5D6354;
+}
+
+.lp-reveal-stat small {
+  color: #8B9080;
+  font-size: 0.56rem;
+}
+
+.lp-reveal-panel p {
+  display: flex;
+  align-items: baseline;
+  gap: 0.22rem;
+  padding: 0.23rem 0;
+  border-top: 1px solid #EEE6D4;
+  color: #5D6354;
+}
+
+.lp-reveal-panel p:first-of-type {
+  margin-top: 0.34rem;
+}
+
+.lp-reveal-panel p small {
+  margin-left: auto;
+  color: #8B9080;
+  font-size: 0.56rem;
+  text-align: right;
+}
+
+.lp-reveal-panel p b {
+  color: #25291F;
+  font-size: 0.63rem;
+}
+
+.lp-dot-ok {
+  background: #6E8F4F;
+}
+
+.lp-dot-warn {
+  background: #A6740E;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-body {
+  background: #151914;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-main {
+  background: linear-gradient(180deg, #1B201A 0%, #151915 100%);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-side {
+  border-right-color: #3A4037;
+  background: linear-gradient(180deg, #20251e 0%, #191e18 100%);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-side-brand,
+html[data-resolved-theme="dark"] .lp-reveal-topbar b,
+html[data-resolved-theme="dark"] .lp-reveal-vehicle-copy strong,
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li b,
+html[data-resolved-theme="dark"] .lp-reveal-panel p b {
+  color: #F0EEE4;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-productbar,
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li,
+html[data-resolved-theme="dark"] .lp-reveal-panel p {
+  border-color: #363D34;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-search {
+  border-color: #41493F;
+  background: #20251E;
+  color: #AEB6A8;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-search kbd {
+  border-color: #41493F;
+  background: #2A3028;
+  color: #C5CCC0;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-saved {
+  border-color: #485A40;
+  background: #293527;
+  color: #BBD29D;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-vehicle,
+html[data-resolved-theme="dark"] .lp-reveal-panel,
+html[data-resolved-theme="dark"] .lp-reveal-stat {
+  border-color: #3A4238;
+  background: #20261F;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-vehicle {
+  background: linear-gradient(135deg, #20261F 55%, #252A20);
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-stage::before {
+  border-top-color: rgba(174, 190, 159, 0.24);
+  background: linear-gradient(180deg, rgba(117, 137, 105, 0.15), rgba(41, 50, 38, 0.02));
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-stat strong {
+  color: #AFCB9B;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-stat span,
+html[data-resolved-theme="dark"] .lp-reveal-topbar small,
+html[data-resolved-theme="dark"] .lp-reveal-vehicle-copy > small,
+html[data-resolved-theme="dark"] .lp-reveal-next em,
+html[data-resolved-theme="dark"] .lp-reveal-next small,
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li small,
+html[data-resolved-theme="dark"] .lp-reveal-panel p,
+html[data-resolved-theme="dark"] .lp-reveal-panel p small,
+html[data-resolved-theme="dark"] .lp-reveal-stat small {
+  color: #B2B8AC;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li em {
+  color: #D2D7CB;
+  background: #30372E;
+}
+
+html[data-resolved-theme="dark"] .lp-reveal-upcoming li em.is-due {
+  color: #E7C990;
+  background: #3A301E;
+}
+
+@media (max-width: 960px) {
+  .lp-reveal-body {
+    grid-template-columns: 8.2rem minmax(0, 1fr);
+  }
+
+  .lp-reveal-side {
+    display: flex;
+    padding-inline: 0.45rem;
+  }
+
+  .lp-reveal-side-brand {
+    font-size: 0.72rem;
+  }
+
+  .lp-reveal-nav-item {
+    gap: 0.38rem;
+    padding-inline: 0.45rem;
+    font-size: 0.67rem;
+  }
+
+  .lp-reveal-main {
+    gap: 0.5rem;
+    padding: 0.62rem;
+  }
+
+  .lp-reveal-vehicle {
+    grid-template-columns: minmax(0, 1fr) minmax(9.5rem, 11.5rem);
+    gap: 0.45rem;
+    padding: 0.72rem 0.8rem;
+  }
+
+  .lp-reveal-vehicle-copy strong {
+    font-size: 0.92rem;
+  }
+
+  .lp-reveal-stage {
+    min-height: 6.7rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .lp-reveal-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-reveal-side {
+    display: none;
+  }
+
+  .lp-reveal-vehicle {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-reveal-stage {
+    width: 76%;
+    margin: -0.35rem auto 0;
+    transform: none;
+  }
+
+  .lp-reveal-stage .lp-vehicle-cutout {
+    width: 100%;
+    transform: translateY(4%) rotate(1.15deg);
+  }
+
+  .lp-reveal-productbar {
+    display: none;
+  }
+
+  .lp-reveal-topbar {
+    padding-top: 0;
+  }
+
+  .lp-reveal-alert-chip {
+    display: none;
+  }
+
+  .lp-reveal-panel-heading > span,
+  .lp-reveal-upcoming li em,
+  .lp-reveal-panel p small {
+    display: none;
+  }
 }

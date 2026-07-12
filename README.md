@@ -25,7 +25,7 @@ Prefer to run it yourself? This repo is the fully self-hostable core - Docker, P
 - **Alerts** - Home dashboard with maintenance, registration, and insurance due states
 - **DIY Center** - Category-based how-to articles and local mechanic lookup via OpenStreetMap
 - **Privacy-first** - No ads, no data selling, no tracking. Your records stay yours.
-- **Light + dark mode** - System-aware theme support, including a motion-aware, scroll-driven landing transition and theme-matched imagery and dashboard previews
+- **Light + dark mode** - System-aware theme support, including a motion-aware, scroll-driven landing transition and a responsive, theme-matched dashboard preview built from code rather than a static screenshot
 
 ---
 

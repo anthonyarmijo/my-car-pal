@@ -1,7 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { useFadeIn } from "@/components/landing/useFadeIn";
+
+const proofPoints = ["Free for one vehicle", "No ads, no data selling", "Export anytime"];
 
 type NavIconName = "home" | "garage" | "wrench" | "folder" | "bulb";
 
@@ -35,13 +38,6 @@ const navItems: Array<{ icon: NavIconName; label: string; active?: boolean }> = 
   { icon: "bulb", label: "DIY" },
 ];
 
-const stats = [
-  { label: "Services logged", value: "12" },
-  { label: "Upcoming", value: "3" },
-  { label: "Total spent", value: "$840" },
-  { label: "Vehicles", value: "2" },
-];
-
 function NavIcon({ name }: { name: NavIconName }) {
   return <svg viewBox="0 0 24 24">{navIconPaths[name]}</svg>;
 }
@@ -56,7 +52,7 @@ export function DashboardReveal() {
         <h2 id="lp-reveal-title">Maintenance, health, and records at a glance.</h2>
       </div>
 
-      <div className="lp-reveal-frame" aria-label="Dashboard preview">
+      <div className="lp-reveal-frame" aria-label="Illustrated dashboard preview">
         <div className="lp-reveal-tabbar" aria-hidden="true">
           <span className="lp-reveal-dots">
             <i />
@@ -105,17 +101,27 @@ export function DashboardReveal() {
             <div className="lp-reveal-side-user">
               <span className="lp-reveal-avatar">A</span>
               <span>
-                <b>Anthony</b>
-                <small>Owner</small>
+                <b>Jordan</b>
+                <small>Personal garage</small>
               </span>
             </div>
           </aside>
 
           <div className="lp-reveal-main">
+            <div className="lp-reveal-productbar" aria-hidden="true">
+              <span className="lp-reveal-search">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.6" /><path d="m16 16 4 4" /></svg>
+                Search cars &amp; records
+                <kbd>⌘ K</kbd>
+              </span>
+              <span className="lp-reveal-saved"><i /> All changes saved</span>
+              <svg className="lp-reveal-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7" /><path d="M10.3 20a2 2 0 0 0 3.4 0" /></svg>
+            </div>
             <div className="lp-reveal-topbar">
               <span>
-                <b>Good morning, Anthony</b>
-                <small>Tuesday, July 8 · 68° and clear</small>
+                <small className="lp-reveal-eyebrow">Tuesday, July 8 · 68° and clear</small>
+                <b>Good morning, Jordan</b>
+                <small>Everything&apos;s in good shape — one reminder is coming up.</small>
               </span>
               <span className="lp-reveal-alert-chip">1 reminder due soon</span>
             </div>
@@ -123,29 +129,30 @@ export function DashboardReveal() {
             <div className="lp-reveal-vehicle">
               <div className="lp-reveal-vehicle-copy">
                 <span className="lp-pill">Primary vehicle</span>
-                <strong>2021 Toyota Tacoma</strong>
-                <small>TRD Off-Road · 32,215 mi · Updated today</small>
+                <strong>2023 Subaru Outback Wilderness</strong>
+                <small>Wilderness · 2.4L turbo · 32,215 mi · Updated today</small>
                 <div className="lp-reveal-next">
                   <em>Next up</em>
                   <b>Oil &amp; filter change</b>
-                  <small>Due in 480 mi</small>
+                  <span className="lp-reveal-progress"><i /><small>480 mi left</small></span>
+                  <small>4,520 of 5,000 mi since last change · Feb 14</small>
                 </div>
               </div>
               <div className="lp-vehicle-stage lp-reveal-stage" aria-hidden="true">
                 <span className="lp-vehicle-shadow" />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/landing/vehicle-cutout-tacoma.png" alt="" className="lp-vehicle-cutout" />
+                <img src="/images/landing/vehicle-cutout-subaru-outback-wilderness.webp" alt="" className="lp-vehicle-cutout" />
               </div>
             </div>
 
             <div className="lp-reveal-panel lp-reveal-upcoming">
-              <h3>Upcoming</h3>
+              <div className="lp-reveal-panel-heading"><h3>Upcoming</h3><span>View all →</span></div>
               <ul>
                 <li>
                   <svg viewBox="0 0 24 24"><path d="M15.7 4.6a3.7 3.7 0 0 0-4.3 4.8l-6.5 6.5 3.2 3.2 6.5-6.5a3.7 3.7 0 0 0 4.8-4.3l-2.5 2.5-2.4-2.4 2.5-2.5Z" /></svg>
                   <span>
                     <b>Oil &amp; filter change</b>
-                    <small>2021 Toyota Tacoma</small>
+                    <small>Outback · 0W-20 synthetic, last done Feb 14</small>
                   </span>
                   <em className="is-due">Due in 480 mi</em>
                 </li>
@@ -153,38 +160,39 @@ export function DashboardReveal() {
                   <svg viewBox="0 0 24 24"><path d="M7 4.5h6.2l3.8 3.8v11.2H7z" /><path d="M13 4.8V9h4M9.6 12h4.8M9.6 15.4h4.8" /></svg>
                   <span>
                     <b>Registration renewal</b>
-                    <small>2021 Toyota Tacoma</small>
+                    <small>Outback · renew online with the DMV</small>
                   </span>
-                  <em>Aug 12</em>
+                  <em>Aug 12 · 35 days</em>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="3" /><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" /></svg>
+                  <span>
+                    <b>Tire rotation</b>
+                    <small>Outback · last done 2 days ago</small>
+                  </span>
+                  <em>In 4,780 mi</em>
                 </li>
               </ul>
             </div>
 
-            <div className="lp-reveal-grid">
-              <div className="lp-reveal-stats">
-                {stats.map((item) => (
-                  <div key={item.label} className="lp-reveal-stat">
-                    <strong>{item.value}</strong>
-                    <span>{item.label}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="lp-reveal-side-panels">
-                <div className="lp-reveal-panel">
-                  <h3>Vehicle health</h3>
-                  <p>
-                    <span className="lp-dot lp-dot-ok" aria-hidden="true" /> All caught up. Registration,
-                    insurance, and service are current.
-                  </p>
-                </div>
-                <div className="lp-reveal-panel">
-                  <h3>Recent activity</h3>
-                  <p>Tire rotation logged · receipt attached · 2 days ago</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
+      </div>
+
+      <div className="lp-reveal-cta">
+        <div className="lp-hero-cta-row">
+          <Link href="/register" className="lp-btn lp-btn-primary">
+            Start free
+          </Link>
+          <a href="#features" className="lp-btn lp-btn-ghost">
+            See how it works
+          </a>
+        </div>
+        <ul className="lp-hero-proof" aria-label="Highlights">
+          {proofPoints.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 232" role="img" aria-labelledby="title desc">
+  <title id="title">Blue Subaru Outback Wilderness illustration</title>
+  <desc id="desc">A transparent vector-style side view of a blue adventure wagon.</desc>
+  <defs>
+    <linearGradient id="outback-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6595ab"/>
+      <stop offset="1" stop-color="#456f84"/>
+    </linearGradient>
+    <linearGradient id="outback-glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d6e0e2"/>
+      <stop offset="1" stop-color="#a7bdc4"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="262" cy="216" rx="212" ry="10" fill="#e7dec6" opacity=".72"/>
+  <rect x="224" y="50" width="166" height="7" rx="3.5" fill="#2a2e26"/>
+  <rect x="240" y="56" width="9" height="9" rx="2" fill="#2a2e26"/>
+  <rect x="364" y="56" width="9" height="9" rx="2" fill="#2a2e26"/>
+  <path d="M56 160C52 138 58 123 80 117l18-5c22-8 54-12 90-13l26-26c8-8 18-12 30-12h114c12 0 22 4 30 13l30 32 30 7c14 4 20 14 20 28v17c0 7-6 12-13 12H66c-6 0-9-4-10-10Z" fill="url(#outback-body)"/>
+  <path d="M100 111c42-9 68-11 90-12" fill="none" stroke="#2e332b" stroke-linecap="round" stroke-width="5"/>
+  <path d="m208 102 24-31c3-3 6-4 10-4h50v35h-84Z" fill="url(#outback-glass)"/>
+  <path d="M302 67h54c5 0 10 2 14 6l26 29h-94V67Z" fill="url(#outback-glass)"/>
+  <path d="M296 66v98m98-60v60m-188-60v60" stroke="#3a6176" stroke-width="2"/>
+  <rect x="248" y="112" width="26" height="6" rx="3" fill="#2f5265"/>
+  <rect x="326" y="112" width="26" height="6" rx="3" fill="#2f5265"/>
+  <path d="m206 94-16-5c-5-1-8 3-6 7l3 6Z" fill="#33566a"/>
+  <path d="m60 126 30-8 4 11-31 8Z" fill="#eaf0f1"/>
+  <path d="m58 132 6 18-8 1Z" fill="#2a2e26"/>
+  <rect x="58" y="150" width="13" height="7" rx="3.5" fill="#c1793b"/>
+  <path d="m460 118 8 3v14l-9-2Z" fill="#b2452e"/>
+  <path d="M56 166h412v22c0 5-4 8-9 8H66c-6 0-10-3-10-8Z" fill="#23271f"/>
+  <rect x="440" y="176" width="14" height="7" rx="3.5" fill="#c1793b"/>
+  <path d="M96 190a44 44 0 0 1 86 0m172 0a44 44 0 0 1 86 0" fill="none" stroke="#23271f" stroke-width="17"/>
+  <g>
+    <circle cx="139" cy="188" r="33" fill="#262a23"/>
+    <circle cx="139" cy="188" r="18" fill="#3a3e35"/>
+    <g fill="none" stroke="#262a23" stroke-width="4"><path d="M139 172v32m-16-16h32m-27-11 22 22m0-22-22 22"/></g>
+    <circle cx="139" cy="188" r="5.5" fill="#c1793b"/>
+  </g>
+  <g>
+    <circle cx="397" cy="188" r="33" fill="#262a23"/>
+    <circle cx="397" cy="188" r="18" fill="#3a3e35"/>
+    <g fill="none" stroke="#262a23" stroke-width="4"><path d="M397 172v32m-16-16h32m-27-11 22 22m0-22-22 22"/></g>
+    <circle cx="397" cy="188" r="5.5" fill="#c1793b"/>
+  </g>
+</svg>
