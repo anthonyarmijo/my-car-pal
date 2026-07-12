@@ -6882,3 +6882,226 @@ html[data-resolved-theme="dark"] body:has(.landing-product-page) .landing-try-no
   background-color: rgba(12, 17, 20, 0.34) !important;
   color: #ffffff;
 }
+
+/* Marketing navigation: keep a compact tablet nav and provide an accessible
+   menu at narrow widths instead of dropping the destinations. */
+.landing-menu-toggle,
+.landing-mobile-menu {
+  display: none;
+}
+
+body:has(.landing-product-page) .landing-public-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.65rem, 1.25vw, 1.25rem);
+  font-size: clamp(0.75rem, 0.88vw, 0.9rem);
+}
+
+body:has(.landing-product-page) .landing-public-nav a,
+body:has(.landing-product-page) .landing-login-sign a,
+body:has(.landing-product-page) .landing-menu-toggle {
+  outline-offset: 3px;
+}
+
+body:has(.landing-product-page) .landing-public-nav a:focus-visible,
+body:has(.landing-product-page) .landing-login-sign a:focus-visible,
+body:has(.landing-product-page) .landing-menu-toggle:focus-visible,
+body:has(.landing-product-page) .landing-mobile-menu a:focus-visible {
+  outline: 2px solid #FFFDF8;
+  border-radius: 5px;
+}
+
+@media (max-width: 1080px) {
+  body:has(.landing-product-page) .landing-public-nav {
+    display: flex;
+    gap: 0.65rem;
+    font-size: 0.74rem;
+  }
+
+  body:has(.landing-product-page) .app-header {
+    padding-inline: 1rem;
+  }
+
+  body:has(.landing-product-page) .landing-login-text-link,
+  body:has(.landing-product-page) .landing-try-now-link {
+    padding-inline: 0.75rem;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 900px) {
+  body:has(.landing-product-page) .app-header {
+    display: flex;
+    align-items: center;
+    min-height: 4.4rem;
+    padding: 0.75rem 1rem;
+  }
+
+  body:has(.landing-product-page) .landing-public-nav {
+    display: none;
+  }
+
+  body:has(.landing-product-page) .landing-public-nav-wrap {
+    position: relative;
+    justify-content: flex-end;
+  }
+
+  body:has(.landing-product-page) .landing-login-sign-actions {
+    gap: 0.35rem;
+  }
+
+  body:has(.landing-product-page) .landing-login-text-link,
+  body:has(.landing-product-page) .landing-try-now-link {
+    display: none;
+  }
+
+  body:has(.landing-product-page) .theme-icon-toggle {
+    display: grid;
+  }
+
+  .landing-menu-toggle {
+    width: 2.55rem;
+    height: 2.55rem;
+    display: grid;
+    align-content: center;
+    gap: 0.38rem;
+    padding: 0.65rem;
+    border: 1px solid rgba(252, 250, 242, 0.52);
+    border-radius: 999px;
+    background: rgba(15, 19, 16, 0.2);
+    color: #FFFDF8;
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+  }
+
+  .landing-menu-toggle span {
+    display: block;
+    height: 1.5px;
+    border-radius: 999px;
+    background: currentColor;
+    transition: transform 160ms ease;
+  }
+
+  .landing-menu-toggle[aria-expanded="true"] span:first-child {
+    transform: translateY(3.8px) rotate(45deg);
+  }
+
+  .landing-menu-toggle[aria-expanded="true"] span:last-child {
+    transform: translateY(-3.8px) rotate(-45deg);
+  }
+
+  .landing-mobile-menu {
+    position: absolute;
+    top: calc(100% + 0.65rem);
+    right: 0;
+    width: min(21rem, calc(100vw - 2rem));
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.7rem;
+    border: 1px solid rgba(226, 217, 200, 0.78);
+    border-radius: 16px;
+    background: rgba(255, 253, 248, 0.97);
+    box-shadow: 0 20px 55px rgba(20, 18, 14, 0.22);
+    backdrop-filter: blur(18px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.45rem);
+    transition: opacity 160ms ease, transform 160ms ease, visibility 0s linear 160ms;
+  }
+
+  .landing-mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s;
+  }
+
+  .landing-mobile-menu > a {
+    padding: 0.7rem 0.75rem;
+    border-radius: 9px;
+    color: #37352D;
+    font-size: 0.92rem;
+    font-weight: 750;
+  }
+
+  .landing-mobile-menu > a:hover {
+    color: #274A38;
+    background: #EFF3E9;
+  }
+
+  .landing-mobile-menu-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+    margin-top: 0.35rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid #E6DECF;
+  }
+
+  .landing-mobile-menu-actions a {
+    display: grid;
+    place-items: center;
+    min-height: 2.65rem;
+    border: 1px solid #D6CCBA;
+    border-radius: 9px;
+    color: #315641;
+    font-size: 0.86rem;
+    font-weight: 800;
+  }
+
+  .landing-mobile-menu-actions .landing-mobile-start {
+    border-color: #315641;
+    color: #FFFDF8;
+    background: #315641;
+  }
+
+  html[data-resolved-theme="dark"] .landing-mobile-menu {
+    border-color: #484943;
+    background: rgba(29, 30, 28, 0.97);
+  }
+
+  html[data-resolved-theme="dark"] .landing-mobile-menu > a {
+    color: #EDE9DF;
+  }
+
+  html[data-resolved-theme="dark"] .landing-mobile-menu > a:hover {
+    color: #B6D9BF;
+    background: #2B342D;
+  }
+
+  html[data-resolved-theme="dark"] .landing-mobile-menu-actions {
+    border-color: #484943;
+  }
+
+  html[data-resolved-theme="dark"] .landing-mobile-menu-actions a {
+    border-color: #5B5D55;
+    color: #DDE8DF;
+  }
+}
+
+@media (max-width: 480px) {
+  body:has(.landing-product-page) .app-header {
+    padding-inline: 0.7rem;
+  }
+
+  body:has(.landing-product-page) .brand-lockup {
+    left: 0.7rem;
+    top: 0.82rem;
+    transform: none;
+  }
+
+  body:has(.landing-product-page) .brand-name {
+    font-size: 1rem;
+  }
+
+  body:has(.landing-product-page) .app-logo {
+    width: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-mobile-menu,
+  .landing-menu-toggle span {
+    transition: none;
+  }
+}

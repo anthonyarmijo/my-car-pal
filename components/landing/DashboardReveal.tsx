@@ -179,6 +179,15 @@ export function DashboardReveal() {
         </div>
       </div>
 
+      <ul className="lp-product-scope" aria-label="My Car Pal capabilities">
+        <li>Reminders &amp; alerts</li>
+        <li>Service history &amp; receipts</li>
+        <li>Digital glovebox</li>
+        <li>VIN-assisted setup</li>
+        <li>Cost visibility</li>
+        <li>Cars to motorcycles</li>
+      </ul>
+
       <div className="lp-reveal-cta">
         <div className="lp-hero-cta-row">
           <Link href="/register" className="lp-btn lp-btn-primary">

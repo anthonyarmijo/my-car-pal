@@ -7,6 +7,7 @@ const columns: Array<{ title: string; links: FooterLink[] }> = [
   {
     title: "Product",
     links: [
+      { label: "Product", href: "/#product" },
       { label: "Features", href: "/#features" },
       { label: "How it works", href: "/#product" },
       { label: "DIY learning center", href: "/diy" },
@@ -24,7 +25,7 @@ const columns: Array<{ title: string; links: FooterLink[] }> = [
     links: [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
-      { label: "Self-hosting", href: "https://github.com/anthonyarmijo/my-car-pal" },
+      { label: "GitHub / Self-host ↗", href: "https://github.com/anthonyarmijo/my-car-pal/" },
     ],
   },
 ];

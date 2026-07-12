@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Landing opener: a full-viewport highway loop, then the empty sunlit-garage
@@ -16,6 +17,27 @@ export function GarageHero() {
   const heroRef = useRef<HTMLElement>(null);
   const roadRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
+  const [playVideo, setPlayVideo] = useState(false);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const connection = (navigator as Navigator & {
+      connection?: {
+        saveData?: boolean;
+        addEventListener?: (type: string, listener: () => void) => void;
+        removeEventListener?: (type: string, listener: () => void) => void;
+      };
+    }).connection;
+    const updateMediaMode = () => setPlayVideo(!reducedMotion.matches && !connection?.saveData);
+
+    updateMediaMode();
+    reducedMotion.addEventListener("change", updateMediaMode);
+    connection?.addEventListener?.("change", updateMediaMode);
+    return () => {
+      reducedMotion.removeEventListener("change", updateMediaMode);
+      connection?.removeEventListener?.("change", updateMediaMode);
+    };
+  }, []);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -74,20 +96,6 @@ export function GarageHero() {
         if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
       });
 
-      // The pinned loop keeps painting behind the garage scene; stop it once
-      // the road leaves the viewport and resume when it returns.
-      const video = road.querySelector("video");
-      if (video) {
-        const videoObserver = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) {
-            video.play().catch(() => {});
-          } else {
-            video.pause();
-          }
-        });
-        videoObserver.observe(road);
-        cleanups.push(() => videoObserver.disconnect());
-      }
     }
 
     if (!reducedMotion.matches && finePointer.matches) {
@@ -125,25 +133,55 @@ export function GarageHero() {
     return () => cleanups.forEach((fn) => fn());
   }, []);
 
+  useEffect(() => {
+    const road = roadRef.current;
+    const video = road?.querySelector("video");
+    if (!road || !video || !playVideo) return;
+
+    const videoObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+    videoObserver.observe(road);
+    return () => videoObserver.disconnect();
+  }, [playVideo]);
+
   return (
-    <section className="lp-hero" aria-labelledby="lp-hero-title" ref={heroRef}>
+    <section className="lp-hero" aria-labelledby="lp-road-title" ref={heroRef}>
       <div className="lp-road" ref={roadRef}>
-        <video
-          className="lp-road-video"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          poster="/images/landing/highway-poster.jpg"
-          aria-hidden="true"
-        >
-          <source src="/videos/highway-loop.mp4" type="video/mp4" />
-        </video>
+        {playVideo ? (
+          <video
+            className="lp-road-video"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster="/images/landing/highway-poster.jpg"
+            aria-hidden="true"
+          >
+            <source src="/videos/highway-loop.webm" type="video/webm" />
+            <source src="/videos/highway-loop.mp4" type="video/mp4" />
+          </video>
+        ) : null}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/images/landing/highway-poster.jpg" alt="" className="lp-road-poster" aria-hidden="true" />
         <div className="lp-road-fade" aria-hidden="true" />
-        <p className="lp-road-tagline">Take care of your car. We&rsquo;ll handle the rest.</p>
+        <div className="lp-road-content">
+          <p className="lp-road-kicker">My Car Pal</p>
+          <h1 id="lp-road-title">Take care of your car. We&rsquo;ll handle the rest.</h1>
+          <p className="lp-road-product-copy">
+            Your car&rsquo;s maintenance, records, and reminders—organized in one private place.
+          </p>
+          <div className="lp-road-actions">
+            <Link href="/register" className="lp-btn lp-btn-road-primary">Start free</Link>
+            <a href="#product" className="lp-btn lp-btn-road-secondary">See the product</a>
+          </div>
+          <p className="lp-road-proof">Free for one vehicle · No credit card · No ads · Self-hostable</p>
+        </div>
         <a href="#garage-handoff" className="lp-road-arrow" aria-label="Begin the scroll into the garage">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 4v14.5M5.8 12.6 12 18.8l6.2-6.2" />
@@ -170,7 +208,8 @@ export function GarageHero() {
 
         <div className="lp-hero-inner">
           <div className="lp-hero-copy">
-            <h2 id="lp-hero-title">Everything about your car, in one calm place.</h2>
+            <p className="lp-hero-eyebrow">Your digital garage</p>
+            <h2>Everything about your car, in one calm place.</h2>
             <p className="lp-hero-sub">
               Step out of the garage and into a dashboard that keeps maintenance, reminders, and
               records quietly organized.

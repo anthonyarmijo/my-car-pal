@@ -1,101 +1,97 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { useFadeIn } from "@/components/landing/useFadeIn";
 
-type FeatureIconName = "clock" | "receipt" | "folder" | "search" | "moto" | "chart";
+const stories = [
+  {
+    number: "01",
+    title: "Know what needs attention",
+    description:
+      "Turn mileage, dates, and service intervals into a calm, useful view of what is due now and what is coming next.",
+    points: ["Maintenance reminders and alerts", "Mileage-aware upcoming service", "Clear due-soon priorities"],
+    visual: "attention",
+  },
+  {
+    number: "02",
+    title: "Keep every record together",
+    description:
+      "Build a useful history for every vehicle, with the paperwork and proof you need close at hand.",
+    points: ["Service history, costs, and receipts", "Registration and insurance", "A private digital glovebox"],
+    visual: "records",
+  },
+  {
+    number: "03",
+    title: "Stay in control",
+    description:
+      "Start quickly with VIN-assisted setup, then choose the ownership model that fits your garage—managed cloud or self-hosted open core.",
+    points: ["Cars, trucks, SUVs, and motorcycles", "Cost visibility by vehicle", "Exportable records and self-hosting"],
+    visual: "control",
+  },
+] as const;
 
-const iconPaths: Record<FeatureIconName, ReactNode> = {
-  clock: (
-    <>
-      <circle cx="12" cy="12" r="8.4" />
-      <path d="M12 7.6v4.6l3.2 2" />
-    </>
-  ),
-  receipt: (
-    <>
-      <path d="M6.4 3.8h11.2v16.4l-1.9-1.3-1.9 1.3-1.8-1.3-1.8 1.3-1.9-1.3-1.9 1.3z" />
-      <path d="M9.2 8.4h5.6M9.2 11.8h5.6M9.2 15.2h3.4" />
-    </>
-  ),
-  folder: (
-    <>
-      <path d="M3.8 6.2a1.6 1.6 0 0 1 1.6-1.6h4.4l2 2.4h6.8a1.6 1.6 0 0 1 1.6 1.6v9.6a1.6 1.6 0 0 1-1.6 1.6H5.4a1.6 1.6 0 0 1-1.6-1.6z" />
-      <path d="M3.8 10h16.4" />
-    </>
-  ),
-  search: (
-    <>
-      <circle cx="10.8" cy="10.8" r="6.2" />
-      <path d="m15.4 15.4 4.8 4.8" />
-    </>
-  ),
-  moto: (
-    <>
-      <circle cx="5.8" cy="16.4" r="3.2" />
-      <circle cx="18.2" cy="16.4" r="3.2" />
-      <path d="M5.8 16.4 9 10.6h4.2l2.6 5.8M9 10.6 7.6 7.8h-2.4M13.2 10.6l-1-2.8h3l2.2 3.4" />
-    </>
-  ),
-  chart: (
-    <>
-      <path d="M4.4 4.4v15.2h15.2" />
-      <path d="M8.4 15.6v-4.4M12.4 15.6V8.4M16.4 15.6v-2.8" />
-    </>
-  ),
-};
+function StoryVisual({ visual }: { visual: (typeof stories)[number]["visual"] }) {
+  if (visual === "attention") {
+    return (
+      <div className="lp-story-ui lp-story-attention" aria-hidden="true">
+        <div className="lp-story-ui-bar"><span>Upcoming</span><small>3 items</small></div>
+        <div className="lp-story-due-card">
+          <span className="lp-story-status is-amber" aria-hidden="true" />
+          <span><strong>Oil &amp; filter change</strong><small>Due in 480 mi</small></span>
+          <b>82%</b>
+        </div>
+        <div className="lp-story-progress" aria-hidden="true"><span /></div>
+        <div className="lp-story-row"><span className="lp-story-status" aria-hidden="true" /><span><strong>Registration renewal</strong><small>Aug 12 · 35 days</small></span></div>
+        <div className="lp-story-row"><span className="lp-story-status" aria-hidden="true" /><span><strong>Tire rotation</strong><small>In 4,780 mi</small></span></div>
+      </div>
+    );
+  }
 
-const features: Array<{ icon: FeatureIconName; title: string; desc: string }> = [
-  {
-    icon: "clock",
-    title: "Smart reminders",
-    desc: "Mileage or date based — set them once and stay ahead of every service.",
-  },
-  {
-    icon: "receipt",
-    title: "Clean records",
-    desc: "Every service logged with mileage, cost, and the receipt attached.",
-  },
-  {
-    icon: "folder",
-    title: "Digital glovebox",
-    desc: "Registration, insurance, and documents where you can actually find them.",
-  },
-  {
-    icon: "search",
-    title: "VIN decode",
-    desc: "Drop in a VIN and get specs and trim details filled in for you.",
-  },
-  {
-    icon: "moto",
-    title: "Every vehicle you own",
-    desc: "Cars, trucks, SUVs, and motorcycles — all in one garage.",
-  },
-  {
-    icon: "chart",
-    title: "Cost summary",
-    desc: "See what each vehicle really costs, by service and by month.",
-  },
-];
+  if (visual === "records") {
+    return (
+      <div className="lp-story-ui lp-story-records" aria-hidden="true">
+        <div className="lp-story-ui-bar"><span>Outback records</span><small>All saved</small></div>
+        <div className="lp-record-summary"><strong>$684.20</strong><span>Service total this year</span></div>
+        <div className="lp-record-doc"><span className="lp-doc-icon" aria-hidden="true">✓</span><span><strong>30,000-mile service</strong><small>Receipt attached · May 18</small></span><b>$412</b></div>
+        <div className="lp-record-doc"><span className="lp-doc-icon" aria-hidden="true">▤</span><span><strong>Insurance policy</strong><small>Glovebox · renews Nov 4</small></span><b>PDF</b></div>
+        <div className="lp-record-tabs" aria-hidden="true"><span className="is-active">History</span><span>Receipts</span><span>Glovebox</span></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="lp-story-ui lp-story-control" aria-hidden="true">
+      <div className="lp-story-ui-bar"><span>Add a vehicle</span><small>Step 1 of 2</small></div>
+      <div className="lp-control-vin"><span>VIN</span><strong>4S4BTGUD•••••••••</strong><b>Decoded</b></div>
+      <div className="lp-control-vehicle"><span><small>2023</small><strong>Subaru Outback Wilderness</strong></span><em>32,215 mi</em></div>
+      <div className="lp-control-choice"><span><small>Hosted for you</small><strong>My Car Pal Cloud</strong></span><span><small>Run it yourself</small><strong>Open core</strong></span></div>
+      <p><span aria-hidden="true">↓</span> Your records stay exportable</p>
+    </div>
+  );
+}
 
 export function FeatureSection() {
   const ref = useFadeIn();
 
   return (
     <section ref={ref} className="lp-section lp-features lp-fade-up" id="features" aria-labelledby="lp-features-title">
-      <div className="lp-section-head">
-        <p className="lp-kicker">Features</p>
-        <h2 id="lp-features-title">Practical tools for real ownership.</h2>
+      <div className="lp-section-head lp-feature-head">
+        <p className="lp-kicker">Built around ownership</p>
+        <h2 id="lp-features-title">Less admin. More confidence in every mile.</h2>
+        <p className="lp-section-sub">A simple system for the moments that matter—from the next oil change to the complete story of a vehicle.</p>
       </div>
-      <div className="lp-feature-grid">
-        {features.map((f) => (
-          <div key={f.title} className="lp-feature-card">
-            <span className="lp-feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24">{iconPaths[f.icon]}</svg>
-            </span>
-            <h3>{f.title}</h3>
-            <p>{f.desc}</p>
-          </div>
+      <div className="lp-story-list">
+        {stories.map((story) => (
+          <article key={story.title} className="lp-story">
+            <div className="lp-story-copy">
+              <span className="lp-story-number" aria-hidden="true">{story.number}</span>
+              <h3>{story.title}</h3>
+              <p>{story.description}</p>
+              <ul>
+                {story.points.map((point) => <li key={point}>{point}</li>)}
+              </ul>
+            </div>
+            <StoryVisual visual={story.visual} />
+          </article>
         ))}
       </div>
       <p className="lp-owners-line">Built for owners, not dealerships.</p>

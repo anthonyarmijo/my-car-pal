@@ -91,7 +91,7 @@ export function AppLogo() {
     <>
       {logoSvg}
       <div>
-        <h1 className="brand-name">My Car Pal</h1>
+        <p className="brand-name">My Car Pal</p>
         <p className="brand-slogan">Vehicle care, in your control.</p>
       </div>
     </>

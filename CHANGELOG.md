@@ -1,6 +1,19 @@
 # Changelog
 
 ## 2026-07-12
+- Refined the landing page into a clearer premium product story while preserving
+  the cinematic highway-to-garage experience: visitors now see concise product
+  positioning, Start free and See the product actions, and verified free/no-card/
+  ad-free/self-hostable proof in the first viewport.
+- Replaced the six equal feature cards with three outcome-led product stories,
+  strengthened the dashboard capability summary, and added an explicit choice
+  between My Car Pal Cloud and the free self-hosted open core.
+- Added intentional GitHub actions to desktop/mobile navigation, the privacy and
+  ownership section, the closing CTA, and the footer; the responsive marketing
+  menu now supports keyboard focus, Escape, and outside-click dismissal.
+- Added a visually matched 1080p VP9 source for the full highway film, reducing
+  preferred-source transfer size by about 28% while retaining the original MP4
+  fallback; reduced-motion and Save-Data visitors now stay on the poster.
 - Restored the forest-highway film's original color and upgraded the landing
   asset and reduced-motion poster from a fresh 1080p source download, replacing
   the earlier 720p-derived warm grade with neutral handoff shading and a subtle,

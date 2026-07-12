@@ -9,11 +9,13 @@
 
 ---
 
-## Hosted Or Self-Hosted
+## My Car Pal Cloud or Self-Hosted
 
-**[mycarpal.app](https://mycarpal.app)** is the premium hosted version with managed billing, sync, and production infrastructure.
+**[My Car Pal Cloud](https://mycarpal.app)** is the hosted, maintained version with sync and backups handled by the service. It is free for one vehicle and requires no credit card.
 
-Prefer to run it yourself? This repo is the fully self-hostable core - Docker, Postgres, local storage, and no cloud dependencies required.
+Prefer to run it yourself? This repo is the free, fully self-hostable open core - Docker, Postgres, local storage, and no cloud dependencies required. You keep full deployment and data control.
+
+The public landing page presents both paths alongside the product itself: a cinematic highway-to-garage opener leads into a realistic maintenance dashboard, outcome-led stories for attention, records, and ownership, and a clear cloud-versus-self-hosted choice. The experience preserves light/dark art direction, reduced-motion and Save-Data poster fallbacks, and an accessible responsive marketing menu.
 
 ---
 

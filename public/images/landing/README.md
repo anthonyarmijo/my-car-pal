@@ -1,15 +1,19 @@
 # Landing image attribution
 
-`highway-poster.jpg` and `../../videos/highway-loop.mp4`
+`highway-poster.jpg`, `../../videos/highway-loop.webm`, and `../../videos/highway-loop.mp4`
 
 - Source: https://coverr.co/videos/misty-mountain-road-journey
 - License: Coverr license (free for commercial use, no attribution required).
-- Notes: Full-viewport highway film that opens the landing page, re-encoded
-  from the original 1080p Coverr download at H.264 CRF22 with fast-start
-  metadata. The poster frame is the reduced-motion and loading fallback. The
-  source color is preserved with a restrained saturation/contrast lift and a
-  faint green-biased canopy overlay; dark mode applies a subtler version at a
-  lower exposure.
+- Notes: Full-viewport, 23.48-second, 1920×1080 highway film that opens the
+  landing page. The MP4 is the broadly compatible H.264 CRF22 fallback with
+  fast-start metadata (8,624,560 bytes). The preferred VP9/WebM source was
+  encoded at CRF24 (6,209,996 bytes, about 28% smaller) and measured SSIM
+  0.9899 against the MP4; sampled frames were also checked side by side for
+  blocking, banding, color shifts, motion artifacts, and softness. The
+  107,618-byte poster is shown while loading and is used instead of autoplay
+  for `prefers-reduced-motion` and Save-Data visitors. The source color is
+  preserved with a restrained saturation/contrast lift and a faint green-biased
+  canopy overlay; dark mode applies a subtler version at a lower exposure.
 
 `garage-hero-scene-900.jpg`
 
