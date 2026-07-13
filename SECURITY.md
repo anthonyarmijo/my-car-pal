@@ -21,4 +21,4 @@ We will acknowledge reports as soon as practical and coordinate next steps priva
 
 Security-sensitive areas include authentication, session handling, user data isolation, uploaded documents, storage adapters, environment configuration, and database migrations.
 
-Private managed-cloud infrastructure, billing providers, production deployment configuration, and customer operations are intentionally outside the public core repository boundary.
+Hosted-service infrastructure, billing providers, production deployment configuration, and customer operations are outside this repository's security-reporting scope.

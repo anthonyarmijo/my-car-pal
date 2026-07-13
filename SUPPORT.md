@@ -10,10 +10,10 @@ Use GitHub issues for reproducible bugs, focused feature requests, and documenta
 
 Do not report vulnerabilities in public issues. Follow `SECURITY.md`.
 
-## Managed Cloud Support
+## Hosted Service Support
 
-Billing, premium entitlements, hosted customer operations, production account access, and private deployment incidents belong to the private managed-cloud track and are not handled in the public core issue queue.
+Account-specific questions about the hosted service are not handled in the public repository's issue queue. Use the contact options on [mycarpal.app](https://mycarpal.app) for hosted account support.
 
 ## Current Limits
 
-No service-level agreement, paid support commitment, or long-term release support policy has been selected yet. Those are owner decisions before a public repository launch.
+Community support is provided on a best-effort basis. The project does not currently publish a service-level agreement or long-term support schedule for self-hosted releases.

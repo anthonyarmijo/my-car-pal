@@ -23,19 +23,17 @@
 
 - Source: AI-generated image (ChatGPT/DALL·E) created by the project owner for
   My Car Pal; owner holds usage rights per OpenAI terms.
-- Notes: Warm Scandinavian Garage hero backdrop — photorealistic sunlit garage
-  with an open door, greenery, and shelving. The vehicle is intentionally NOT
-  part of this scene; it is composited as a separate foreground cutout on a
-  stage plane (see `docs/design/warm-scandinavian-garage.md`).
+- Notes: Photorealistic sunlit garage backdrop with an open door, greenery,
+  and shelving. The landing page composites vehicle imagery separately from
+  the scene so model-specific assets can be reused.
 
 `garage-hero-scene-night-neutral.png` and `garage-hero-scene-night.png`
 
 - Source: AI-generated images (ChatGPT/DALL·E) created by the project owner for
   My Car Pal; owner holds usage rights per OpenAI terms.
 - Notes: Nighttime variants of the garage scene for dark mode. The current
-  landing uses `-night-neutral` (neutral interior lighting); `-night` is a
-  warmer alternate take kept for comparison. Like the daylight scene, neither
-  contains a vehicle.
+  landing uses `-night-neutral`; `-night` is an alternate source asset. Like
+  the daylight scene, neither contains a vehicle.
 
 `hero-placeholder.svg`
 

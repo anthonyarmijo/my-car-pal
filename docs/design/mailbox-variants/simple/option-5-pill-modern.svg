@@ -1,7 +1,0 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 72'>
-  <rect x='9' y='36' width='5' height='24' rx='2' fill='#768592'/>
-  <rect x='14' y='22' width='62' height='22' rx='11' fill='#dff0ff' stroke='#4b657c' stroke-width='2'/>
-  <path d='M14 33h62' stroke='#bcd5e9' stroke-width='1.5'/>
-  <path d='M75 17v10' stroke='#d23f3f' stroke-width='3' stroke-linecap='round'/>
-  <path d='M75 17l8 3-8 4z' fill='#d23f3f'/>
-</svg>

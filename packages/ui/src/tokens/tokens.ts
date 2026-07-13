@@ -9,7 +9,7 @@ export type TokenGroup = Record<string, TokenValue>;
 export type TokenManifest = {
   name: string;
   version: string;
-  theme: "desert-graphite";
+  theme: "my-car-pal-ui";
   description: string;
   color: {
     primitive: TokenGroup;
@@ -28,12 +28,12 @@ export type TokenManifest = {
   focus: TokenGroup;
 };
 
-export const desertGraphiteTokens = {
-  name: "My Car Pal Desert Graphite",
+export const myCarPalTokens = {
+  name: "My Car Pal UI",
   version: "0.1.0",
-  theme: "desert-graphite",
+  theme: "my-car-pal-ui",
   description:
-    "Owner-first My Car Pal tokens for the Warm Scandinavian Garage direction: warm porcelain/cream surfaces, moss/forest green primary actions, sand/taupe structure, blue-gray secondary states, and sage success only.",
+    "Semantic My Car Pal UI tokens for surfaces, actions, structure, feedback states, typography, spacing, and focus.",
   color: {
     primitive: {
       "graphite.950": {
@@ -262,32 +262,32 @@ export const desertGraphiteTokens = {
   },
 } as const satisfies TokenManifest;
 
-export type DesertGraphiteTokenManifest = typeof desertGraphiteTokens;
+export type MyCarPalTokenManifest = typeof myCarPalTokens;
 
-export const desertGraphiteCssVariables = {
-  "--mcp-font-sans": desertGraphiteTokens.typography.family.sans.value,
-  "--mcp-color-graphite-950": desertGraphiteTokens.color.primitive["graphite.950"].value,
-  "--mcp-color-graphite-900": desertGraphiteTokens.color.primitive["graphite.900"].value,
-  "--mcp-color-graphite-700": desertGraphiteTokens.color.primitive["graphite.700"].value,
-  "--mcp-color-porcelain-50": desertGraphiteTokens.color.primitive["porcelain.50"].value,
-  "--mcp-color-porcelain-100": desertGraphiteTokens.color.primitive["porcelain.100"].value,
-  "--mcp-color-sand-100": desertGraphiteTokens.color.primitive["sand.100"].value,
-  "--mcp-color-sand-200": desertGraphiteTokens.color.primitive["sand.200"].value,
-  "--mcp-color-taupe-500": desertGraphiteTokens.color.primitive["taupe.500"].value,
-  "--mcp-color-tobacco-600": desertGraphiteTokens.color.primitive["tobacco.600"].value,
-  "--mcp-color-tobacco-700": desertGraphiteTokens.color.primitive["tobacco.700"].value,
-  "--mcp-color-moss-600": desertGraphiteTokens.color.primitive["moss.600"].value,
-  "--mcp-color-forest-700": desertGraphiteTokens.color.primitive["forest.700"].value,
-  "--mcp-color-bluegray-500": desertGraphiteTokens.color.primitive["bluegray.500"].value,
-  "--mcp-color-bluegray-700": desertGraphiteTokens.color.primitive["bluegray.700"].value,
-  "--mcp-color-sage-600": desertGraphiteTokens.color.primitive["sage.600"].value,
-  "--mcp-color-sage-700": desertGraphiteTokens.color.primitive["sage.700"].value,
-  "--mcp-color-red-600": desertGraphiteTokens.color.primitive["red.600"].value,
-  "--mcp-color-amber-600": desertGraphiteTokens.color.primitive["amber.600"].value,
-  "--mcp-color-text": desertGraphiteTokens.color.semantic.text.value,
-  "--mcp-color-muted": desertGraphiteTokens.color.semantic.muted.value,
+export const myCarPalCssVariables = {
+  "--mcp-font-sans": myCarPalTokens.typography.family.sans.value,
+  "--mcp-color-graphite-950": myCarPalTokens.color.primitive["graphite.950"].value,
+  "--mcp-color-graphite-900": myCarPalTokens.color.primitive["graphite.900"].value,
+  "--mcp-color-graphite-700": myCarPalTokens.color.primitive["graphite.700"].value,
+  "--mcp-color-porcelain-50": myCarPalTokens.color.primitive["porcelain.50"].value,
+  "--mcp-color-porcelain-100": myCarPalTokens.color.primitive["porcelain.100"].value,
+  "--mcp-color-sand-100": myCarPalTokens.color.primitive["sand.100"].value,
+  "--mcp-color-sand-200": myCarPalTokens.color.primitive["sand.200"].value,
+  "--mcp-color-taupe-500": myCarPalTokens.color.primitive["taupe.500"].value,
+  "--mcp-color-tobacco-600": myCarPalTokens.color.primitive["tobacco.600"].value,
+  "--mcp-color-tobacco-700": myCarPalTokens.color.primitive["tobacco.700"].value,
+  "--mcp-color-moss-600": myCarPalTokens.color.primitive["moss.600"].value,
+  "--mcp-color-forest-700": myCarPalTokens.color.primitive["forest.700"].value,
+  "--mcp-color-bluegray-500": myCarPalTokens.color.primitive["bluegray.500"].value,
+  "--mcp-color-bluegray-700": myCarPalTokens.color.primitive["bluegray.700"].value,
+  "--mcp-color-sage-600": myCarPalTokens.color.primitive["sage.600"].value,
+  "--mcp-color-sage-700": myCarPalTokens.color.primitive["sage.700"].value,
+  "--mcp-color-red-600": myCarPalTokens.color.primitive["red.600"].value,
+  "--mcp-color-amber-600": myCarPalTokens.color.primitive["amber.600"].value,
+  "--mcp-color-text": myCarPalTokens.color.semantic.text.value,
+  "--mcp-color-muted": myCarPalTokens.color.semantic.muted.value,
   "--mcp-color-border": "var(--mcp-color-sand-200)",
-  "--mcp-color-surface": desertGraphiteTokens.color.semantic.surface.value,
+  "--mcp-color-surface": myCarPalTokens.color.semantic.surface.value,
   "--mcp-color-surface-muted": "var(--mcp-color-porcelain-100)",
   "--mcp-color-action-primary": "var(--mcp-color-moss-600)",
   "--mcp-color-action-primary-strong": "var(--mcp-color-forest-700)",
@@ -297,28 +297,28 @@ export const desertGraphiteCssVariables = {
   "--mcp-color-state-warning": "var(--mcp-color-amber-600)",
   "--mcp-color-state-danger": "var(--mcp-color-red-600)",
   "--mcp-color-state-info": "var(--mcp-color-bluegray-500)",
-  "--mcp-shadow-sm": desertGraphiteTokens.shadow.sm.value,
-  "--mcp-shadow-md": desertGraphiteTokens.shadow.md.value,
-  "--mcp-radius-xs": desertGraphiteTokens.radius.xs.value,
-  "--mcp-radius-sm": desertGraphiteTokens.radius.sm.value,
-  "--mcp-radius-md": desertGraphiteTokens.radius.md.value,
-  "--mcp-space-1": desertGraphiteTokens.space["1"].value,
-  "--mcp-space-2": desertGraphiteTokens.space["2"].value,
-  "--mcp-space-3": desertGraphiteTokens.space["3"].value,
-  "--mcp-space-4": desertGraphiteTokens.space["4"].value,
-  "--mcp-space-5": desertGraphiteTokens.space["5"].value,
-  "--mcp-space-6": desertGraphiteTokens.space["6"].value,
-  "--mcp-font-size-xs": desertGraphiteTokens.typography.size.xs.value,
-  "--mcp-font-size-sm": desertGraphiteTokens.typography.size.sm.value,
-  "--mcp-font-size-md": desertGraphiteTokens.typography.size.md.value,
-  "--mcp-font-size-lg": desertGraphiteTokens.typography.size.lg.value,
-  "--mcp-font-size-xl": desertGraphiteTokens.typography.size.xl.value,
-  "--mcp-line-height-tight": desertGraphiteTokens.typography.lineHeight.tight.value,
-  "--mcp-line-height-normal": desertGraphiteTokens.typography.lineHeight.normal.value,
-  "--mcp-line-height-relaxed": desertGraphiteTokens.typography.lineHeight.relaxed.value,
-  "--mcp-font-weight-regular": desertGraphiteTokens.typography.weight.regular.value,
-  "--mcp-font-weight-semibold": desertGraphiteTokens.typography.weight.semibold.value,
-  "--mcp-font-weight-bold": desertGraphiteTokens.typography.weight.bold.value,
-  "--mcp-focus-ring-color": desertGraphiteTokens.focus.color.value,
-  "--mcp-focus-ring": desertGraphiteTokens.focus.ring.value,
+  "--mcp-shadow-sm": myCarPalTokens.shadow.sm.value,
+  "--mcp-shadow-md": myCarPalTokens.shadow.md.value,
+  "--mcp-radius-xs": myCarPalTokens.radius.xs.value,
+  "--mcp-radius-sm": myCarPalTokens.radius.sm.value,
+  "--mcp-radius-md": myCarPalTokens.radius.md.value,
+  "--mcp-space-1": myCarPalTokens.space["1"].value,
+  "--mcp-space-2": myCarPalTokens.space["2"].value,
+  "--mcp-space-3": myCarPalTokens.space["3"].value,
+  "--mcp-space-4": myCarPalTokens.space["4"].value,
+  "--mcp-space-5": myCarPalTokens.space["5"].value,
+  "--mcp-space-6": myCarPalTokens.space["6"].value,
+  "--mcp-font-size-xs": myCarPalTokens.typography.size.xs.value,
+  "--mcp-font-size-sm": myCarPalTokens.typography.size.sm.value,
+  "--mcp-font-size-md": myCarPalTokens.typography.size.md.value,
+  "--mcp-font-size-lg": myCarPalTokens.typography.size.lg.value,
+  "--mcp-font-size-xl": myCarPalTokens.typography.size.xl.value,
+  "--mcp-line-height-tight": myCarPalTokens.typography.lineHeight.tight.value,
+  "--mcp-line-height-normal": myCarPalTokens.typography.lineHeight.normal.value,
+  "--mcp-line-height-relaxed": myCarPalTokens.typography.lineHeight.relaxed.value,
+  "--mcp-font-weight-regular": myCarPalTokens.typography.weight.regular.value,
+  "--mcp-font-weight-semibold": myCarPalTokens.typography.weight.semibold.value,
+  "--mcp-font-weight-bold": myCarPalTokens.typography.weight.bold.value,
+  "--mcp-focus-ring-color": myCarPalTokens.focus.color.value,
+  "--mcp-focus-ring": myCarPalTokens.focus.ring.value,
 } as const;

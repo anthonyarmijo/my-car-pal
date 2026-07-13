@@ -10,7 +10,7 @@ const storybookDir = path.join(repoRoot, "storybook-static");
 const outputDir = process.env.STORYBOOK_VISUAL_OUTPUT_DIR || path.join("/tmp", "my-car-pal-storybook-visual-smoke");
 
 const stories = [
-  { id: "design-system-tokens--desert-graphite-palette", label: "tokens" },
+  { id: "design-system-tokens--my-car-pal-palette", label: "tokens" },
   { id: "design-system-primitives--buttons-and-badges", label: "buttons-badges" },
   { id: "design-system-primitives--cards-and-header", label: "cards-header" },
   { id: "design-system-primitives--feedback-states", label: "feedback-states" },

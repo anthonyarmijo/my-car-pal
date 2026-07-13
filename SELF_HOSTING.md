@@ -142,7 +142,7 @@ docker compose up -d --build app
 
 ## Limitations
 
-- **No managed cloud features.** Stripe, Resend, Vercel Blob, Neon Postgres, and production deployment config live in a private managed-cloud repo — not in this public core.
+- **Hosted-service integrations are not included.** The self-hosted application uses local authentication, PostgreSQL, and local file storage by default.
 - **Single user per instance** is the default experience. Multi-user household support is on the roadmap.
 - **Email delivery** is not included. Password reset and email verification require wiring your own SMTP provider.
 - **Vehicle image catalog** uses curated Wikimedia Commons assets. You may want to run `npm run catalog:sync` and `npm run catalog:images:import` after first setup.

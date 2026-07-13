@@ -19,7 +19,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "Presentational My Car Pal primitives using the Desert Graphite token set.",
+        component: "Presentational primitives using the shared My Car Pal UI tokens.",
       },
     },
   },

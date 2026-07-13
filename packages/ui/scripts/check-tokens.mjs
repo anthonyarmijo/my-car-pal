@@ -58,8 +58,8 @@ function buildTokenSnapshot(tokens) {
   };
 }
 
-const { desertGraphiteTokens } = await importTokenSource();
-const expected = `${JSON.stringify(buildTokenSnapshot(desertGraphiteTokens), null, 2)}\n`;
+const { myCarPalTokens } = await importTokenSource();
+const expected = `${JSON.stringify(buildTokenSnapshot(myCarPalTokens), null, 2)}\n`;
 const actual = await readFile(tokenJsonPath, "utf8");
 
 if (actual === expected) {

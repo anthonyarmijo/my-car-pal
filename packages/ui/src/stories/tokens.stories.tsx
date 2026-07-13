@@ -1,22 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { desertGraphiteTokens } from "../index";
+import { myCarPalTokens } from "../index";
 
 const colorSwatches = [
-  desertGraphiteTokens.color.primitive["graphite.950"],
-  desertGraphiteTokens.color.primitive["porcelain.50"],
-  desertGraphiteTokens.color.primitive["sand.200"],
-  desertGraphiteTokens.color.primitive["tobacco.600"],
-  desertGraphiteTokens.color.primitive["bluegray.500"],
-  desertGraphiteTokens.color.primitive["sage.600"],
+  myCarPalTokens.color.primitive["graphite.950"],
+  myCarPalTokens.color.primitive["porcelain.50"],
+  myCarPalTokens.color.primitive["sand.200"],
+  myCarPalTokens.color.primitive["tobacco.600"],
+  myCarPalTokens.color.primitive["bluegray.500"],
+  myCarPalTokens.color.primitive["sage.600"],
 ];
 
 const semanticTokens = [
-  desertGraphiteTokens.color.semantic["action.primary"],
-  desertGraphiteTokens.color.semantic["action.secondary"],
-  desertGraphiteTokens.color.state.success,
-  desertGraphiteTokens.color.state.warning,
-  desertGraphiteTokens.color.state.danger,
-  desertGraphiteTokens.focus.ring,
+  myCarPalTokens.color.semantic["action.primary"],
+  myCarPalTokens.color.semantic["action.secondary"],
+  myCarPalTokens.color.state.success,
+  myCarPalTokens.color.state.warning,
+  myCarPalTokens.color.state.danger,
+  myCarPalTokens.focus.ring,
 ];
 
 const meta = {
@@ -24,7 +24,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "The first reusable token set for the Desert Graphite visual system.",
+        component: "Reusable semantic tokens for the My Car Pal interface.",
       },
     },
   },
@@ -33,7 +33,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const DesertGraphitePalette: Story = {
+export const MyCarPalPalette: Story = {
   render: () => (
     <div style={{ display: "grid", gap: "1rem" }}>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "0.75rem" }}>

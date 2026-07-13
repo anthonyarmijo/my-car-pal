@@ -4672,7 +4672,7 @@ body:has(.landing-product-page) .app-shell {
 }
 
 
-/* Warm Scandinavian Garage app shell for public utility, auth, and signed-in routes */
+/* Shared app shell for public, authentication, and signed-in routes */
 body:not(:has(.landing-product-page)) {
   --bg: #f6f3ec;
   --surface: #fffdf8;
@@ -5280,7 +5280,7 @@ html[data-resolved-theme="dark"] body:not(:has(.landing-product-page)) .activati
   color: #e8c98d;
 }
 
-/* Warm Scandinavian Garage authenticated shell + Home dashboard */
+/* Authenticated shell and Home dashboard */
 body:has(.app-nav) {
   --bg: #f6f3ec;
   --surface: #fffdf8;

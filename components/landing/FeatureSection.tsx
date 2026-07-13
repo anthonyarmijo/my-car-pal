@@ -23,7 +23,7 @@ const stories = [
     number: "03",
     title: "Stay in control",
     description:
-      "Start quickly with VIN-assisted setup, then choose the ownership model that fits your garage—managed cloud or self-hosted open core.",
+      "Start quickly with VIN-assisted setup, then choose the ownership model that fits your garage—hosted service or self-hosted application.",
     points: ["Cars, trucks, SUVs, and motorcycles", "Cost visibility by vehicle", "Exportable records and self-hosting"],
     visual: "control",
   },

@@ -1,5 +1,5 @@
 :root,
-.mcp-theme-desert-graphite {
+.mcp-theme-default {
   --mcp-font-sans: var(--font-sans, var(--font-geist-sans), "Geist", "Avenir Next", "Segoe UI", sans-serif);
   --mcp-color-graphite-950: #211f1c;
   --mcp-color-graphite-900: #2b2925;

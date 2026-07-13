@@ -110,12 +110,12 @@ my-car-pal/
   prisma/            # Database schema and migrations
   public/            # Static assets
   scripts/           # Dev, CI, and verification scripts
-  docs/              # Developer and infrastructure docs
+  docs/              # Public engineering documentation
 ```
 
 ### Design System
 
-The `@my-car-pal/ui` package contains shared primitives (Button, Card, Badge, FormMessage, EmptyState) with Desert Graphite tokens. App surfaces should use package primitives where possible. `components/ui/` holds legacy adapters scheduled for migration.
+The `@my-car-pal/ui` package contains shared primitives such as Button, Card, Badge, FormMessage, and EmptyState, plus the semantic My Car Pal UI tokens. App surfaces should use package primitives where practical. See [docs/ui-architecture.md](docs/ui-architecture.md) for the package boundary and verification workflow.
 
 ## Where to Help
 

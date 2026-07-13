@@ -46,5 +46,5 @@ body:
     attributes:
       label: Boundary check
       options:
-        - label: This issue is about the public self-hosted core, not private managed-cloud billing, deployment, or customer operations.
+        - label: This issue is about the self-hosted application, not hosted-service billing, deployment, or account support.
           required: true

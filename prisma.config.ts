@@ -1,4 +1,4 @@
-// My Car Pal — Private Cloud Prisma Config
+// My Car Pal Prisma configuration
 // Multi-file schema: points to the prisma/ directory which is
 // recursively searched for all *.prisma files.
 // This includes both the public-core schema.prisma and the
