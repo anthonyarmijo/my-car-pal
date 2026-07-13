@@ -2,7 +2,7 @@
 
 Notable user-facing and contributor-facing changes to the public My Car Pal application are recorded here.
 
-## 2026-07-12
+## 1.1.0 — 2026-07-12
 
 - Clarified the landing page's product positioning and made the hosted and self-hosted options easier to compare.
 - Reorganized the product story around upcoming attention, complete vehicle records, and owner control.
