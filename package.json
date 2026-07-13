@@ -55,7 +55,7 @@
     "@prisma/client": "^6.19.2",
     "@shaggytools/nhtsa-api-wrapper": "^3.0.4",
     "@vercel/blob": "^2.6.1",
-    "better-auth": "^1.5.4",
+    "better-auth": "^1.6.13",
     "jose": "^6.2.3",
     "next": "^15.1.6",
     "react": "^19.0.0",
