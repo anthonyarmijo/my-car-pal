@@ -7,7 +7,6 @@ import { initialGloveboxFormState } from "@/app/glovebox/state";
 import { formatLocalDateForInput } from "@/lib/date-only";
 import { DOCUMENT_FILE_ACCEPT } from "@/lib/upload-constants";
 import { Button, FormMessage } from "@my-car-pal/ui";
-import { DateInputIcon } from "@/components/ui/date-input-icon";
 import { Field, FormStack } from "@/components/ui/field";
 
 type GloveboxInsuranceFormProps = {
@@ -42,7 +41,6 @@ export function GloveboxInsuranceForm({
           <span>Insurance renewal date</span>
           <div className="date-input-wrap">
             <input name="insuranceExpiresAt" type="date" defaultValue={insuranceExpiresAt || today} />
-            <DateInputIcon />
           </div>
         </Field>
 

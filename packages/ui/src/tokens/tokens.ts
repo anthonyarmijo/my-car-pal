@@ -52,22 +52,22 @@ export const myCarPalTokens = {
         description: "Muted graphite for secondary dark text and icons.",
       },
       "porcelain.50": {
-        value: "#fffdf8",
+        value: "#fbfaf7",
         cssVariable: "--mcp-color-porcelain-50",
         description: "Warm porcelain page background.",
       },
       "porcelain.100": {
-        value: "#fbf7ef",
+        value: "#f4f0e8",
         cssVariable: "--mcp-color-porcelain-100",
         description: "Quiet porcelain fill for muted surfaces.",
       },
       "sand.100": {
-        value: "#efe5d2",
+        value: "#ebe4d8",
         cssVariable: "--mcp-color-sand-100",
         description: "Light sand structure and soft fills.",
       },
       "sand.200": {
-        value: "#dcc8a8",
+        value: "#d6cec2",
         cssVariable: "--mcp-color-sand-200",
         description: "Primary sand border color.",
       },
@@ -129,12 +129,12 @@ export const myCarPalTokens = {
     },
     semantic: {
       text: {
-        value: "#28231d",
+        value: "{color.primitive.graphite.900}",
         cssVariable: "--mcp-color-text",
         description: "Default foreground text.",
       },
       muted: {
-        value: "#6f6252",
+        value: "#66645e",
         cssVariable: "--mcp-color-muted",
         description: "Secondary text and quiet labels.",
       },
@@ -144,7 +144,7 @@ export const myCarPalTokens = {
         description: "Default component border.",
       },
       surface: {
-        value: "#ffffff",
+        value: "{color.primitive.porcelain.50}",
         cssVariable: "--mcp-color-surface",
         description: "Primary card and control surface.",
       },
@@ -206,18 +206,18 @@ export const myCarPalTokens = {
     "6": { value: "1.5rem", cssVariable: "--mcp-space-6", description: "24px spacing unit." },
   },
   radius: {
-    xs: { value: "4px", cssVariable: "--mcp-radius-xs", description: "Small details and badges." },
-    sm: { value: "6px", cssVariable: "--mcp-radius-sm", description: "Inputs and buttons." },
-    md: { value: "8px", cssVariable: "--mcp-radius-md", description: "Cards and alerts." },
+    xs: { value: "6px", cssVariable: "--mcp-radius-xs", description: "Small details and badges." },
+    sm: { value: "9px", cssVariable: "--mcp-radius-sm", description: "Inputs and buttons." },
+    md: { value: "14px", cssVariable: "--mcp-radius-md", description: "Cards and alerts." },
   },
   shadow: {
     sm: {
-      value: "0 4px 14px rgba(33, 31, 28, 0.06)",
+      value: "0 6px 20px rgba(33, 31, 28, 0.055)",
       cssVariable: "--mcp-shadow-sm",
       description: "Default low elevation.",
     },
     md: {
-      value: "0 16px 34px rgba(33, 31, 28, 0.1)",
+      value: "0 20px 48px rgba(33, 31, 28, 0.105)",
       cssVariable: "--mcp-shadow-md",
       description: "Prominent elevation for accent panels.",
     },

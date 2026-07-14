@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Route } from "next";
 
 const navItems: Array<{ href: Route; label: string }> = [
   { href: "/home", label: "Home" },
+  { href: "/alerts", label: "Alerts" },
   { href: "/garage", label: "Garage" },
   { href: "/maintenance", label: "Maintenance" },
-  { href: "/diy", label: "DIY" },
   { href: "/glovebox", label: "Glovebox" },
+  { href: "/diy", label: "DIY" },
 ];
 
 function HomeIcon() {
@@ -24,14 +24,12 @@ function HomeIcon() {
   );
 }
 
-function MailboxIcon({ hasNotifications }: { hasNotifications: boolean }) {
+function GloveboxDocumentsIcon({ hasNotifications }: { hasNotifications: boolean }) {
   return (
     <span className="mailbox-icon-wrap" aria-hidden="true">
       <svg suppressHydrationWarning viewBox="0 0 24 24" className="mailbox-icon">
-        <path d="M4.5 19.5V8.2a4.2 4.2 0 0 1 4.2-4.2h3.7a4.2 4.2 0 0 1 4.2 4.2v7.2H4.5" />
-        <path d="M16.6 8.3h2.9v11.2" />
-        <path d="M7.1 8.8h6.2" />
-        <path d={hasNotifications ? "M18.9 4.2v4.2l2.7-1-2.7-1" : "M18.9 4.2v4.2"} />
+        <rect x="5" y="4.5" width="14" height="15" rx="2" />
+        <path d="M8 8.2h8M8 12h8M8 15.8h5" />
       </svg>
       {hasNotifications ? <span className="mailbox-notification-dot" /> : null}
     </span>
@@ -41,6 +39,17 @@ function MailboxIcon({ hasNotifications }: { hasNotifications: boolean }) {
 function NavIcon({ label }: { label: string }) {
   if (label === "Home") {
     return <HomeIcon />;
+  }
+
+  if (label === "Alerts") {
+    return (
+      <span className="nav-icon-wrap" aria-hidden="true">
+        <svg suppressHydrationWarning viewBox="0 0 24 24" className="nav-icon">
+          <path d="M6.7 10.1a5.3 5.3 0 0 1 10.6 0c0 5 2.2 5.6 2.2 7H4.5c0-1.4 2.2-2 2.2-7Z" />
+          <path d="M9.8 20h4.4" />
+        </svg>
+      </span>
+    );
   }
 
   if (label === "Garage") {
@@ -87,22 +96,58 @@ function NavIcon({ label }: { label: string }) {
   );
 }
 
-export function AppNav() {
+type AppNavProps = {
+  activeAlertCount?: number;
+  className?: string;
+  linkClassName?: string;
+  activeLinkClassName?: string;
+  diyEnabled?: boolean;
+  onNavigate?: () => void;
+};
+
+export function AppNav({
+  activeAlertCount = 0,
+  className = "",
+  linkClassName = "",
+  activeLinkClassName = "",
+  diyEnabled = true,
+  onNavigate,
+}: AppNavProps = {}) {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Primary" className="app-nav">
+    <nav aria-label="Primary" className={`app-nav${className ? ` ${className}` : ""}`}>
       {navItems.map((item) => {
         const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
         const isHome = item.label === "Home";
+        const isAlerts = item.href === "/alerts";
+        const isComingSoon = item.href === "/diy" && !diyEnabled;
+        const classes = [
+          "nav-link",
+          isActive ? "nav-link-active" : "",
+          isHome ? "nav-link-home" : "",
+          linkClassName,
+          isActive ? activeLinkClassName : "",
+        ].filter(Boolean).join(" ");
         return (
           <Link
             key={item.href}
             href={item.href}
-            className={`nav-link${isActive ? " nav-link-active" : ""}${isHome ? " nav-link-home" : ""}`}
+            className={classes}
+            aria-current={isActive ? "page" : undefined}
+            onClick={onNavigate}
           >
             <NavIcon label={item.label} />
             <span>{item.label}</span>
+            {isAlerts && activeAlertCount > 0 ? (
+              <span
+                className="nav-alert-count"
+                aria-label={`${activeAlertCount} active alert${activeAlertCount === 1 ? "" : "s"}`}
+              >
+                {activeAlertCount > 99 ? "99+" : activeAlertCount}
+              </span>
+            ) : null}
+            {isComingSoon ? <small className="nav-coming-soon-badge">Coming soon</small> : null}
           </Link>
         );
       })}
@@ -114,65 +159,43 @@ type MailboxStatusButtonProps = {
   iconOnly?: boolean;
   className?: string;
   linked?: boolean;
+  unreadCount?: number;
 };
 
-export function MailboxStatusButton({ iconOnly = false, className = "", linked = true }: MailboxStatusButtonProps) {
-  const pathname = usePathname();
-  const [hasNotifications, setHasNotifications] = useState(false);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadNotifications() {
-      try {
-        const response = await fetch("/api/notifications", { cache: "no-store" });
-        if (!response.ok) {
-          return;
-        }
-
-        const payload = (await response.json()) as { hasNotifications?: boolean };
-        if (!cancelled) {
-          setHasNotifications(Boolean(payload.hasNotifications));
-          setCount(Number((payload as { count?: number }).count ?? 0));
-        }
-      } catch {
-        // Keep default false on network issues.
-      }
-    }
-
-    void loadNotifications();
-    const intervalId = window.setInterval(() => {
-      void loadNotifications();
-    }, 4000);
-    window.addEventListener("focus", loadNotifications);
-
-    return () => {
-      cancelled = true;
-      window.clearInterval(intervalId);
-      window.removeEventListener("focus", loadNotifications);
-    };
-  }, [pathname]);
+export function MailboxStatusButton({
+  iconOnly = false,
+  className = "",
+  linked = true,
+  unreadCount = 0,
+}: MailboxStatusButtonProps) {
+  const count = Math.max(0, unreadCount);
+  const hasNotifications = count > 0;
 
   const classes = `mailbox-status-button${hasNotifications ? " mailbox-status-button-alert" : ""}${
     iconOnly ? " mailbox-status-button-icon-only" : ""
   }${className ? ` ${className}` : ""}`;
+  const accessibleLabel = hasNotifications
+    ? `Glovebox documents, ${count} unread alert${count === 1 ? "" : "s"}`
+    : "Glovebox documents";
+  const tooltip = hasNotifications
+    ? `Open Glovebox — ${count} unread alert${count === 1 ? "" : "s"}`
+    : "Open Glovebox documents";
 
   if (!linked) {
     return (
-      <span className={classes} aria-label={hasNotifications ? `Mailbox, ${count} unread alerts` : "Mailbox"}>
-        <MailboxIcon hasNotifications={hasNotifications} />
-        {!iconOnly ? <span className="mailbox-status-text">{hasNotifications ? `${count} unread` : "Mailbox"}</span> : null}
-        {iconOnly ? <span className="screen-reader-only">{hasNotifications ? `${count} unread alerts` : "Mailbox"}</span> : null}
+      <span className={classes} aria-label={accessibleLabel} title={iconOnly ? tooltip : undefined}>
+        <GloveboxDocumentsIcon hasNotifications={hasNotifications} />
+        {!iconOnly ? <span className="mailbox-status-text">{hasNotifications ? `${count} unread` : "Glovebox"}</span> : null}
+        {iconOnly ? <span className="screen-reader-only">{accessibleLabel}</span> : null}
       </span>
     );
   }
 
   return (
-    <Link href="/glovebox" className={classes} aria-label={hasNotifications ? `Mailbox, ${count} unread alerts` : "Mailbox"}>
-      <MailboxIcon hasNotifications={hasNotifications} />
-      {!iconOnly ? <span className="mailbox-status-text">{hasNotifications ? `${count} unread` : "Mailbox"}</span> : null}
-      {iconOnly ? <span className="screen-reader-only">{hasNotifications ? `${count} unread alerts` : "Mailbox"}</span> : null}
+    <Link href="/glovebox" className={classes} aria-label={accessibleLabel} title={iconOnly ? tooltip : undefined}>
+      <GloveboxDocumentsIcon hasNotifications={hasNotifications} />
+      {!iconOnly ? <span className="mailbox-status-text">{hasNotifications ? `${count} unread` : "Glovebox"}</span> : null}
+      {iconOnly ? <span className="screen-reader-only">{accessibleLabel}</span> : null}
     </Link>
   );
 }

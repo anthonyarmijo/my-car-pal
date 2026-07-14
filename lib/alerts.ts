@@ -8,6 +8,7 @@ import { formatVehicleLabel } from "@/lib/vehicle-display";
 export type UserAlertItem = {
   key: string;
   category: "maintenance" | "registration" | "insurance";
+  vehicleIds: string[] | null;
   title: string;
   detail: string;
   dueAt: Date;
@@ -32,7 +33,7 @@ export async function getUserAlerts(userId: string, daysAhead = 30): Promise<Use
       },
       include: {
         vehicle: {
-          select: { year: true, make: true, model: true, trim: true },
+          select: { id: true, year: true, make: true, model: true, trim: true },
         },
       },
       orderBy: { dueDate: "asc" },
@@ -63,7 +64,7 @@ export async function getUserAlerts(userId: string, daysAhead = 30): Promise<Use
         vehicles: {
           include: {
             vehicle: {
-              select: { year: true, make: true, model: true, trim: true },
+              select: { id: true, year: true, make: true, model: true, trim: true },
             },
           },
         },
@@ -101,6 +102,7 @@ export async function getUserAlerts(userId: string, daysAhead = 30): Promise<Use
     alertItems.push({
       key: `reminder:${reminder.id}`,
       category: "maintenance",
+      vehicleIds: [reminder.vehicle.id],
       title: reminder.title,
       detail: `${formatVehicleLabel(reminder.vehicle)} • ${reminderDueNow ? "Due now" : `due ${formatDateOnlyLabel(reminder.dueDate)}`}`,
       dueAt: reminder.dueDate,
@@ -116,6 +118,7 @@ export async function getUserAlerts(userId: string, daysAhead = 30): Promise<Use
     alertItems.push({
       key: `registration:${vehicle.id}`,
       category: "registration",
+      vehicleIds: [vehicle.id],
       title: "Registration expiring",
       detail: `${formatVehicleLabel(vehicle)} • ${dueNow ? "Due now" : `due ${formatDateOnlyLabel(vehicle.registrationExpiresAt)}`}`,
       dueAt: vehicle.registrationExpiresAt,
@@ -136,6 +139,7 @@ export async function getUserAlerts(userId: string, daysAhead = 30): Promise<Use
     alertItems.push({
       key: `insurance:${policy.id}`,
       category: "insurance",
+      vehicleIds: policy.appliesToAll ? null : policy.vehicles.map((item) => item.vehicle.id),
       title: `Insurance policy ${policy.policyId} expiring`,
       detail: `${coverageDetail} • ${dueNow ? "Due now" : `due ${formatDateOnlyLabel(policy.expiresAt)}`}`,
       dueAt: policy.expiresAt,
@@ -186,6 +190,7 @@ export async function getUserAlerts(userId: string, daysAhead = 30): Promise<Use
         alertItems.push({
           key: `recommended:${vehicle.id}:${service.serviceKey}`,
           category: "maintenance",
+          vehicleIds: [vehicle.id],
           title: service.title,
           detail: `${vehicleLabel} • ${isDueNow ? "Due now" : `due ${formatDateOnlyLabel(dueAt)}`}`,
           dueAt,

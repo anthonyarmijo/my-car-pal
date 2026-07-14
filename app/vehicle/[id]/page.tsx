@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { deleteMaintenanceAction } from "@/app/maintenance/actions";
 import { EditVehicleProfileForm } from "@/components/edit-vehicle-profile-form";
 import { OdometerUpdateForm } from "@/components/odometer-update-form";
+import { PageHeader } from "@/components/ui/page-header";
 import { requireCurrentUser } from "@/lib/auth-session";
 import { formatDateOnlyForInput, formatDateOnlyLabel } from "@/lib/date-only";
 import { prisma } from "@/lib/prisma";
@@ -55,18 +56,18 @@ export default async function VehicleDetailPage({ params }: VehiclePageProps) {
 
   return (
     <>
-      <section className="section-card">
-        <p className="badge">Vehicle Profile</p>
-        <div className="section-title-action-row">
-          <h2 className="section-title">{formatVehicleLabel(vehicleForRender)}</h2>
-          {vehicleForRender.registrationDocUrl ? (
+      <PageHeader
+        eyebrow="Vehicle profile"
+        title={formatVehicleLabel(vehicleForRender)}
+        subtitle="Update vehicle details, mileage, registration, and maintenance history from one workspace."
+        actions={
+          vehicleForRender.registrationDocUrl ? (
             <a href={vehicleForRender.registrationDocUrl} target="_blank" rel="noreferrer" className="button-chip button-chip-success">
               View registration (new tab)
             </a>
-          ) : null}
-        </div>
-        <p className="section-subtitle">Update VIN, license plate, registration expiration, and registration document.</p>
-      </section>
+          ) : null
+        }
+      />
 
       <section className="section-card">
         <h2 className="section-title">Quick Odometer Update</h2>

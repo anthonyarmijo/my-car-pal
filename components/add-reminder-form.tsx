@@ -6,7 +6,6 @@ import { addReminderAction } from "@/app/maintenance/actions";
 import { initialMaintenanceFormState } from "@/app/maintenance/state";
 import { formatLocalDateForInput } from "@/lib/date-only";
 import { Button, FormMessage } from "@my-car-pal/ui";
-import { DateInputIcon } from "@/components/ui/date-input-icon";
 import { Field, FieldGrid, Fieldset, FormStack } from "@/components/ui/field";
 
 type VehicleOption = {
@@ -62,7 +61,6 @@ export function AddReminderForm({ vehicles }: AddReminderFormProps) {
             <span>Due date</span>
             <div className="date-input-wrap">
               <input name="dueDate" type="date" required defaultValue={today} />
-              <DateInputIcon />
             </div>
           </Field>
         </FieldGrid>

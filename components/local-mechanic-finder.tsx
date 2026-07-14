@@ -161,12 +161,19 @@ export function LocalMechanicFinder() {
 
       <div className="mechanic-search-controls">
         <button
-          className="button-primary button-small"
+          className="button-primary button-small mechanic-location-button"
           type="button"
           onClick={findMechanicsByLocation}
           disabled={lookup.status === "loading"}
+          aria-label={lookup.status === "loading" ? "Finding nearby mechanics" : "Use my location"}
+          aria-busy={lookup.status === "loading"}
+          title={lookup.status === "loading" ? "Finding nearby mechanics" : "Use my location"}
         >
-          {lookup.status === "loading" ? "Searching..." : "Use my location"}
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="6.5" />
+            <circle cx="12" cy="12" r="2.25" />
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+          </svg>
         </button>
 
         <label className="field field-compact" style={{ margin: 0 }}>

@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { PageHeader } from "@/components/ui/page-header";
 import { requireCurrentUser } from "@/lib/auth-session";
 import { DIY_ARTICLES, getDiyArticle } from "@/lib/diy-content";
+import { isDiyFeatureEnabled } from "@/lib/feature-flags";
 
 type DiyArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -13,6 +15,11 @@ export async function generateStaticParams() {
 
 export default async function DiyArticlePage({ params }: DiyArticlePageProps) {
   await requireCurrentUser();
+
+  if (!isDiyFeatureEnabled()) {
+    redirect("/diy");
+  }
+
   const { slug } = await params;
   const article = getDiyArticle(slug);
 
@@ -22,14 +29,12 @@ export default async function DiyArticlePage({ params }: DiyArticlePageProps) {
 
   return (
     <>
-      <section className="page-header-block">
-        <p className="badge">DIY Guide</p>
-        <h1 className="page-title">{article.title}</h1>
-        <p className="page-subtitle">{article.summary}</p>
-        <p className="section-subtitle" style={{ marginTop: "0.55rem" }}>
-          Category: <strong>{article.category}</strong>
-        </p>
-      </section>
+      <PageHeader
+        eyebrow="DIY guide"
+        title={article.title}
+        subtitle={article.summary}
+        actions={<span className="page-header-meta">{article.category}</span>}
+      />
 
       <section className="section-card diy-guide-meta-card">
         <h2 className="section-title diy-section-title">Guide Details</h2>

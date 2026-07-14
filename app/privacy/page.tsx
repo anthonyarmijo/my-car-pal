@@ -1,4 +1,4 @@
-import { Badge, Card } from "@my-car-pal/ui";
+import { PublicInfoPage, PublicInfoSection } from "@/components/public-info-page";
 
 const privacySections = [
   {
@@ -30,25 +30,16 @@ const privacySections = [
 
 export default function PrivacyPage() {
   return (
-    <Card as="section" className="section-card" style={{ maxWidth: "54rem" }}>
-      <Badge>Privacy</Badge>
-      <h1 className="section-title" style={{ marginTop: "0.6rem" }}>
-        Privacy Policy
-      </h1>
-      <p className="section-subtitle" style={{ marginTop: "0.65rem" }}>
-        My Car Pal is built to help owners organize maintenance records, reminders, and documents with a privacy-forward posture.
-      </p>
-
-      <div style={{ display: "grid", gap: "1rem", marginTop: "1.25rem" }}>
-        {privacySections.map((section) => (
-          <Card as="article" key={section.title} className="section-card" style={{ boxShadow: "none" }}>
-            <h2 className="section-title">{section.title}</h2>
-            <p className="section-subtitle" style={{ marginTop: "0.55rem" }}>
-              {section.body}
-            </p>
-          </Card>
-        ))}
-      </div>
-    </Card>
+    <PublicInfoPage
+      eyebrow="Privacy"
+      title="Privacy Policy"
+      intro="My Car Pal is built to help owners organize maintenance records, reminders, and documents with a privacy-forward posture."
+    >
+      {privacySections.map((section) => (
+        <PublicInfoSection key={section.title} title={section.title}>
+          <p>{section.body}</p>
+        </PublicInfoSection>
+      ))}
+    </PublicInfoPage>
   );
 }

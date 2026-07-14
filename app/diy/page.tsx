@@ -1,19 +1,35 @@
 import { requireCurrentUser } from "@/lib/auth-session";
 import { DIY_ARTICLES, DIY_SAFETY_TIPS, DIY_TOOLS } from "@/lib/diy-content";
 import { DiyArticleBrowser } from "@/components/diy-article-browser";
+import { DiyComingSoon } from "@/components/diy-coming-soon";
+import { PageHeader } from "@/components/ui/page-header";
+import { isDiyFeatureEnabled } from "@/lib/feature-flags";
 
 export default async function DiyPage() {
   await requireCurrentUser();
+  const diyEnabled = isDiyFeatureEnabled();
+
+  if (!diyEnabled) {
+    return (
+      <>
+        <PageHeader
+          eyebrow="Learning workspace"
+          title="DIY"
+          subtitle="A safety-first learning center for practical vehicle care."
+          actions={<span className="page-header-meta">Coming soon</span>}
+        />
+        <DiyComingSoon />
+      </>
+    );
+  }
 
   return (
     <>
-      <section className="page-header-block">
-        <h1 className="page-title">DIY</h1>
-        <p className="page-subtitle">
-          Learn practical, beginner-friendly auto maintenance with clear guides so you can save money, build confidence, and care for your
-          vehicle on your schedule.
-        </p>
-      </section>
+      <PageHeader
+        eyebrow="Learning workspace"
+        title="DIY"
+        subtitle="Learn practical, beginner-friendly auto maintenance with clear guides so you can save money, build confidence, and care for your vehicle on your schedule."
+      />
 
       <section className="section-card diy-hero-card">
         <p className="badge">Learn + Save</p>

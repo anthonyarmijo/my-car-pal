@@ -1,10 +1,13 @@
-import { Badge, Card } from "@my-car-pal/ui";
+import { PublicInfoPage } from "@/components/public-info-page";
 
 export default function AboutPage() {
   return (
-    <Card as="section" className="section-card about-page-card" style={{ maxWidth: "52rem" }}>
-      <Badge>About Us</Badge>
-      <h2 className="section-title about-page-title">Why My Car Pal exists</h2>
+    <PublicInfoPage
+      eyebrow="About us"
+      title="Why My Car Pal exists"
+      intro="A calmer, owner-first way to care for the vehicles that keep everyday life moving."
+      className="about-page-card"
+    >
       <p className="section-subtitle about-page-subtitle about-page-lead">
         My Car Pal started from a personal need: managing multiple vehicles without paper notes, scattered files, or the stress of
         forgetting what was due next.
@@ -27,6 +30,6 @@ export default function AboutPage() {
         regular person who saw a real problem and wanted to share a better solution with friends, family, and other drivers.
       </p>
       <p className="about-page-closing">Thanks for supporting My Car Pal and helping us keep building it the right way.</p>
-    </Card>
+    </PublicInfoPage>
   );
 }

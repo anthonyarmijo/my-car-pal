@@ -104,6 +104,7 @@ export function RegisterOnboarding({ initialError = "", initialStep = "email" }:
   return (
     <div className="auth-shell-onboarding">
       <section className="section-card onboarding-shell">
+        <h1 className="sr-only">{stepMeta.title}</h1>
         <div className="onboarding-shell-head">
           <div className="onboarding-stepper" aria-label="Signup progress">
             {setupSteps.map((label, index) => (

@@ -7,18 +7,17 @@ import { initialGloveboxFormState } from "@/app/glovebox/state";
 import { formatLocalDateForInput } from "@/lib/date-only";
 import { DOCUMENT_FILE_ACCEPT } from "@/lib/upload-constants";
 import { Button, FormMessage, getButtonClassName } from "@my-car-pal/ui";
-import { DateInputIcon } from "@/components/ui/date-input-icon";
 import { Field, FormStack } from "@/components/ui/field";
 import { SectionSubtitle } from "@/components/ui/section-header";
 
-type ArchivedDoc = {
+export type ArchivedDoc = {
   id: string;
   title: string;
   fileUrl: string;
   createdAtLabel: string;
 };
 
-type GloveboxRegistrationFormProps = {
+export type GloveboxRegistrationFormProps = {
   vehicleId: string;
   registrationExpiresAt: string;
   registrationDocUrl: string | null;
@@ -40,33 +39,52 @@ export function GloveboxRegistrationForm({
   registrationDocUrl,
   archivedDocs,
 }: GloveboxRegistrationFormProps) {
-  const [state, formAction] = useActionState(updateVehicleRegistrationAction, initialGloveboxFormState);
+  const [state, formAction] = useActionState(
+    updateVehicleRegistrationAction,
+    initialGloveboxFormState,
+  );
   const today = formatLocalDateForInput(new Date());
 
   return (
     <div className="form-stack">
-      <FormStack action={formAction}>
+      <FormStack action={formAction} className="glovebox-registration-form">
         <input type="hidden" name="vehicleId" value={vehicleId} />
 
-        <Field compact>
-          <span>Registration renewal date</span>
-          <div className="date-input-wrap">
-            <input name="registrationExpiresAt" type="date" defaultValue={registrationExpiresAt || today} />
-            <DateInputIcon />
-          </div>
-        </Field>
+        <div className="glovebox-registration-fields">
+          <Field compact className="glovebox-registration-date-field">
+            <span>Renewal date</span>
+            <div className="date-input-wrap">
+              <input
+                name="registrationExpiresAt"
+                type="date"
+                defaultValue={registrationExpiresAt || today}
+              />
+            </div>
+          </Field>
 
-        <Field>
-          <span>Registration document (PDF, JPEG, PNG, or WebP)</span>
-          <input name="registrationDoc" type="file" accept={DOCUMENT_FILE_ACCEPT} />
+          <Field className="glovebox-registration-file-field">
+            <span>Registration document (PDF or image)</span>
+            <input
+              name="registrationDoc"
+              type="file"
+              accept={DOCUMENT_FILE_ACCEPT}
+            />
+          </Field>
+        </div>
+
+        <div className="glovebox-registration-actions">
+          <SubmitButton />
           {registrationDocUrl ? (
-            <a href={registrationDocUrl} target="_blank" rel="noreferrer" className={getButtonClassName({ variant: "success", size: "sm" })}>
-              View registration (new tab)
+            <a
+              href={registrationDocUrl}
+              target="_blank"
+              rel="noreferrer"
+              className={getButtonClassName({ variant: "success", size: "sm" })}
+            >
+              View current registration
             </a>
           ) : null}
-        </Field>
-
-        <SubmitButton />
+        </div>
       </FormStack>
 
       {state.message ? (
@@ -75,20 +93,20 @@ export function GloveboxRegistrationForm({
         </FormMessage>
       ) : null}
 
-      <div className="archived-docs">
-        <SectionSubtitle style={{ marginTop: 0 }}>
-          Archived registration docs
-        </SectionSubtitle>
-        {archivedDocs.length === 0 ? (
-          <SectionSubtitle>No archived registration docs yet.</SectionSubtitle>
-        ) : (
+      {archivedDocs.length > 0 ? (
+        <div className="archived-docs">
+          <SectionSubtitle style={{ marginTop: 0 }}>
+            Archived registration docs
+          </SectionSubtitle>
           <ul className="list-reset kv" style={{ marginTop: "0.55rem" }}>
             {archivedDocs.map((doc) => (
               <li key={doc.id} className="kv-row">
                 <span>
                   <strong>{doc.title}</strong>
                   <br />
-                  <small style={{ color: "var(--muted)" }}>Archived {doc.createdAtLabel}</small>
+                  <small style={{ color: "var(--muted)" }}>
+                    Archived {doc.createdAtLabel}
+                  </small>
                 </span>
                 <a href={doc.fileUrl} target="_blank" rel="noreferrer">
                   Open
@@ -96,8 +114,8 @@ export function GloveboxRegistrationForm({
               </li>
             ))}
           </ul>
-        )}
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 }

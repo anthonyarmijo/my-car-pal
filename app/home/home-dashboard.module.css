@@ -1,0 +1,105 @@
+.dashboard {
+  gap: 1rem;
+}
+
+.dashboard :global(.home-top-grid) {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.dashboard :global(.home-content-grid) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.dashboard :global(.home-content-side-stack) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dashboard :global(.home-welcome-card) {
+  display: flex;
+  min-height: 5.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0.15rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.dashboard :global(.home-welcome-copy) {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.dashboard :global(.home-welcome-heading-row) {
+  align-items: center;
+}
+
+.dashboard :global(.home-welcome-title) {
+  margin: 0;
+  color: #26261f;
+  font-size: clamp(1.55rem, 2.8vw, 2.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.dashboard :global(.home-welcome-card .section-subtitle) {
+  margin: 0;
+}
+
+.dashboard :global(.home-welcome-status) {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #e3c987;
+  border-radius: 999px;
+  color: #8a5a00;
+  background: #fff4d6;
+  font-size: 0.72rem;
+  font-weight: 760;
+}
+
+.dashboard :global(.home-primary-vehicle-card) {
+  border-color: #cdd8c4;
+  background:
+    radial-gradient(circle at 88% 38%, rgba(56, 98, 76, 0.12), transparent 18rem),
+    linear-gradient(135deg, #fffdf8 0%, #edf2e7 100%);
+}
+
+.dashboard :global(.home-primary-vehicle-title) {
+  letter-spacing: -0.025em;
+}
+
+.dashboard :global(.home-alerts-card),
+.dashboard :global(.home-odometer-card),
+.dashboard :global(.dashboard-overview-card) {
+  background: #fffdf8;
+}
+
+:global(html[data-resolved-theme="dark"]) .dashboard :global(.home-welcome-title) {
+  color: #f3f0e9;
+}
+
+:global(html[data-resolved-theme="dark"]) .dashboard :global(.home-primary-vehicle-card),
+:global(html[data-resolved-theme="dark"]) .dashboard :global(.home-alerts-card),
+:global(html[data-resolved-theme="dark"]) .dashboard :global(.home-odometer-card),
+:global(html[data-resolved-theme="dark"]) .dashboard :global(.dashboard-overview-card) {
+  border-color: #465149;
+  background: #262c28;
+}
+
+@media (max-width: 720px) {
+  .dashboard :global(.home-content-side-stack) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard :global(.home-welcome-card) {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-block: 0.35rem;
+  }
+
+  .dashboard :global(.home-welcome-status) {
+    align-self: flex-start;
+  }
+}

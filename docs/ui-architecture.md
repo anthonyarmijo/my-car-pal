@@ -26,6 +26,16 @@ npm run tokens:write --workspace @my-car-pal/ui
 npm run check:ui-tokens
 ```
 
+## Porcelain / Graphite Direction
+
+The default visual language uses warm porcelain surfaces, graphite text and structure, restrained moss-green actions, and state colors only when they communicate meaning. The landing-page dashboard preview informs hierarchy and composition, but application screens may be denser and more comprehensive when the workflow requires it.
+
+- Shared semantic values live in `packages/ui/src/tokens/tokens.ts` and its runtime CSS counterpart.
+- `app/porcelain.css` is the application-level convergence layer loaded after legacy styles. It defines the selected visual direction while older route-specific rules are retired incrementally.
+- `components/app-shell.module.css` owns the responsive authenticated sidebar, product bar, mobile drawer, and dark-theme rail treatment.
+- Page-specific CSS may arrange feature content, but should consume semantic surface, text, border, action, and state values instead of introducing a competing palette.
+- New reusable presentation belongs in `@my-car-pal/ui`; application adapters may supply product-specific defaults without duplicating primitive markup.
+
 ## Theming and Responsive Behavior
 
 - Light and dark themes must both provide complete, intentional surface, text, border, focus, and state colors.

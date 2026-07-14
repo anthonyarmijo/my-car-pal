@@ -44,6 +44,7 @@ Copy `.env.example` to `.env` and configure:
 | `APPLE_CLIENT_ID` / `APPLE_CLIENT_SECRET` / `APPLE_TEAM_ID` / `APPLE_KEY_ID` / `APPLE_PRIVATE_KEY` | Apple Sign In |
 | `NEXT_PUBLIC_ENABLE_SOCIAL_AUTH` | Set to `1` to show social login buttons |
 | `FILE_STORAGE_DRIVER` | `local` (default) for disk storage |
+| `FEATURE_DIY_ENABLED` | Set to `1` to expose the work-in-progress DIY learning center. It defaults on for local development and off for production builds. |
 
 ### Social Auth
 
@@ -108,6 +109,8 @@ Run `npx prisma migrate dev` and you're set — no Docker needed.
 By default, uploads go to `public/uploads/` on local disk. Set `FILE_STORAGE_DRIVER=local` (the default). No S3, no cloud storage, no external dependencies.
 
 ## Production Deployment
+
+DIY is staged behind `FEATURE_DIY_ENABLED`. Leave it blank (or set it to `0`) on the production deployment to show the Coming Soon experience. Set it to `1` only on the development deployment, such as `dev.mycarpal.app`, while the feature is being refined.
 
 For production self-hosting:
 

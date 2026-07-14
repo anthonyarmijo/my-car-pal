@@ -145,6 +145,7 @@ export default async function MaintenancePage() {
   return (
     <>
       <PageHeader
+        eyebrow="Care workspace"
         title="Maintenance"
         subtitle="Track services, set reminders, and keep an upcoming maintenance plan for every vehicle in your garage."
       />

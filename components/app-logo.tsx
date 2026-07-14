@@ -40,35 +40,6 @@ export function CarLogoMark({ className = "app-logo" }: CarLogoMarkProps) {
   );
 }
 
-function AuthLogoMark({ className = "app-logo" }: CarLogoMarkProps) {
-  return (
-    <svg className={className} viewBox="0 0 64 64" role="img" aria-hidden="true">
-      <path
-        d="M32 4.8 56 14v16.8c0 14.1-9.3 24.5-24 28.4C17.3 55.3 8 44.9 8 30.8V14z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M16.8 39.2h30.4v-7.1c0-1.7-1.1-3.1-2.7-3.6l-4.7-1.3-4.1-4.5c-.9-1-2.1-1.5-3.4-1.5h-6.1c-1.4 0-2.7.7-3.6 1.8l-3.4 4.7-1.2.4c-1.9.7-3.2 2.5-3.2 4.6z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M24.3 28.1h14.9M30.8 21.7v6.4M18.8 33.8h4.1M41.1 33.8h4.1M24.9 39.2v3.5M39.1 39.2v3.5"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <circle cx="24.8" cy="39.7" r="2.7" fill="currentColor" />
-      <circle cx="39.2" cy="39.7" r="2.7" fill="currentColor" />
-    </svg>
-  );
-}
-
 export function AppLogo() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
@@ -77,12 +48,12 @@ export function AppLogo() {
     setMounted(true);
   }, []);
 
-  const onMarketingOrAuthPage = pathname === "/" || pathname === "/login" || pathname === "/register";
+  const onMarketingOrAuthPage = ["/", "/about", "/privacy", "/terms", "/login", "/register", "/auth-error"].includes(pathname);
 
   // Render SVG only after mount — prevents Noir/Dark Reader browser extensions
   // from injecting attributes into server HTML and causing hydration mismatches.
   const logoSvg = mounted ? (
-    onMarketingOrAuthPage ? <CarLogoMark /> : <AuthLogoMark />
+    <CarLogoMark />
   ) : (
     <span className="app-logo app-logo-placeholder" aria-hidden="true" />
   );
