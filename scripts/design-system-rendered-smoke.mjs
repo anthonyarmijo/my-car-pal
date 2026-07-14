@@ -199,6 +199,15 @@ async function assertHealthyPage({ page, check, viewport, failures, screenshots 
   const screenshotPath = path.join(outputDir, `${check.label}-${viewport.label}.png`);
   await page.screenshot({ path: screenshotPath, fullPage: false, animations: "disabled" });
   screenshots.push(screenshotPath);
+
+  if (check.label === "landing") {
+    const privacyScreenshotPath = path.join(outputDir, `landing-privacy-choice-${viewport.label}.png`);
+    await page.locator(".lp-privacy-stack").screenshot({
+      path: privacyScreenshotPath,
+      animations: "disabled",
+    });
+    screenshots.push(privacyScreenshotPath);
+  }
 }
 
 async function gotoReady(page, url) {
@@ -216,10 +225,15 @@ async function assertPublicLayout(page, check, viewport, failures) {
       const shell = document.querySelector(".app-shell");
       const hero = document.querySelector(".lp-road");
       const poster = document.querySelector(".lp-road-poster");
-      if (!shell || !hero || !poster) return null;
+      const privacyPanel = document.querySelector(".lp-privacy-inner");
+      const choicePanel = document.querySelector(".lp-choice-block");
+      const privacyVeil = document.querySelector(".lp-privacy-pixel-veil");
+      if (!shell || !hero || !poster || !privacyPanel || !choicePanel || !privacyVeil) return null;
 
       const shellBox = shell.getBoundingClientRect();
       const heroBox = hero.getBoundingClientRect();
+      const privacyBox = privacyPanel.getBoundingClientRect();
+      const choiceBox = choicePanel.getBoundingClientRect();
       const posterStyle = getComputedStyle(poster);
       return {
         shellLeft: shellBox.left,
@@ -232,6 +246,10 @@ async function assertPublicLayout(page, check, viewport, failures) {
         scrollWidth: document.documentElement.scrollWidth,
         videoCount: document.querySelectorAll(".lp-road-video").length,
         posterVisible: posterStyle.display !== "none" && posterStyle.visibility !== "hidden",
+        privacyChoiceGap: choiceBox.top - privacyBox.bottom,
+        choiceInsidePrivacy: privacyPanel.contains(choicePanel),
+        veilInsidePrivacy: privacyPanel.contains(privacyVeil),
+        veilInsideChoice: choicePanel.contains(privacyVeil),
       };
     });
 
@@ -256,6 +274,15 @@ async function assertPublicLayout(page, check, viewport, failures) {
 
     if (layout.scrollWidth > layout.viewportWidth + edgeTolerance) {
       failures.push(`${check.label} (${viewport.label}) introduced horizontal overflow: ${JSON.stringify(layout)}`);
+    }
+
+    if (
+      layout.privacyChoiceGap < 8 ||
+      layout.choiceInsidePrivacy ||
+      !layout.veilInsidePrivacy ||
+      layout.veilInsideChoice
+    ) {
+      failures.push(`${check.label} (${viewport.label}) did not keep privacy and product choice in separate reveal surfaces: ${JSON.stringify(layout)}`);
     }
 
     if (check.mediaMode === "reduced-motion" || check.mediaMode === "save-data") {
