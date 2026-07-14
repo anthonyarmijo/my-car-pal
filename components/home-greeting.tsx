@@ -2,6 +2,7 @@ import { HomeWeatherBadge } from "@/components/home-weather-badge";
 
 type HomeGreetingProps = {
   displayName: string | null;
+  statusLabel?: string;
 };
 
 const GREETINGS = [
@@ -33,18 +34,19 @@ function randomGreeting(firstName: string): string {
   return firstName ? `${greeting}, ${firstName}.` : `${greeting}.`;
 }
 
-export function HomeGreeting({ displayName }: HomeGreetingProps) {
+export function HomeGreeting({ displayName, statusLabel }: HomeGreetingProps) {
   const message = randomGreeting(firstNameFromDisplayName(displayName));
 
   return (
     <section className="home-welcome-card">
-      <div className="home-welcome-heading-row">
-        <HomeWeatherBadge />
-        <h2 className="section-title home-welcome-title">
-          {message}
-        </h2>
+      <div className="home-welcome-copy">
+        <div className="home-welcome-heading-row">
+          <HomeWeatherBadge />
+          <h1 className="home-welcome-title">{message}</h1>
+        </div>
+        <p className="section-subtitle">Here&apos;s what&apos;s happening with your vehicles.</p>
       </div>
-      <p className="section-subtitle">Here&apos;s what&apos;s happening with your vehicles.</p>
+      {statusLabel ? <span className="home-welcome-status">{statusLabel}</span> : null}
     </section>
   );
 }

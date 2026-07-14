@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "@my-car-pal/ui/styles.css";
 import "./globals.css";
+import "./porcelain.css";
 import { AppShell } from "@/components/app-shell";
 
 export const metadata: Metadata = {
@@ -48,6 +49,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
       data-theme="system"
       data-resolved-theme="light"
+      data-design-system="porcelain-graphite"
       suppressHydrationWarning
     >
       <head>

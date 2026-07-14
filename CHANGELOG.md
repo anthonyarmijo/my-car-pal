@@ -2,6 +2,31 @@
 
 Notable user-facing and contributor-facing changes to the public My Car Pal application are recorded here.
 
+## Unreleased
+
+- Removed the redundant Back to Home action from the Alerts page header.
+- Added a live active-alert count to the Alerts item in desktop and mobile navigation.
+- Removed the duplicate embedded shadow from the generic vehicle placeholder.
+- Simplified registration management into a compact vehicle carousel with arrow, keyboard, and swipe navigation.
+- Added a dedicated Alerts workspace with sidebar navigation, a complete active-alert list, and read or reminder controls.
+- Unified the authenticated and public shells around the same landing-page car logo mark.
+- Replaced the Local Mechanic location text button with a compact, accessible current-location icon.
+- Fixed constrained Home alert cards so alert titles remain horizontal and actions reflow beneath the copy.
+- Moved the account control into the product bar and replaced the sidebar account block with compact theme and upcoming-settings controls.
+- Made the signed-in account menu dismiss when clicking elsewhere, pressing Escape, or opening profile settings.
+- Removed redundant decorative calendar glyphs from date fields so each field shows a single functional date-picker icon.
+- Replaced the detailed generic vehicle illustration with a quieter monochrome sedan fallback for vehicles without a photo.
+- Tightened the primary-vehicle dashboard card and vehicle artwork so more of the Home workspace remains visible at a glance.
+- Replaced the ambiguous mailbox symbol with a simple, consistent document icon and Glovebox label throughout the signed-in application.
+- Promoted alerts and quick mileage updates above the primary vehicle, and added accessible arrow, keyboard, and swipe navigation across garage vehicles.
+- Added a server-side DIY feature gate with a production Coming Soon experience and an explicit development-deployment opt-in.
+- Replaced the signed-in top navigation with a responsive left sidebar and an accessible mobile drawer.
+- Brought the Home dashboard closer to the landing-page product preview while preserving its more comprehensive vehicle, alert, setup, and odometer tools.
+- Added an account menu with profile, theme, and logout access at every signed-in viewport size.
+- Established Porcelain/graphite as the default visual direction across the application shell, shared UI tokens, authenticated workspaces, account and support pages, authentication, legal pages, and landing-page product surfaces.
+- Unified route-level page introductions around the shared page-header primitive and added a reusable public information-page composition.
+- Restored the landing page's cinematic full-width video opener while keeping the Porcelain content sections intentionally constrained below it.
+
 ## 1.1.0 — 2026-07-12
 
 - Clarified the landing page's product positioning and made the hosted and self-hosted options easier to compare.

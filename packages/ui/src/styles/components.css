@@ -338,6 +338,14 @@
   gap: 0.38rem;
 }
 
+.mcp-page-header__eyebrow {
+  color: var(--mcp-color-muted);
+  font-size: var(--mcp-font-size-xs);
+  font-weight: var(--mcp-font-weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .mcp-page-header__title {
   margin: 0;
   color: var(--mcp-color-text);

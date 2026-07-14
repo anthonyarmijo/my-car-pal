@@ -20,7 +20,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={pending}>
+    <Button type="submit" disabled={pending} className="vehicle-profile-save-button">
       {pending ? "Saving..." : "Save vehicle"}
     </Button>
   );
@@ -45,7 +45,7 @@ export function EditVehicleProfileForm({
   }, [registrationDocUrl]);
 
   return (
-    <form action={formAction} className="form-stack">
+    <form action={formAction} className="form-stack vehicle-profile-form">
       <input type="hidden" name="vehicleId" value={vehicleId} />
       <input type="hidden" name="replaceRegistration" value={showReplaceRegistration ? "1" : "0"} />
 
@@ -72,11 +72,6 @@ export function EditVehicleProfileForm({
         <span>Registration expiration</span>
         <div className="date-input-wrap">
           <input name="registrationExpiresAt" type="date" defaultValue={registrationExpiresAt || today} />
-          <span className="date-input-icon" aria-hidden="true">
-            <svg suppressHydrationWarning viewBox="0 0 24 24" role="presentation" focusable="false">
-              <path d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm13 8H4v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9ZM5 6a1 1 0 0 0-1 1v1h16V7a1 1 0 0 0-1-1H5Z" />
-            </svg>
-          </span>
         </div>
       </label>
 
@@ -115,7 +110,7 @@ export function EditVehicleProfileForm({
                   </div>
                 </label>
 
-                <label className="field">
+                <label className="field vehicle-profile-upload-field">
                   <span>New registration document (optional, PDF, JPEG, PNG, or WebP)</span>
                   <input name="registrationDoc" type="file" accept={DOCUMENT_FILE_ACCEPT} />
                 </label>
@@ -130,7 +125,7 @@ export function EditVehicleProfileForm({
       ) : null}
 
       {!registrationDocUrl ? (
-        <label className="field">
+        <label className="field vehicle-profile-upload-field">
           <span>Registration document (optional, PDF, JPEG, PNG, or WebP)</span>
           <input name="registrationDoc" type="file" accept={DOCUMENT_FILE_ACCEPT} />
         </label>

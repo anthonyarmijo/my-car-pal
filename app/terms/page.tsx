@@ -1,4 +1,4 @@
-import { Badge, Card } from "@my-car-pal/ui";
+import { PublicInfoPage, PublicInfoSection } from "@/components/public-info-page";
 
 const termsSections = [
   {
@@ -30,25 +30,12 @@ const termsSections = [
 
 export default function TermsPage() {
   return (
-    <Card as="section" className="section-card" style={{ maxWidth: "54rem" }}>
-      <Badge>Terms</Badge>
-      <h1 className="section-title" style={{ marginTop: "0.6rem" }}>
-        Terms of Service
-      </h1>
-      <p className="section-subtitle" style={{ marginTop: "0.65rem" }}>
-        These terms describe the basic expectations for using My Car Pal.
-      </p>
-
-      <div style={{ display: "grid", gap: "1rem", marginTop: "1.25rem" }}>
-        {termsSections.map((section) => (
-          <Card as="article" key={section.title} className="section-card" style={{ boxShadow: "none" }}>
-            <h2 className="section-title">{section.title}</h2>
-            <p className="section-subtitle" style={{ marginTop: "0.55rem" }}>
-              {section.body}
-            </p>
-          </Card>
-        ))}
-      </div>
-    </Card>
+    <PublicInfoPage eyebrow="Terms" title="Terms of Service" intro="These terms describe the basic expectations for using My Car Pal.">
+      {termsSections.map((section) => (
+        <PublicInfoSection key={section.title} title={section.title}>
+          <p>{section.body}</p>
+        </PublicInfoSection>
+      ))}
+    </PublicInfoPage>
   );
 }

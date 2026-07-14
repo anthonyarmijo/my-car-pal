@@ -22,13 +22,12 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <div className="auth-shell">
       <Card as="section" className="auth-copy-panel">
-        <Badge>My Car Pal</Badge>
-        <h2 className="section-title" style={{ marginTop: "0.6rem" }}>
-          Vehicle care, in your control.
-        </h2>
-        <p className="section-subtitle" style={{ marginTop: "0.65rem" }}>
-          Track maintenance, organize documents, and keep upcoming tasks in one calm workspace.
-        </p>
+        <div className="auth-copy-content">
+          <h1 className="auth-copy-title">Vehicle care, in your control.</h1>
+          <p className="section-subtitle auth-copy-description">
+            Track maintenance, organize documents, and keep upcoming tasks in one calm workspace.
+          </p>
+        </div>
       </Card>
 
       <Card as="section" className="auth-form-card">

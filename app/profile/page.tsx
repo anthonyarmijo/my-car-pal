@@ -1,4 +1,5 @@
 import { ProfileAvatarUploadForm } from "@/components/profile-avatar-upload-form";
+import { PageHeader } from "@/components/ui/page-header";
 import { requireCurrentUser } from "@/lib/auth-session";
 import { prisma } from "@/lib/prisma";
 import { getSignedUrl } from "@/lib/storage";
@@ -35,10 +36,17 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
     : null;
 
   return (
-    <Card style={{ maxWidth: "44rem" }}>
-      <Badge>Profile</Badge>
-      <h2 className="section-title">Your account</h2>
-      <p className="section-subtitle">Keep this simple: name, photo, and a short bio.</p>
+    <div className="focused-page-layout">
+      <PageHeader
+        eyebrow="Account settings"
+        title="Your profile"
+        subtitle="Manage the name, photo, and short bio shown throughout your personal garage."
+      />
+
+      <Card className="profile-settings-card">
+        <Badge>Personal details</Badge>
+        <h2 className="section-title">Profile information</h2>
+        <p className="section-subtitle">Keep this simple: name, photo, and a short bio.</p>
 
       <div style={{ marginTop: "1rem", display: "grid", justifyItems: "center", gap: "0.55rem" }}>
         <div className="profile-avatar-preview">
@@ -76,11 +84,12 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
 
       <CoreInstallPanel allowsMotorcycles={allowance.allowsMotorcycles} isUnlimited={allowance.isUnlimited} />
 
-      {saved ? (
-        <FormMessage tone="success" style={{ marginTop: "0.8rem" }}>
-          Profile saved.
-        </FormMessage>
-      ) : null}
-    </Card>
+        {saved ? (
+          <FormMessage tone="success" style={{ marginTop: "0.8rem" }}>
+            Profile saved.
+          </FormMessage>
+        ) : null}
+      </Card>
+    </div>
   );
 }

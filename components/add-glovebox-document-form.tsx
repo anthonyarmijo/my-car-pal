@@ -83,7 +83,7 @@ export function AddGloveboxDocumentForm({ vehicles }: AddGloveboxDocumentFormPro
         <FieldGrid columns={2}>
           <Field>
             <span>Document title</span>
-            <input name="title" type="text" placeholder="Owner's manual" required />
+            <input className="glovebox-title-input" name="title" type="text" placeholder="Owner's manual" required />
           </Field>
 
           <Field>

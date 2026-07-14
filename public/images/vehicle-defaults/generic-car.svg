@@ -1,13 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 210" role="img" aria-labelledby="title desc">
-  <title id="title">Generic car silhouette</title>
-  <desc id="desc">A neutral car and truck placeholder illustration for vehicles without a photo.</desc>
-  <rect width="360" height="210" rx="24" fill="#f8f4ec"/>
-  <path d="M64 142h232" stroke="#dfd2be" stroke-width="6" stroke-linecap="round"/>
-  <path d="M79 129c8-28 24-43 48-43h73c24 0 45 15 60 43h16c11 0 20 9 20 20v10H64v-10c0-11 7-19 15-20Z" fill="#d9e3df" stroke="#34413d" stroke-width="7" stroke-linejoin="round"/>
-  <path d="M128 96h43v31h-68c7-18 15-28 25-31Zm55 0h18c16 0 30 10 42 31h-60V96Z" fill="#ffffff" stroke="#34413d" stroke-width="6" stroke-linejoin="round"/>
-  <circle cx="116" cy="159" r="22" fill="#34413d"/>
-  <circle cx="244" cy="159" r="22" fill="#34413d"/>
-  <circle cx="116" cy="159" r="9" fill="#f8f4ec"/>
-  <circle cx="244" cy="159" r="9" fill="#f8f4ec"/>
-  <path d="M78 143h35m134 0h42" stroke="#b35b36" stroke-width="7" stroke-linecap="round"/>
+  <title id="title">Generic sedan silhouette</title>
+  <desc id="desc">A simple gray sedan placeholder for a vehicle without a photo.</desc>
+  <path d="M57 145c0-13 9-24 22-27l31-6 27-32c8-10 20-15 33-15h40c16 0 29 7 38 19l22 29 20 5c11 3 18 12 18 23v11H57Z" fill="#b9bdbb" stroke="#777d7a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="m143 87-20 25h50V79h-4c-10 0-19 3-26 8Zm43-8v33h67l-17-22c-6-7-14-11-25-11Z" fill="#e2e4e3"/>
+  <path d="M179 79v33" stroke="#939896" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="113" cy="151" r="21" fill="#737976"/>
+  <circle cx="259" cy="151" r="21" fill="#737976"/>
+  <circle cx="113" cy="151" r="9" fill="#cfd2d0"/>
+  <circle cx="259" cy="151" r="9" fill="#cfd2d0"/>
 </svg>

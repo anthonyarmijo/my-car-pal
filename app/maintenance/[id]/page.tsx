@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { deleteMaintenanceAction } from "@/app/maintenance/actions";
 import { EditMaintenanceForm } from "@/components/edit-maintenance-form";
+import { PageHeader } from "@/components/ui/page-header";
 import { requireCurrentUser } from "@/lib/auth-session";
 import { formatDateOnlyForInput } from "@/lib/date-only";
 import { prisma } from "@/lib/prisma";
@@ -46,13 +47,12 @@ export default async function EditMaintenancePage({ params }: EditMaintenancePag
 
   return (
     <>
-      <section className="section-card">
-        <p className="badge">Maintenance</p>
-        <h2 className="section-title">Edit Service Record</h2>
-        <p className="section-subtitle">
-          Update details for {entry.title} on {formatVehicleLabel(entry.vehicle)}.
-        </p>
-        <div className="inline-links" style={{ marginTop: "0.9rem" }}>
+      <PageHeader
+        eyebrow="Maintenance record"
+        title="Edit service record"
+        subtitle={`Update details for ${entry.title} on ${formatVehicleLabel(entry.vehicle)}.`}
+        actions={
+          <div className="inline-links">
           <Link href="/maintenance" className="nav-link nav-link-active">
             Back to maintenance
           </Link>
@@ -65,8 +65,9 @@ export default async function EditMaintenancePage({ params }: EditMaintenancePag
               Delete service
             </button>
           </form>
-        </div>
-      </section>
+          </div>
+        }
+      />
 
       <section className="section-card">
         <EditMaintenanceForm

@@ -14,29 +14,53 @@ const smokePassword = process.env.DESIGN_SYSTEM_SMOKE_PASSWORD || "";
 
 const viewports = [
   { label: "desktop", width: 1280, height: 900 },
+  { label: "tablet", width: 1024, height: 1024 },
   { label: "mobile", width: 390, height: 844 },
 ];
 
 const publicChecks = [
-  { label: "landing", path: "/", expectedPath: "/", markers: [] },
+  { label: "landing", path: "/", expectedPath: "/", markers: [], layout: "full-bleed-landing" },
+  {
+    label: "landing-reduced-motion",
+    path: "/",
+    expectedPath: "/",
+    markers: [],
+    layout: "full-bleed-landing",
+    mediaMode: "reduced-motion",
+  },
+  {
+    label: "landing-save-data",
+    path: "/",
+    expectedPath: "/",
+    markers: [],
+    layout: "full-bleed-landing",
+    mediaMode: "save-data",
+  },
   { label: "login", path: "/login", expectedPath: "/login", markers: ["mcp-card", "mcp-field", "mcp-input", "mcp-button"], fill: "login" },
   { label: "register", path: "/register", expectedPath: "/register", markers: ["mcp-field", "mcp-input", "mcp-button"], fill: "register" },
-  { label: "about", path: "/about", expectedPath: "/about", markers: ["mcp-card", "mcp-badge"] },
+  { label: "about", path: "/about", expectedPath: "/about", markers: ["mcp-card", "mcp-badge"], layout: "framed-public" },
+  { label: "privacy", path: "/privacy", expectedPath: "/privacy", markers: ["mcp-card", "mcp-badge"] },
+  { label: "terms", path: "/terms", expectedPath: "/terms", markers: ["mcp-card", "mcp-badge"] },
 ];
 
 const protectedRedirectChecks = [
   { label: "contact-redirect", path: "/contact" },
   { label: "profile-redirect", path: "/profile" },
+  { label: "alerts-redirect", path: "/alerts" },
   { label: "garage-redirect", path: "/garage" },
   { label: "maintenance-redirect", path: "/maintenance" },
   { label: "glovebox-redirect", path: "/glovebox" },
+  { label: "diy-redirect", path: "/diy" },
 ];
 
 const authenticatedChecks = [
+  { label: "home", path: "/home", markers: ["mcp-card", "mcp-button"] },
+  { label: "alerts", path: "/alerts", markers: ["mcp-page-header", "mcp-card", "mcp-button"] },
   { label: "profile", path: "/profile", markers: ["mcp-card", "mcp-field", "mcp-input", "mcp-button"], fill: "profile" },
   { label: "garage", path: "/garage", markers: ["mcp-card", "mcp-button"] },
   { label: "maintenance", path: "/maintenance", markers: ["mcp-card", "mcp-button"] },
   { label: "glovebox", path: "/glovebox", markers: ["mcp-card", "mcp-button"] },
+  { label: "diy", path: "/diy", markers: ["mcp-page-header"] },
   { label: "contact", path: "/contact", markers: ["mcp-card", "mcp-field", "mcp-textarea", "mcp-button"], fill: "contact" },
 ];
 
@@ -173,13 +197,83 @@ async function assertHealthyPage({ page, check, viewport, failures, screenshots 
   }
 
   const screenshotPath = path.join(outputDir, `${check.label}-${viewport.label}.png`);
-  await page.screenshot({ path: screenshotPath, fullPage: false });
+  await page.screenshot({ path: screenshotPath, fullPage: false, animations: "disabled" });
   screenshots.push(screenshotPath);
 }
 
 async function gotoReady(page, url) {
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
   await page.locator("body").waitFor({ state: "visible", timeout: 10000 });
+  await page.evaluate(async () => {
+    await document.fonts?.ready;
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  });
+}
+
+async function assertPublicLayout(page, check, viewport, failures) {
+  if (check.layout === "full-bleed-landing") {
+    const layout = await page.evaluate(() => {
+      const shell = document.querySelector(".app-shell");
+      const hero = document.querySelector(".lp-road");
+      const poster = document.querySelector(".lp-road-poster");
+      if (!shell || !hero || !poster) return null;
+
+      const shellBox = shell.getBoundingClientRect();
+      const heroBox = hero.getBoundingClientRect();
+      const posterStyle = getComputedStyle(poster);
+      return {
+        shellLeft: shellBox.left,
+        shellRight: shellBox.right,
+        heroLeft: heroBox.left,
+        heroRight: heroBox.right,
+        heroHeight: heroBox.height,
+        viewportWidth: window.innerWidth,
+        viewportHeight: window.innerHeight,
+        scrollWidth: document.documentElement.scrollWidth,
+        videoCount: document.querySelectorAll(".lp-road-video").length,
+        posterVisible: posterStyle.display !== "none" && posterStyle.visibility !== "hidden",
+      };
+    });
+
+    if (!layout) {
+      failures.push(`${check.label} (${viewport.label}) missing full-bleed landing elements.`);
+      return;
+    }
+
+    const edgeTolerance = 1;
+    if (
+      Math.abs(layout.shellLeft) > edgeTolerance ||
+      Math.abs(layout.shellRight - layout.viewportWidth) > edgeTolerance ||
+      Math.abs(layout.heroLeft) > edgeTolerance ||
+      Math.abs(layout.heroRight - layout.viewportWidth) > edgeTolerance
+    ) {
+      failures.push(`${check.label} (${viewport.label}) hero did not reach the viewport edges: ${JSON.stringify(layout)}`);
+    }
+
+    if (layout.heroHeight + edgeTolerance < layout.viewportHeight) {
+      failures.push(`${check.label} (${viewport.label}) hero did not fill the first viewport: ${JSON.stringify(layout)}`);
+    }
+
+    if (layout.scrollWidth > layout.viewportWidth + edgeTolerance) {
+      failures.push(`${check.label} (${viewport.label}) introduced horizontal overflow: ${JSON.stringify(layout)}`);
+    }
+
+    if (check.mediaMode === "reduced-motion" || check.mediaMode === "save-data") {
+      if (layout.videoCount !== 0 || !layout.posterVisible) {
+        failures.push(`${check.label} (${viewport.label}) did not use the poster fallback: ${JSON.stringify(layout)}`);
+      }
+    }
+  }
+
+  if (check.layout === "framed-public" && viewport.label !== "mobile") {
+    const frame = await page.locator(".app-shell").evaluate((shell) => {
+      const box = shell.getBoundingClientRect();
+      return { left: box.left, right: box.right, viewportWidth: window.innerWidth };
+    });
+    if (frame.left <= 1 || frame.right >= frame.viewportWidth - 1) {
+      failures.push(`${check.label} (${viewport.label}) should retain its framed public-page gutters: ${JSON.stringify(frame)}`);
+    }
+  }
 }
 
 async function fillSafeFields(page, fillKind) {
@@ -219,6 +313,18 @@ async function checkPublicPage(browser, baseUrl, check, viewport, failures, scre
   const flushFailures = createPageFailureCollectors(page, check.label, viewport.label, failures);
 
   try {
+    if (check.mediaMode === "reduced-motion") {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+    }
+    if (check.mediaMode === "save-data") {
+      await page.addInitScript(() => {
+        Object.defineProperty(navigator, "connection", {
+          configurable: true,
+          value: { saveData: true },
+        });
+      });
+    }
+
     await gotoReady(page, `${baseUrl}${check.path}`);
     const currentPath = new URL(page.url()).pathname;
     if (currentPath !== check.expectedPath) {
@@ -229,6 +335,7 @@ async function checkPublicPage(browser, baseUrl, check, viewport, failures, scre
       await fillSafeFields(page, check.fill);
     }
 
+    await assertPublicLayout(page, check, viewport, failures);
     await assertHealthyPage({ page, check, viewport, failures, screenshots });
   } catch (error) {
     failures.push(`${check.label} (${viewport.label}) failed: ${normalizeError(error.message)}`);
@@ -294,8 +401,22 @@ async function checkAuthenticatedPage(browser, baseUrl, storageState, check, vie
   const context = await browser.newContext({ viewport, storageState });
   const page = await context.newPage();
   const flushFailures = createPageFailureCollectors(page, check.label, viewport.label, failures);
+  const redirects = [];
+  page.on("response", (response) => {
+    if (response.status() >= 300 && response.status() < 400) {
+      redirects.push(`${response.status()} ${response.url()} -> ${response.headers().location ?? "(no location)"}`);
+    }
+  });
 
   try {
+    if (check.label === "home") {
+      await page.route("https://ipapi.co/json/", (route) => route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ city: "San Diego", region_code: "CA", latitude: 32.7157, longitude: -117.1611 }),
+      }));
+    }
+
     await gotoReady(page, `${baseUrl}${check.path}`);
     const currentPath = new URL(page.url()).pathname;
     if (currentPath !== check.path) {
@@ -306,9 +427,81 @@ async function checkAuthenticatedPage(browser, baseUrl, storageState, check, vie
       await fillSafeFields(page, check.fill);
     }
 
+    if (check.label === "home" && viewport.label === "mobile") {
+      const menuButton = page.getByRole("button", { name: "Open application menu" });
+      await menuButton.click();
+      const drawer = page.locator("#authenticated-navigation-drawer");
+      if ((await drawer.getAttribute("aria-hidden")) !== "false") {
+        failures.push("home (mobile) application drawer did not open");
+      }
+      await page.keyboard.press("Escape");
+      if ((await drawer.getAttribute("aria-hidden")) !== "true") {
+        failures.push("home (mobile) application drawer did not close with Escape");
+      }
+    }
+
+    if (check.label === "alerts") {
+      const alertBadges = page.locator("a[href='/alerts'] .nav-alert-count");
+      await alertBadges.first().waitFor({ state: "attached" });
+      const badgeLabels = await alertBadges.evaluateAll((badges) => (
+        badges.map((badge) => badge.getAttribute("aria-label"))
+      ));
+
+      if (badgeLabels.length !== 2 || badgeLabels.some((label) => !/^\d+ active alerts?$/.test(label ?? ""))) {
+        failures.push(`${check.label} (${viewport.label}) navigation did not show matching active-alert badges`);
+      }
+
+      if (viewport.label === "mobile") {
+        await page.getByRole("button", { name: "Open application menu" }).click();
+        const drawerBadge = page.locator("#authenticated-navigation-drawer a[href='/alerts'] .nav-alert-count");
+        if (!(await drawerBadge.isVisible())) {
+          failures.push(`${check.label} (mobile) active-alert badge was not visible in the open drawer`);
+        }
+        await page.keyboard.press("Escape");
+      } else {
+        const sidebarBadge = page.locator("aside[aria-label='Application sidebar'] a[href='/alerts'] .nav-alert-count");
+        if (!(await sidebarBadge.isVisible())) {
+          failures.push(`${check.label} (${viewport.label}) active-alert badge was not visible in the sidebar`);
+        }
+      }
+    }
+
+    if (check.label === "glovebox") {
+      const registrationDetails = page.locator("#setup-docs > details");
+      await registrationDetails.locator(":scope > summary").click();
+
+      const registrationCarousel = page.locator(".glovebox-registration-carousel");
+      await registrationCarousel.waitFor({ state: "visible" });
+      await registrationCarousel.scrollIntoViewIfNeeded();
+      const registrationLayout = await registrationCarousel.evaluate((carousel) => ({
+        dateFields: carousel.querySelectorAll("input[type='date']").length,
+        fileFields: carousel.querySelectorAll("input[type='file']").length,
+        navigationButtons: carousel.querySelectorAll(".glovebox-registration-carousel-button").length,
+        scrollWidth: document.documentElement.scrollWidth,
+        viewportWidth: window.innerWidth,
+      }));
+
+      if (
+        registrationLayout.dateFields !== 1 ||
+        registrationLayout.fileFields !== 1 ||
+        registrationLayout.navigationButtons !== 2
+      ) {
+        failures.push(
+          `glovebox (${viewport.label}) registration carousel was incomplete: ${JSON.stringify(registrationLayout)}`,
+        );
+      }
+
+      if (registrationLayout.scrollWidth > registrationLayout.viewportWidth + 1) {
+        failures.push(
+          `glovebox (${viewport.label}) registration carousel introduced horizontal overflow: ${JSON.stringify(registrationLayout)}`,
+        );
+      }
+    }
+
     await assertHealthyPage({ page, check, viewport, failures, screenshots });
   } catch (error) {
-    failures.push(`${check.label} (${viewport.label}) failed: ${normalizeError(error.message)}`);
+    const redirectSummary = redirects.length > 0 ? `; redirects: ${redirects.join(" | ")}` : "";
+    failures.push(`${check.label} (${viewport.label}) failed: ${normalizeError(error.message)}${redirectSummary}`);
   } finally {
     flushFailures();
     await context.close();
@@ -353,7 +546,14 @@ try {
   }
 
   if (smokeEmail && smokePassword) {
-    for (const viewport of viewports) {
+    for (const [viewportIndex, viewport] of viewports.entries()) {
+      // Better Auth's production limiter uses a 10-second window. Reset that
+      // window between full authenticated viewport sweeps so this synthetic
+      // burst does not turn a healthy session into a login redirect loop.
+      if (viewportIndex > 0) {
+        await wait(10_500);
+      }
+
       const storageState = await login(browser, baseUrl, viewport, failures);
       if (!storageState) {
         continue;

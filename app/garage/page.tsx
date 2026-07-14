@@ -40,7 +40,11 @@ export default async function GaragePage() {
 
   return (
     <>
-      <PageHeader title="Garage" subtitle="Manage your vehicles, keep photos current, and jump into each vehicle profile." />
+      <PageHeader
+        eyebrow="Vehicle workspace"
+        title="Garage"
+        subtitle="Manage your vehicles, keep photos current, and jump into each vehicle profile."
+      />
 
       <ActivationStepPrompt
         state={activation}

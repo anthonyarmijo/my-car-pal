@@ -69,6 +69,12 @@ const checks = [
     location: "/login",
   },
   {
+    label: "alerts keeps unauthenticated redirect behavior",
+    path: "/alerts",
+    status: 307,
+    location: "/login",
+  },
+  {
     label: "home keeps unauthenticated redirect behavior",
     path: "/home",
     status: 307,

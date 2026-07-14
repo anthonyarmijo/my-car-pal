@@ -1,11 +1,11 @@
-import { remindAlertLaterAction, toggleAlertReadAction } from "@/app/home/actions";
+import { remindAlertLaterAction, toggleAlertReadAction } from "@/app/alerts/actions";
 import { ActivationChecklistCard } from "@/components/activation-setup";
-import { MailboxStatusButton } from "@/components/app-nav";
 import { HomeGreeting } from "@/components/home-greeting";
+import { HomeIcon } from "@/components/home-icon";
+import { HomeVehicleCarousel, type HomeVehicleCarouselItem } from "@/components/home-vehicle-carousel";
 import { OdometerUpdateForm } from "@/components/odometer-update-form";
 import Link from "next/link";
 import type { Route } from "next";
-import type { ReactNode } from "react";
 import { getActivationState } from "@/lib/activation";
 import { requireCurrentUser } from "@/lib/auth-session";
 import { getUserAlerts } from "@/lib/alerts";
@@ -16,8 +16,7 @@ import { formatVehicleLabel } from "@/lib/vehicle-display";
 import { resolveVehicleImage } from "@/lib/vehicle-images";
 import { Badge, Button, Card, getButtonClassName } from "@my-car-pal/ui";
 import { SectionHeader, SectionTitle } from "@/components/ui/section-header";
-
-type HomeIconName = "star" | "calendar" | "clock" | "dollar" | "document" | "warning" | "gauge" | "wrench" | "garage" | "chevron" | "lightbulb";
+import styles from "./home-dashboard.module.css";
 
 function AlertDetail({ detail }: { detail: string }) {
   const marker = "Due now";
@@ -34,28 +33,6 @@ function AlertDetail({ detail }: { detail: string }) {
       <span className="alert-due-now-text">{marker}</span>
       {after}
     </small>
-  );
-}
-
-function HomeIcon({ name }: { name: HomeIconName }) {
-  const paths: Record<HomeIconName, ReactNode> = {
-    star: <path d="m12 3.8 2.2 4.6 5 .7-3.6 3.6.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.6 5-.7L12 3.8Z" />,
-    calendar: <><rect x="4.4" y="5.8" width="15.2" height="14" rx="2.2" /><path d="M8 3.8v4M16 3.8v4M4.8 10h14.4" /></>,
-    clock: <><circle cx="12" cy="12" r="8.2" /><path d="M12 7.8v4.7l3.2 2" /></>,
-    dollar: <><circle cx="12" cy="12" r="8.2" /><path d="M12 7.2v9.6M14.4 9.2c-.6-.6-1.5-1-2.6-1-1.3 0-2.3.7-2.3 1.8 0 2.6 5 1.3 5 4 0 1.1-1 1.9-2.6 1.9-1.2 0-2.1-.4-2.8-1.1" /></>,
-    document: <><path d="M7 4.5h6.2l3.8 3.8v11.2H7z" /><path d="M13 4.8V9h4M9.6 12h4.8M9.6 15.4h4.8" /></>,
-    warning: <><path d="M12 4.3 21 19H3z" /><path d="M12 9v4.2M12 16.4h.01" /></>,
-    gauge: <><path d="M4.8 16.9a8.2 8.2 0 1 1 14.4 0" /><path d="m12 14.6 3.4-4.2" /><path d="M8 17h8" /></>,
-    wrench: <path d="M15.7 4.6a3.7 3.7 0 0 0-4.3 4.8l-6.5 6.5 3.2 3.2 6.5-6.5a3.7 3.7 0 0 0 4.8-4.3l-2.5 2.5-2.4-2.4 2.5-2.5Z" />,
-    garage: <><path d="M4 19V8.7L12 4l8 4.7V19" /><path d="M7.3 19v-6.2h9.4V19M9.4 15.2h5.2" /></>,
-    chevron: <path d="m9.5 5.5 6 6.5-6 6.5" />,
-    lightbulb: <><path d="M8.3 14.2a5.3 5.3 0 1 1 7.4 0c-.8.7-1.2 1.5-1.3 2.5H9.6c-.1-1-.5-1.8-1.3-2.5Z" /><path d="M9.7 19h4.6" /></>,
-  };
-
-  return (
-    <span className={`home-icon home-icon-${name}`} aria-hidden="true">
-      <svg viewBox="0 0 24 24">{paths[name]}</svg>
-    </span>
   );
 }
 
@@ -110,7 +87,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const user = await requireCurrentUser();
   const params = (await searchParams) ?? {};
 
-  const [vehicleCount, reminderCount, maintenanceCount, maintenanceTotals, rawVehicles, alerts, profile, activation] = await Promise.all([
+  const [vehicleCount, reminderCount, maintenanceByVehicle, rawVehicles, alerts, profile, activation] = await Promise.all([
     prisma.vehicle.count({
       where: { userId: user.id },
     }),
@@ -123,15 +100,12 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         vehicle: { userId: user.id },
       },
     }),
-    prisma.maintenance.count({
+    prisma.maintenance.groupBy({
+      by: ["vehicleId"],
       where: {
         vehicle: { userId: user.id },
       },
-    }),
-    prisma.maintenance.aggregate({
-      where: {
-        vehicle: { userId: user.id },
-      },
+      _count: { _all: true },
       _sum: { cost: true },
     }),
     prisma.vehicle.findMany({
@@ -170,10 +144,14 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       };
     }),
   );
-  const primaryVehicle = vehicles[0] ?? null;
-  const nextMaintenanceAlert = alerts.find((alert) => alert.category === "maintenance") ?? null;
-  const nextAlert = alerts[0] ?? null;
-  const totalSpent = maintenanceTotals._sum.cost ?? 0;
+  const maintenanceSummaryByVehicle = new Map(
+    maintenanceByVehicle.map((item) => [
+      item.vehicleId,
+      { count: item._count._all, total: item._sum.cost ?? 0 },
+    ]),
+  );
+  const maintenanceCount = maintenanceByVehicle.reduce((sum, item) => sum + item._count._all, 0);
+  const totalSpent = maintenanceByVehicle.reduce((sum, item) => sum + (item._sum.cost ?? 0), 0);
 
   const highlights: Array<{ label: string; value: string; note: string; href: Route }> = [
     { label: "Services completed", value: String(maintenanceCount), note: "View history", href: "/maintenance" },
@@ -186,44 +164,151 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     { label: "Total spent", value: formatMoney(totalSpent), note: "View expenses", href: "/maintenance" },
     { label: "Vehicles tracked", value: String(vehicleCount), note: "View garage", href: "/garage" },
   ];
-  const primaryVehicleMeta = primaryVehicle
-    ? [primaryVehicle.trim, primaryVehicle.drivetrain, primaryVehicle.licensePlate]
-        .filter((item): item is string => Boolean(item))
-    : [];
+  const carouselVehicles: HomeVehicleCarouselItem[] = vehicles.map((vehicle) => {
+    const vehicleAlerts = alerts.filter(
+      (alert) => alert.vehicleIds === null || alert.vehicleIds.includes(vehicle.id),
+    );
+    const nextMaintenanceAlert = vehicleAlerts.find((alert) => alert.category === "maintenance") ?? null;
+    const nextAlert = vehicleAlerts[0] ?? null;
+    const maintenanceSummary = maintenanceSummaryByVehicle.get(vehicle.id);
+    const meta = [vehicle.trim, vehicle.drivetrain, vehicle.licensePlate]
+      .filter((item): item is string => Boolean(item))
+      .join(" • ");
 
-  const vehicleStats = [
-    {
-      icon: "calendar" as const,
-      label: "Next Service",
-      value: nextMaintenanceAlert?.title ?? "No service due",
-      note: nextMaintenanceAlert ? getDueLabel(nextMaintenanceAlert.detail) : "Schedule is clear",
-    },
-    {
-      icon: "clock" as const,
-      label: "Next Due",
-      value: nextAlert ? formatDateOnlyLabel(nextAlert.dueAt) : "All clear",
-      note: nextAlert ? getDueLabel(nextAlert.detail) : "No active due items",
-    },
-    {
-      icon: "dollar" as const,
-      label: "Total Spent",
-      value: formatMoney(totalSpent),
-      note: "Across service logs",
-    },
-    {
-      icon: "document" as const,
-      label: "Ownership",
-      value: primaryVehicle ? formatOwnershipDuration(primaryVehicle.createdAt) : "New",
-      note: "In My Car Pal",
-    },
-  ];
+    return {
+      id: vehicle.id,
+      label: formatVehicleLabel(vehicle),
+      meta: meta || "Vehicle profile",
+      currentOdometer: formatMileage(vehicle.currentOdometer),
+      hasOdometer: vehicle.currentOdometer !== null && vehicle.currentOdometer !== undefined,
+      updatedLabel: vehicle.updatedAt
+        ? `Last updated ${formatDateOnlyLabel(vehicle.updatedAt)}`
+        : "Keep this current for reminders",
+      imageUrl: vehicle.displayImage.url,
+      imageIsDefault: vehicle.displayImage.source !== "upload",
+      stats: [
+        {
+          icon: "calendar",
+          label: "Next Service",
+          value: nextMaintenanceAlert?.title ?? "No service due",
+          note: nextMaintenanceAlert ? getDueLabel(nextMaintenanceAlert.detail) : "Schedule is clear",
+        },
+        {
+          icon: "clock",
+          label: "Next Due",
+          value: nextAlert ? formatDateOnlyLabel(nextAlert.dueAt) : "All clear",
+          note: nextAlert ? getDueLabel(nextAlert.detail) : "No active due items",
+        },
+        {
+          icon: "dollar",
+          label: "Total Spent",
+          value: formatMoney(maintenanceSummary?.total),
+          note: `${maintenanceSummary?.count ?? 0} service ${maintenanceSummary?.count === 1 ? "entry" : "entries"}`,
+        },
+        {
+          icon: "document",
+          label: "Ownership",
+          value: formatOwnershipDuration(vehicle.createdAt),
+          note: "In My Car Pal",
+        },
+      ],
+    };
+  });
+
+  const priorityPanel = (
+    <div className="home-content-side-stack">
+      <Card as="section" className="section-card home-alerts-card">
+        <div className="alerts-heading-inline">
+          <SectionTitle>Alerts</SectionTitle>
+          <div className="home-alerts-actions">
+            <Link href="/alerts" className="auth-inline-link home-view-all-link">View all</Link>
+          </div>
+        </div>
+        {alerts.length === 0 ? (
+          <p className="home-empty-copy">No active alerts right now.</p>
+        ) : (
+          <ul className="list-reset home-alert-list">
+            {alerts.slice(0, 3).map((alert) => (
+              <li key={alert.key} className={`alert-row home-alert-row${alert.read ? " alert-row-read" : ""}`}>
+                <HomeIcon name={alert.category === "maintenance" ? "warning" : "document"} />
+                <span className="home-alert-copy">
+                  {alert.category === "maintenance" ? (
+                    <strong>
+                      <Link href="/maintenance#upcoming-maintenance">{alert.title}</Link>
+                    </strong>
+                  ) : (
+                    <strong>{alert.title}</strong>
+                  )}
+                  <AlertDetail detail={alert.detail} />
+                </span>
+                <span className="alert-action-row">
+                  <form action={toggleAlertReadAction}>
+                    <input type="hidden" name="alertKey" value={alert.key} />
+                    <input type="hidden" name="markRead" value={alert.read ? "0" : "1"} />
+                    <Button variant="secondary" size="sm" type="submit">
+                      {alert.read ? "Mark unread" : "Mark read"}
+                    </Button>
+                  </form>
+                  {!alert.read ? (
+                    <form action={remindAlertLaterAction}>
+                      <input type="hidden" name="alertKey" value={alert.key} />
+                      <Button variant="secondary" size="sm" type="submit">
+                        Later
+                      </Button>
+                    </form>
+                  ) : null}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <Link href="/alerts" className="home-card-footer-link">View all alerts</Link>
+      </Card>
+
+      <Card as="section" className="section-card home-odometer-card" id="quick-odometer-update">
+        <div className="home-side-card-title">
+          <HomeIcon name="gauge" />
+          <div>
+            <SectionHeader title="Quick odometer update" subtitle="Keep your maintenance accurate and on track." />
+          </div>
+        </div>
+
+        {vehicles.length === 0 ? (
+          <p className="home-empty-copy">
+            No vehicles yet. Start in{" "}
+            <Link href="/garage#add-vehicle" className="auth-inline-link">
+              Garage
+            </Link>
+            .
+          </p>
+        ) : (
+          <ul className="list-reset odometer-list">
+            {vehicles.slice(0, 2).map((vehicle) => (
+              <li key={vehicle.id} className="odometer-row">
+                <span>
+                  <strong>{formatVehicleLabel(vehicle)}</strong>
+                </span>
+                <OdometerUpdateForm vehicleId={vehicle.id} defaultOdometer={vehicle.currentOdometer} />
+              </li>
+            ))}
+          </ul>
+        )}
+        <Link href="/maintenance" className="home-card-footer-link">View odometer history</Link>
+      </Card>
+    </div>
+  );
 
   return (
-    <div className="home-dashboard">
+    <div className={`home-dashboard ${styles.dashboard}`}>
       <div className="home-top-grid">
-        <HomeGreeting displayName={profile?.displayName ?? user.name ?? user.email ?? null} />
+        <HomeGreeting
+          displayName={profile?.displayName ?? user.name ?? user.email ?? null}
+          statusLabel={reminderCount > 0 ? `${reminderCount} reminder${reminderCount === 1 ? "" : "s"} due soon` : "All clear"}
+        />
         {!activation.isComplete ? <ActivationChecklistCard state={activation} welcome={params.welcome === "1"} /> : null}
       </div>
+
+      {priorityPanel}
 
       <div className="home-content-grid">
         <div className="home-content-main-stack">
@@ -250,60 +335,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </Card>
           ) : null}
 
-          {primaryVehicle ? (
-            <Card as="section" className="section-card home-primary-vehicle-card">
-            <div className="home-primary-vehicle-card-header">
-              <Badge className="badge home-primary-vehicle-eyebrow">
-                <HomeIcon name="star" />
-                Primary vehicle
-              </Badge>
-              <Link href={`/vehicle/${primaryVehicle.id}`} className={getButtonClassName({ variant: "secondary", className: "home-garage-link" })}>
-                View in Garage
-                <HomeIcon name="chevron" />
-              </Link>
-            </div>
-            <div className="home-primary-vehicle-body">
-              <div className="home-primary-vehicle-copy">
-                <h2 className="section-title home-primary-vehicle-title">{formatVehicleLabel(primaryVehicle)}</h2>
-                <p className="section-subtitle home-primary-vehicle-subtitle">
-                  {primaryVehicleMeta.length > 0 ? primaryVehicleMeta.join(" • ") : "Vehicle profile"}
-                </p>
-                <div className="home-current-odometer">
-                  <span>Current odometer</span>
-                  <strong>
-                    {formatMileage(primaryVehicle.currentOdometer)}
-                    {primaryVehicle.currentOdometer !== null && primaryVehicle.currentOdometer !== undefined ? <small> mi</small> : null}
-                  </strong>
-                  <small>{primaryVehicle.updatedAt ? `Last updated ${formatDateOnlyLabel(primaryVehicle.updatedAt)}` : "Keep this current for reminders"}</small>
-                </div>
-                <Link href="/home#quick-odometer-update" className={getButtonClassName({ className: "home-primary-odometer-link" })}>
-                  <HomeIcon name="gauge" />
-                  Update odometer
-                </Link>
-              </div>
-              <div className="home-primary-vehicle-media">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={primaryVehicle.displayImage.url}
-                  alt={formatVehicleLabel(primaryVehicle)}
-                  className={`home-primary-vehicle-image${primaryVehicle.displayImage.source !== "upload" ? " home-primary-vehicle-image-default" : ""}`}
-                />
-              </div>
-            </div>
-            <div className="home-vehicle-stat-strip">
-              {vehicleStats.map((item) => (
-                <article key={item.label} className="home-vehicle-stat">
-                  <HomeIcon name={item.icon} />
-                  <span>
-                    <small>{item.label}</small>
-                    <strong>{item.value}</strong>
-                    <em>{item.note}</em>
-                  </span>
-                </article>
-              ))}
-            </div>
-            </Card>
-          ) : null}
+          <HomeVehicleCarousel vehicles={carouselVehicles} />
 
           <Card as="section" className="section-card dashboard-overview-card">
             <div className="section-title-action-row">
@@ -327,88 +359,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </Card>
         </div>
 
-        <div className="home-content-side-stack">
-          <Card as="section" className="section-card home-alerts-card">
-          <div className="alerts-heading-inline">
-            <SectionTitle>Alerts</SectionTitle>
-            <div className="home-alerts-actions">
-              <MailboxStatusButton iconOnly className="alerts-mailbox-button" linked={false} />
-              <Link href="/glovebox" className="auth-inline-link home-view-all-link">View all</Link>
-            </div>
-          </div>
-          {alerts.length === 0 ? (
-            <p className="home-empty-copy">No active alerts right now.</p>
-          ) : (
-            <ul className="list-reset home-alert-list">
-              {alerts.slice(0, 3).map((alert) => (
-                <li key={alert.key} className={`alert-row home-alert-row${alert.read ? " alert-row-read" : ""}`}>
-                  <HomeIcon name={alert.category === "maintenance" ? "warning" : "document"} />
-                  <span className="home-alert-copy">
-                    {alert.category === "maintenance" ? (
-                      <strong>
-                        <Link href="/maintenance#upcoming-maintenance">{alert.title}</Link>
-                      </strong>
-                    ) : (
-                      <strong>{alert.title}</strong>
-                    )}
-                    <AlertDetail detail={alert.detail} />
-                  </span>
-                  <span className="alert-action-row">
-                    {!alert.read ? <span className="home-due-badge">Due Soon</span> : null}
-                    <form action={toggleAlertReadAction}>
-                      <input type="hidden" name="alertKey" value={alert.key} />
-                      <input type="hidden" name="markRead" value={alert.read ? "0" : "1"} />
-                      <Button variant="secondary" size="sm" type="submit">
-                        {alert.read ? "Mark unread" : "Mark read"}
-                      </Button>
-                    </form>
-                    {!alert.read ? (
-                      <form action={remindAlertLaterAction}>
-                        <input type="hidden" name="alertKey" value={alert.key} />
-                        <Button variant="secondary" size="sm" type="submit">
-                          Later
-                        </Button>
-                      </form>
-                    ) : null}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-          <Link href="/glovebox" className="home-card-footer-link">View all alerts</Link>
-          </Card>
-
-          <Card as="section" className="section-card home-odometer-card" id="quick-odometer-update">
-          <div className="home-side-card-title">
-            <HomeIcon name="gauge" />
-            <div>
-              <SectionHeader title="Quick odometer update" subtitle="Keep your maintenance accurate and on track." />
-            </div>
-          </div>
-
-          {vehicles.length === 0 ? (
-            <p className="home-empty-copy">
-              No vehicles yet. Start in{" "}
-              <Link href="/garage#add-vehicle" className="auth-inline-link">
-                Garage
-              </Link>
-              .
-            </p>
-          ) : (
-            <ul className="list-reset odometer-list">
-              {vehicles.slice(0, 2).map((vehicle) => (
-                <li key={vehicle.id} className="odometer-row">
-                  <span>
-                    <strong>{formatVehicleLabel(vehicle)}</strong>
-                  </span>
-                  <OdometerUpdateForm vehicleId={vehicle.id} defaultOdometer={vehicle.currentOdometer} />
-                </li>
-              ))}
-            </ul>
-          )}
-          <Link href="/maintenance" className="home-card-footer-link">View odometer history</Link>
-          </Card>
-        </div>
       </div>
 
       <section className="home-pro-tip-strip">
