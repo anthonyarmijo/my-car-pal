@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:16-alpine
     ports:
-      - "${POSTGRES_HOST_PORT:-55432}:5432"
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-55432}:5432"
     environment:
       POSTGRES_DB: mycarpal
       POSTGRES_USER: mycarpal
@@ -18,7 +18,7 @@ services:
   adminer:
     image: adminer
     ports:
-      - "${ADMINER_HOST_PORT:-8080}:8080"
+      - "127.0.0.1:${ADMINER_HOST_PORT:-8080}:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -30,7 +30,7 @@ services:
       postgres:
         condition: service_healthy
     ports:
-      - "${APP_HOST_PORT:-3000}:3000"
+      - "127.0.0.1:${APP_HOST_PORT:-3000}:3000"
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -38,8 +38,8 @@ services:
       DATABASE_URL: postgresql://mycarpal:mycarpal_dev@postgres:5432/mycarpal?schema=public
       DIRECT_URL: postgresql://mycarpal:mycarpal_dev@postgres:5432/mycarpal?schema=public
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-local-dev-secret-change-me}
-      BETTER_AUTH_URL: http://localhost:3000
-      NEXT_PUBLIC_BETTER_AUTH_URL: http://localhost:3000
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      NEXT_PUBLIC_BETTER_AUTH_URL: ${NEXT_PUBLIC_BETTER_AUTH_URL:-http://localhost:3000}
       FILE_STORAGE_DRIVER: ${FILE_STORAGE_DRIVER:-local}
       NEXT_PUBLIC_ENABLE_SOCIAL_AUTH: ${NEXT_PUBLIC_ENABLE_SOCIAL_AUTH:-0}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}

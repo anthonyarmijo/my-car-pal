@@ -1,0 +1,22 @@
+# Optional local-development override. It adds a private Tailscale endpoint for
+# the application; Docker host ports remain bound to 127.0.0.1 in the base file.
+services:
+  tailscale-app:
+    image: tailscale/tailscale:stable
+    network_mode: "service:app"
+    depends_on:
+      app:
+        condition: service_started
+    environment:
+      TS_AUTHKEY: ${TS_AUTHKEY:?Set TS_AUTHKEY in your ignored .env file before starting the tailnet stack.}
+      TS_AUTH_ONCE: "true"
+      TS_HOSTNAME: ${TAILSCALE_HOSTNAME:-my-car-pal-dev}
+      TS_SERVE_CONFIG: /config/app.json
+      TS_STATE_DIR: /var/lib/tailscale
+    volumes:
+      - tailscale_app_state:/var/lib/tailscale
+      - ./docker/tailscale:/config:ro
+    restart: unless-stopped
+
+volumes:
+  tailscale_app_state:

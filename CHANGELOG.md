@@ -4,6 +4,7 @@ Notable user-facing and contributor-facing changes to the public My Car Pal appl
 
 ## Unreleased
 
+- Bound Docker development ports to loopback and added an opt-in Tailscale sidecar for private tailnet testing.
 - Split the landing-page privacy and product-choice content into separate cards, keeping the decryption reveal exclusive to the privacy card.
 - Removed the redundant Back to Home action from the Alerts page header.
 - Added a live active-alert count to the Alerts item in desktop and mobile navigation.

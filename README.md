@@ -42,7 +42,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000), create a local account, and add your first vehicle.
 
-To run the complete Docker stack instead, use `npm run docker:up`. It starts the application, PostgreSQL, and Adminer on port 8080.
+To run the complete Docker stack instead, use `npm run docker:up`. It starts the application, PostgreSQL, and Adminer with ports available only from this machine. For private remote testing through a Tailscale tailnet, see the [self-hosting guide](SELF_HOSTING.md#private-tailnet-access-for-development).
 
 ## Technology
 

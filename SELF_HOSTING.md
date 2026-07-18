@@ -56,9 +56,9 @@ The included `docker-compose.yml` provides:
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| `postgres` | `55432` (host) | PostgreSQL 16 database |
-| `app` | `3000` (host) | Next.js production build |
-| `adminer` | `8080` (host) | Database UI (optional) |
+| `postgres` | `127.0.0.1:55432` | PostgreSQL 16 database |
+| `app` | `127.0.0.1:3000` | Next.js production build |
+| `adminer` | `127.0.0.1:8080` | Database UI (optional) |
 
 ### Common Commands
 
@@ -67,8 +67,28 @@ npm run db:up       # Start Postgres
 npm run db:down     # Stop Postgres
 npm run db:reset    # Wipe and recreate database
 npm run docker:up   # Start full stack (app + Postgres + Adminer)
+npm run docker:up:tailnet # Start full stack plus private Tailscale access to the app
 npm run docker:down # Stop full stack
 ```
+
+### Private tailnet access for development
+
+All Docker-published ports bind to `127.0.0.1`, so they are not reachable from the LAN. To test the application from another device without changing that boundary, the optional `docker-compose.tailnet.yml` runs a Tailscale sidecar in the application's network namespace. It privately serves the app at `https://<TAILSCALE_HOSTNAME>.<your-tailnet>.ts.net`; it does not enable Tailscale Funnel or public internet access.
+
+Enable MagicDNS and HTTPS in your tailnet, generate a Tailscale auth key, then add the following to your ignored `.env` file:
+
+```bash
+TS_AUTHKEY=tskey-auth-...
+TAILSCALE_HOSTNAME=my-car-pal-dev
+```
+
+Set `BETTER_AUTH_URL` and `NEXT_PUBLIC_BETTER_AUTH_URL` in that file to the resulting HTTPS address before using sign-in remotely, then start the stack:
+
+```bash
+npm run docker:up:tailnet
+```
+
+The auth key is never committed. The sidecar retains its identity in a Docker volume; remove it deliberately with `docker compose -f docker-compose.yml -f docker-compose.tailnet.yml down -v`.
 
 ## Database
 
